@@ -1,0 +1,3 @@
+package googleSpreadsheets
+
+trait Row
