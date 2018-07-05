@@ -12,7 +12,8 @@ import scala.util.Try
 case class ConsoleRenamer(
                            renaming: Renaming,
                            approvedNames: Seq[ApprovedName],
-                           nameComparator: NameComparator
+                           nameComparator: NameComparator,
+                           originalToRenamedNameToNOccurences: Map[String, Map[String, Int]]
                          )(implicit val language: Languages.Value) {
 
   def iterate: ConsoleRenamer = {
@@ -20,19 +21,19 @@ case class ConsoleRenamer(
       val (updatedRenaming, continue) = updatedRenaming_continue
       (unnamedFieldEntry.sourceField, continue) match{
         case (Some(sourceField), true) =>
-          val matchResults = nameMatchingResults(unnamedFieldEntry)
-          println(displayMatchResults(unnamedFieldEntry, matchResults, reverse = true) + System.lineSeparator())
+          val reorderedMatchResults = withMatchesNameRenamedToBeforeAtFront(unnamedFieldEntry, matchResults(unnamedFieldEntry))
+          println(displayMatchResults(unnamedFieldEntry, reorderedMatchResults, reverse = true) + System.lineSeparator())
           println(RenameCommands.usage)
           def process: (Renaming, Boolean) = {
             val input = StdIn.readLine()
             input match {
-              case x if Try(x.toInt).filter(matchResults.indices.map(_ + 1).contains).isSuccess =>
-                (updatedRenaming.name(sourceField, matchResults(x.toInt - 1).name), true)
+              case x if Try(x.toInt).filter(reorderedMatchResults.indices.map(_ + 1).contains).isSuccess =>
+                (updatedRenaming.name(sourceField, reorderedMatchResults(x.toInt - 1).name), true)
               case x => RenameCommands.parse(x).map { commandInvocation =>
                 commandInvocation.command match {
                   case RenameCommands.EnterNameManually => (updatedRenaming.name(sourceField, commandInvocation.arguments.head), continue)
                   case RenameCommands.Skip => (updatedRenaming, continue)
-                  case RenameCommands.GoBackToDataMenu => (updatedRenaming, false)
+                  case RenameCommands.GoBackToTableMenu => (updatedRenaming, false)
                 }
               }.recover{case e: CommandException =>
                 println(e.message)
@@ -57,17 +58,30 @@ case class ConsoleRenamer(
   }
 
 
-  private def nameMatchingResults(fieldEntry: FieldEntry): Seq[ApprovedName] = {
+  private def matchResults(fieldEntry: FieldEntry): Seq[ApprovedName] = {
     approvedNames.map(x => (x, nameComparator.nameDistance(fieldEntry.sourceField.get, x.name))).sortBy(_._2).map(_._1)
   }
 
 
+  private def withMatchesNameRenamedToBeforeAtFront(fieldEntry: FieldEntry, matchResults: Seq[ApprovedName]): Seq[ApprovedName] = {
+    Some(matchResults.partition(x => originalToRenamedNameToNOccurences.get(fieldEntry.sourceField.get).exists(_.contains(x.name)))).map(x => x._1 ++ x._2).get
+  }
+
+
   private def displayMatchResults(fieldEntry: FieldEntry, matchResults: Seq[ApprovedName], reverse: Boolean = false): String = {
+
+    def renamedToBeforeIndicator(matchResult: ApprovedName): String = {
+      val renamedToBeforeTrueIndicator = "*"
+      if(originalToRenamedNameToNOccurences.get(fieldEntry.sourceField.get).exists(_.contains(matchResult.name))) renamedToBeforeTrueIndicator else new String
+    }
+
+
     val space = " "
     val defaultLogicalNameHeader = "(logical name)"
     val defaultDescriptionHeader = "(description)"
-    display(matchResults.zipWithIndex.map(x => Seq((x._2 + 1).toString + space, x._1.name, x._1.logicalName, x._1.description).zipWithIndex.map(y => if(y._2 != 0) y._1.trim else y._1)), Seq(new String, fieldEntry.sourceField.get, fieldEntry.logicalNameField
-      .getOrElse(defaultLogicalNameHeader), fieldEntry.simpleFieldDescription.getOrElse(defaultDescriptionHeader)).map(_ + space), reverse)
+    display(matchResults.zipWithIndex.map(x => Seq((x._2 + 1).toString, x._1.name, renamedToBeforeIndicator(x._1), x._1.logicalName, x._1.description).zipWithIndex.map(y => if(y._2 != 0) y._1.trim else y._1)), Seq(new String, fieldEntry.sourceField.get,
+      space, fieldEntry.logicalNameField.getOrElse(defaultLogicalNameHeader), fieldEntry.simpleFieldDescription.getOrElse(defaultDescriptionHeader)).map(_ + space), reverse)
+
   }
 
 
@@ -95,10 +109,10 @@ case class ConsoleRenamer(
 
     case object EnterNameManually extends RenameCommand("e", Seq("name"))
     case object Skip extends RenameCommand("s")
-    case object GoBackToDataMenu extends RenameCommand("b")
+    case object GoBackToTableMenu extends RenameCommand("b")
 
 
-    override protected def commands: Seq[Command] = Seq(EnterNameManually, Skip, GoBackToDataMenu)
+    override protected def commands: Seq[Command] = Seq(EnterNameManually, Skip, GoBackToTableMenu)
 
   }
 

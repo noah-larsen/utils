@@ -15,7 +15,7 @@ import scala.util.Try
 case class FieldEntryReaderWriter(ingestionStage: IngestionStage) extends DataReaderWriter[FieldEntry] {
 
   override def sheetRange: SheetRange = {
-    SheetRange(s"DC-DD-Field-${ingestionStage match{case IngestionStages.Raw => "RAW" case IngestionStages.Master => "Master"}}", "AB", 5, "B")
+    SheetRange(s"DC-DD-Field-${ingestionStage match{case IngestionStages.Raw => "RAW" case IngestionStages.Master => "Master"}}", "AA", 5)
   }
 
 
@@ -31,7 +31,7 @@ case class FieldEntryReaderWriter(ingestionStage: IngestionStage) extends DataRe
       text(row(7)),
       text(row(8)),
       text(row(9)),
-      dropDown(LogicalFormats, row(10)),
+      text(row(10)),
       dropDown(FieldRowBooleans, row(11)),
       dropDown(FieldRowBooleans, row(12)),
       text(row(13)),
@@ -41,7 +41,7 @@ case class FieldEntryReaderWriter(ingestionStage: IngestionStage) extends DataRe
       text(row(17)),
       Some(row(18).split(FieldEntryReaderWriter.tagsSeparator).toSeq).filter(_.exists(x => x.trim != new String)),
       Some(Try(Some(row(19).toInt)).getOrElse(None)).filter(_.isDefined),
-      dropDown(ExcludeIncludeValues, row(20)),
+      dropDown(FieldGeneratedValues, row(20)),
       text(row(21)),
       Some(row(22)).filter(_ != new String).map(LocalDate.parse(_, DateTimeFormatter.ofPattern(FieldEntryReaderWriter.registrationDateFormat))),
       dropDown(Countries, row(23)),
@@ -80,7 +80,7 @@ object FieldEntryReaderWriter {
       case object Catalog extends FieldEntryColumn(x => stringOptionToString(x.catalog))
       case object DataType extends FieldEntryColumn(x => stringOptionToString(x.dataType))
       case object Format extends FieldEntryColumn(x => stringOptionToString(x.format))
-      case object LogicalFormat extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.logicalFormat))
+      case object LogicalFormat extends FieldEntryColumn(x => stringOptionToString(x.logicalFormat))
       case object Key extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.key))
       case object Mandatory extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.mandatory))
       case object DefaultValue extends FieldEntryColumn(x => stringOptionToString(x.defaultValue))

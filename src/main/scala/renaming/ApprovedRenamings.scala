@@ -30,6 +30,11 @@ case class ApprovedRenamings(originalAndRenamedNames: Seq[(String, String)]) {
 
   }
 
+
+  def originalToRenamedNameToNOccurences: Map[String, Map[String, Int]] = {
+    originalAndRenamedNames.groupBy(_._1).mapValues(_.map(_._2).groupBy(x => x).mapValues(_.length))
+  }
+
 }
 
 object ApprovedRenamings {

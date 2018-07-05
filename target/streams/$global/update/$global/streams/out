@@ -1,28 +1,28 @@
-[info] Updating {file:/Users/noahlarsen/code/dataDictionary/}datadictionary...
-[debug] :: resolving dependencies :: default#datadictionary_2.12;0.1
+[info] Updating {file:/Users/noahlarsen/code/zgusta/}zgusta...
+[debug] :: resolving dependencies :: default#zgusta_2.12;0.1
 [debug] 	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool]
 [debug] 	validate = true
 [debug] 	refresh = false
 [debug] resolving dependencies for configuration 'compile'
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->default(compile)]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-library;2.12.4
 [debug] 	found org.scala-lang#scala-library;2.12.4 in sbt-chain
 [debug] 	[2.12.4] org.scala-lang#scala-library;2.12.4
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: com.google.api-client#google-api-client;1.23.0 {compile=[default(compile)]}
 [debug] sbt-chain: module revision found in cache: com.google.api-client#google-api-client;1.23.0
 [debug] 	found com.google.api-client#google-api-client;1.23.0 in sbt-chain
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.oauth-client#google-oauth-client;1.23.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -127,15 +127,15 @@
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.http-client#google-http-client-jackson2;1.23.0 [runtime->compile]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.guava#guava-jdk5;17.0 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.guava#guava-jdk5;17.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: com.google.oauth-client#google-oauth-client-jetty;1.23.0 {compile=[default(compile)]}
 [debug] sbt-chain: module revision found in cache: com.google.oauth-client#google-oauth-client-jetty;1.23.0
 [debug] 	found com.google.oauth-client#google-oauth-client-jetty;1.23.0 in sbt-chain
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.oauth-client#google-oauth-client-jetty;1.23.0->com.google.oauth-client#google-oauth-client-java6;1.23.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -180,30 +180,30 @@
 [debug] == resolving dependencies com.google.oauth-client#google-oauth-client-jetty;1.23.0->com.google.oauth-client#google-oauth-client-java6;1.23.0 [runtime->compile]
 [debug] == resolving dependencies com.google.oauth-client#google-oauth-client-jetty;1.23.0->org.mortbay.jetty#jetty;6.1.26 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.oauth-client#google-oauth-client-jetty;1.23.0->org.mortbay.jetty#jetty;6.1.26 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 {compile=[default(compile)]}
 [debug] sbt-chain: module revision found in cache: com.google.apis#google-api-services-sheets;v4-rev525-1.23.0
 [debug] 	found com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 in sbt-chain
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->master(compile)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->compile(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->runtime(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: info.debatty#java-string-similarity;1.1.0 {compile=[default(compile)]}
 [debug] sbt-chain: module revision found in cache: info.debatty#java-string-similarity;1.1.0
 [debug] 	found info.debatty#java-string-similarity;1.1.0 in sbt-chain
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->compile]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -215,15 +215,15 @@
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [compile->compile]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [runtime->runtime(*)]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: org.rogach#scallop_2.12;3.1.2 {compile=[default(compile)]}
 [debug] sbt-chain: module revision found in cache: org.rogach#scallop_2.12;3.1.2
 [debug] 	found org.rogach#scallop_2.12;3.1.2 in sbt-chain
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->compile]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
@@ -237,36 +237,36 @@
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [runtime->runtime(*)]
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->master]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: com.typesafe#config;1.3.2 {compile=[default(compile)]}
 [debug] sbt-chain: module revision found in cache: com.typesafe#config;1.3.2
 [debug] 	found com.typesafe#config;1.3.2 in sbt-chain
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->master]
 [debug] resolving dependencies for configuration 'runtime'
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [runtime]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->default(compile)]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [runtime]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.oauth-client#google-oauth-client;1.23.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -355,14 +355,14 @@
 [debug] == resolving dependencies com.google.http-client#google-http-client-jackson2;1.23.0->com.fasterxml.jackson.core#jackson-core;2.1.3 [runtime->compile]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.guava#guava-jdk5;17.0 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.guava#guava-jdk5;17.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.oauth-client#google-oauth-client-jetty;1.23.0->com.google.oauth-client#google-oauth-client-java6;1.23.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -399,26 +399,26 @@
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#jetty-util;6.1.26 [runtime->compile]
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#servlet-api;2.5-20081211 [runtime->runtime(*)]
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#servlet-api;2.5-20081211 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->master(compile)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->compile(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->compile]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -427,14 +427,14 @@
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [compile->compile(*)]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [runtime->runtime(*)]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->compile]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
@@ -446,40 +446,40 @@
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [runtime->runtime(*)]
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->master]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->master]
 [debug] resolving dependencies for configuration 'test'
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [test]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [runtime]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->default(compile)]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [test]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [runtime]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.oauth-client#google-oauth-client;1.23.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -588,16 +588,16 @@
 [debug] == resolving dependencies com.google.http-client#google-http-client-jackson2;1.23.0->com.fasterxml.jackson.core#jackson-core;2.1.3 [runtime->compile]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.guava#guava-jdk5;17.0 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.guava#guava-jdk5;17.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.oauth-client#google-oauth-client-jetty;1.23.0->com.google.oauth-client#google-oauth-client-java6;1.23.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -642,30 +642,30 @@
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#jetty-util;6.1.26 [runtime->compile]
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#servlet-api;2.5-20081211 [runtime->runtime(*)]
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#servlet-api;2.5-20081211 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->master(compile)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->compile(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->compile]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -676,16 +676,16 @@
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [compile->compile(*)]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [runtime->runtime(*)]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->compile]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
@@ -697,27 +697,27 @@
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [runtime->runtime(*)]
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->master]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->master]
 [debug] resolving dependencies for configuration 'provided'
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [provided]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [provided]
 [debug] resolving dependencies for configuration 'optional'
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [optional]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [optional]
 [debug] resolving dependencies for configuration 'compile-internal'
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [compile-internal]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->default(compile)]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [compile-internal]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -726,10 +726,10 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -738,8 +738,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.oauth-client#google-oauth-client;1.23.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -868,8 +868,8 @@
 [debug] == resolving dependencies com.google.http-client#google-http-client-jackson2;1.23.0->com.fasterxml.jackson.core#jackson-core;2.1.3 [runtime->compile]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.guava#guava-jdk5;17.0 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.guava#guava-jdk5;17.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -878,8 +878,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.oauth-client#google-oauth-client-jetty;1.23.0->com.google.oauth-client#google-oauth-client-java6;1.23.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -932,8 +932,8 @@
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#jetty-util;6.1.26 [runtime->compile]
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#servlet-api;2.5-20081211 [runtime->runtime(*)]
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#servlet-api;2.5-20081211 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -942,14 +942,14 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->master(compile)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->compile(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -958,8 +958,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->compile]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -972,8 +972,8 @@
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [compile->compile(*)]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [runtime->runtime(*)]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -982,8 +982,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->compile]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
@@ -995,10 +995,10 @@
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [runtime->runtime(*)]
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->master]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1007,16 +1007,16 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->master]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [optional]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [provided]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->master]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [optional]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [provided]
 [debug] resolving dependencies for configuration 'runtime-internal'
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [runtime-internal]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [runtime]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->default(compile)]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [runtime-internal]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [runtime]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1025,10 +1025,10 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1037,8 +1037,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.oauth-client#google-oauth-client;1.23.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -1167,8 +1167,8 @@
 [debug] == resolving dependencies com.google.http-client#google-http-client-jackson2;1.23.0->com.fasterxml.jackson.core#jackson-core;2.1.3 [runtime->compile]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.guava#guava-jdk5;17.0 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.guava#guava-jdk5;17.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1177,8 +1177,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.oauth-client#google-oauth-client-jetty;1.23.0->com.google.oauth-client#google-oauth-client-java6;1.23.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -1231,8 +1231,8 @@
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#jetty-util;6.1.26 [runtime->compile]
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#servlet-api;2.5-20081211 [runtime->runtime(*)]
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#servlet-api;2.5-20081211 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1241,14 +1241,14 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->master(compile)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->compile(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1257,8 +1257,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->compile]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -1271,8 +1271,8 @@
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [compile->compile(*)]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [runtime->runtime(*)]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1281,8 +1281,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->compile]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
@@ -1294,10 +1294,10 @@
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [runtime->runtime(*)]
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->master]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1306,16 +1306,16 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->master]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [optional]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->master]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [optional]
 [debug] resolving dependencies for configuration 'test-internal'
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [test-internal]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [test]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [runtime]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->default(compile)]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [test-internal]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [test]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [runtime]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1328,10 +1328,10 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1344,8 +1344,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.oauth-client#google-oauth-client;1.23.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -1514,8 +1514,8 @@
 [debug] == resolving dependencies com.google.http-client#google-http-client-jackson2;1.23.0->com.fasterxml.jackson.core#jackson-core;2.1.3 [runtime->compile]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.guava#guava-jdk5;17.0 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.api-client#google-api-client;1.23.0->com.google.guava#guava-jdk5;17.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.api-client#google-api-client;1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1528,8 +1528,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.oauth-client#google-oauth-client-jetty;1.23.0->com.google.oauth-client#google-oauth-client-java6;1.23.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -1598,8 +1598,8 @@
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#jetty-util;6.1.26 [runtime->compile]
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#servlet-api;2.5-20081211 [runtime->runtime(*)]
 [debug] == resolving dependencies org.mortbay.jetty#jetty;6.1.26->org.mortbay.jetty#servlet-api;2.5-20081211 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.oauth-client#google-oauth-client-jetty;1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1612,14 +1612,14 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->compile]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->master(compile)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [compile->compile(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [runtime->runtime(*)]
 [debug] == resolving dependencies com.google.apis#google-api-services-sheets;v4-rev525-1.23.0->com.google.api-client#google-api-client;1.23.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.google.apis#google-api-services-sheets;v4-rev525-1.23.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1632,8 +1632,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->compile]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -1650,8 +1650,8 @@
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [compile->compile(*)]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [runtime->runtime(*)]
 [debug] == resolving dependencies info.debatty#java-string-similarity;1.1.0->net.jcip#jcip-annotations;1.0 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->info.debatty#java-string-similarity;1.1.0 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1664,8 +1664,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->compile]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
@@ -1677,10 +1677,10 @@
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [runtime->runtime(*)]
 [debug] == resolving dependencies org.rogach#scallop_2.12;3.1.2->org.scala-lang#scala-library;2.12.4 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.rogach#scallop_2.12;3.1.2 [compile->master]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.2 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->default(compile)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
@@ -1693,25 +1693,25 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->com.typesafe#config;1.3.2 [compile->master]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [optional]
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [provided]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->com.typesafe#config;1.3.2 [compile->master]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [optional]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [provided]
 [debug] resolving dependencies for configuration 'plugin'
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [plugin]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [plugin]
 [debug] resolving dependencies for configuration 'pom'
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [pom]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [pom]
 [debug] resolving dependencies for configuration 'scala-tool'
-[debug] == resolving dependencies for default#datadictionary_2.12;0.1 [scala-tool]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-compiler;2.12.4 [scala-tool->default]
+[debug] == resolving dependencies for default#zgusta_2.12;0.1 [scala-tool]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-compiler;2.12.4 [scala-tool->default]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.4 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.4 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-compiler;2.12.4 {scala-tool=[default, optional(default)]}
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-compiler;2.12.4
 [debug] 	found org.scala-lang#scala-compiler;2.12.4 in sbt-chain
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-compiler;2.12.4 [scala-tool->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-compiler;2.12.4 [scala-tool->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-compiler;2.12.4 [scala-tool->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-compiler;2.12.4 [scala-tool->compile]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.4->org.scala-lang#scala-library;2.12.4 [compile->master(*)]
@@ -1812,12 +1812,12 @@
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.4->org.scala-lang#scala-reflect;2.12.4 [runtime->compile]
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.4->org.scala-lang.modules#scala-xml_2.12;1.0.6 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.4->org.scala-lang.modules#scala-xml_2.12;1.0.6 [runtime->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-compiler;2.12.4 [scala-tool->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-compiler;2.12.4 [scala-tool->master]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-compiler;2.12.4 [scala-tool->optional(default)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-compiler;2.12.4 [scala-tool->optional(default)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.4->jline#jline;2.14.5 [optional->master(*)]
@@ -1839,179 +1839,83 @@
 [debug] sbt-chain: module revision found in cache: jline#jline;2.14.5
 [debug] 	found jline#jline;2.14.5 in sbt-chain
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.4->jline#jline;2.14.5 [optional->compile(*)]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [scala-tool->default]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [scala-tool->runtime]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [scala-tool->compile]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [scala-tool->master]
-[debug] == resolving dependencies default#datadictionary_2.12;0.1->org.scala-lang#scala-library;2.12.4 [scala-tool->optional(default)]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [scala-tool->default]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [scala-tool->runtime]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [scala-tool->compile]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [scala-tool->master]
+[debug] == resolving dependencies default#zgusta_2.12;0.1->org.scala-lang#scala-library;2.12.4 [scala-tool->optional(default)]
 [debug] ignoring unhandled DependencyDescriptorMediator: class sbt.internal.librarymanagement.IvyScalaUtil$OverrideScalaMediator
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
-[debug] 	[NOT REQUIRED] com.google.apis#google-api-services-sheets;v4-rev525-1.23.0!google-api-services-sheets.jar
-[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(bundle)
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.4!scala-compiler.jar
-[debug] 	[NOT REQUIRED] org.apache.httpcomponents#httpcore;4.0.1!httpcore.jar
 [debug] 	[NOT REQUIRED] com.typesafe#config;1.3.2!config.jar(bundle)
+[debug] 	[NOT REQUIRED] com.google.apis#google-api-services-sheets;v4-rev525-1.23.0!google-api-services-sheets.jar
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.4!scala-compiler.jar
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.4!scala-library.jar
+[debug] 	[NOT REQUIRED] org.apache.httpcomponents#httpcore;4.0.1!httpcore.jar
 [debug] 	[NOT REQUIRED] org.mortbay.jetty#jetty-util;6.1.26!jetty-util.jar
 [debug] 	[NOT REQUIRED] com.google.guava#guava-jdk5;17.0!guava-jdk5.jar(bundle)
-[debug] no default ivy user dir defined: set to /Users/noahlarsen/.ivy2
-[debug] no default ivy user dir defined: set to /Users/noahlarsen/.ivy2
-[debug] no default ivy user dir defined: set to /Users/noahlarsen/.ivy2
-[debug] no default ivy user dir defined: set to /Users/noahlarsen/.ivy2
-[debug] no default ivy user dir defined: set to /Users/noahlarsen/.ivy2
-[debug] no default ivy user dir defined: set to /Users/noahlarsen/.ivy2
-[debug] no default ivy user dir defined: set to /Users/noahlarsen/.ivy2
-[debug] no default ivy user dir defined: set to /Users/noahlarsen/.ivy2
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] no default cache defined: set to /Users/noahlarsen/.ivy2/cache
-[debug] no default cache defined: set to /Users/noahlarsen/.ivy2/cache
-[debug] no default cache defined: set to /Users/noahlarsen/.ivy2/cache
-[debug] no default cache defined: set to /Users/noahlarsen/.ivy2/cache
-[debug] no default cache defined: set to /Users/noahlarsen/.ivy2/cache
-[debug] no default cache defined: set to /Users/noahlarsen/.ivy2/cache
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] no default cache defined: set to /Users/noahlarsen/.ivy2/cache
-[debug] no default cache defined: set to /Users/noahlarsen/.ivy2/cache
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] settings loaded (54ms)
-[debug] 	default cache: /Users/noahlarsen/.ivy2/cache
-[debug] settings loaded (55ms)
-[debug] settings loaded (55ms)
-[debug] 	default resolver: default
-[debug] 	default cache: /Users/noahlarsen/.ivy2/cache
-[debug] 	default cache: /Users/noahlarsen/.ivy2/cache
-[debug] 	default resolver: default
-[debug] 	default resolver: default
-[debug] 	-- 5 resolvers:
-[debug] 	-- 5 resolvers:
-[debug] 	-- 5 resolvers:
-[debug] 	shared [file]
-[debug] 	shared [file]
-[debug] 	shared [file]
-[debug] 	default [chain] [local, main]
-[debug] 	default [chain] [local, main]
-[debug] 	default [chain] [local, main]
-[debug] 	public [ibiblio]
-[debug] 	public [ibiblio]
-[debug] 	public [ibiblio]
-[debug] settings loaded (56ms)
-[debug] 	main [chain] [shared, public]
-[debug] 	main [chain] [shared, public]
-[debug] 	default cache: /Users/noahlarsen/.ivy2/cache
-[debug] 	main [chain] [shared, public]
-[debug] 	local [file]
-[debug] 	local [file]
-[debug] 	local [file]
-[debug] 	default resolver: default
-[debug] 	-- 5 resolvers:
-[debug] settings loaded (56ms)
-[debug] settings loaded (56ms)
-[debug] 	shared [file]
-[debug] 	default cache: /Users/noahlarsen/.ivy2/cache
-[debug] settings loaded (56ms)
-[debug] 	default cache: /Users/noahlarsen/.ivy2/cache
-[debug] 	default [chain] [local, main]
-[debug] 	default resolver: default
-[debug] 	default cache: /Users/noahlarsen/.ivy2/cache
-[debug] 	default resolver: default
-[debug] 	public [ibiblio]
-[debug] 	-- 5 resolvers:
-[debug] 	-- 5 resolvers:
-[debug] 	default resolver: default
-[debug] 	main [chain] [shared, public]
-[debug] 	shared [file]
-[debug] 	shared [file]
-[debug] 	-- 5 resolvers:
-[debug] 	local [file]
-[debug] 	default [chain] [local, main]
-[debug] 	default [chain] [local, main]
-[debug] 	shared [file]
-[debug] 	public [ibiblio]
-[debug] 	public [ibiblio]
-[debug] 	default [chain] [local, main]
-[debug] 	main [chain] [shared, public]
-[debug] settings loaded (57ms)
-[debug] 	public [ibiblio]
-[debug] 	main [chain] [shared, public]
-[debug] 	local [file]
-[debug] 	default cache: /Users/noahlarsen/.ivy2/cache
-[debug] 	local [file]
-[debug] 	default resolver: default
-[debug] 	main [chain] [shared, public]
-[debug] 	-- 5 resolvers:
-[debug] 	local [file]
-[debug] 	shared [file]
-[debug] 	default [chain] [local, main]
-[debug] 	public [ibiblio]
-[debug] 	main [chain] [shared, public]
-[debug] 	local [file]
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.4!scala-reflect.jar
-[debug] 	[NOT REQUIRED] info.debatty#java-string-similarity;1.1.0!java-string-similarity.jar
-[debug] 	[NOT REQUIRED] commons-logging#commons-logging;1.1.1!commons-logging.jar
-[debug] 	[NOT REQUIRED] org.mortbay.jetty#servlet-api;2.5-20081211!servlet-api.jar
-[debug] 	[NOT REQUIRED] com.google.http-client#google-http-client;1.23.0!google-http-client.jar
-[debug] 	[NOT REQUIRED] org.rogach#scallop_2.12;3.1.2!scallop_2.12.jar
-[debug] 	[NOT REQUIRED] jline#jline;2.14.5!jline.jar
-[debug] 	[NOT REQUIRED] commons-codec#commons-codec;1.3!commons-codec.jar
-[debug] 	[NOT REQUIRED] net.jcip#jcip-annotations;1.0!jcip-annotations.jar
-[debug] 	[NOT REQUIRED] com.google.code.findbugs#jsr305;1.3.9!jsr305.jar
-[debug] 	[NOT REQUIRED] com.google.oauth-client#google-oauth-client;1.23.0!google-oauth-client.jar
-[debug] 	[NOT REQUIRED] com.fasterxml.jackson.core#jackson-core;2.1.3!jackson-core.jar
-[debug] 	[NOT REQUIRED] com.google.oauth-client#google-oauth-client-jetty;1.23.0!google-oauth-client-jetty.jar
-[debug] 	[NOT REQUIRED] org.apache.httpcomponents#httpclient;4.0.1!httpclient.jar
-[debug] 	[NOT REQUIRED] com.google.http-client#google-http-client-jackson2;1.23.0!google-http-client-jackson2.jar
-[debug] 	[NOT REQUIRED] org.mortbay.jetty#jetty;6.1.26!jetty.jar
-[debug] 	[NOT REQUIRED] com.google.oauth-client#google-oauth-client-java6;1.23.0!google-oauth-client-java6.jar
 [debug] 	[NOT REQUIRED] com.google.api-client#google-api-client;1.23.0!google-api-client.jar
-[debug] :: resolution report :: resolve 900ms :: artifacts dl 211ms
-[debug] 	report for default#datadictionary_2.12;0.1 compile produced in /Users/noahlarsen/code/dataDictionary/target/scala-2.12/resolution-cache/reports/default-datadictionary_2.12-compile.xml
-[debug] 	report for default#datadictionary_2.12;0.1 runtime produced in /Users/noahlarsen/code/dataDictionary/target/scala-2.12/resolution-cache/reports/default-datadictionary_2.12-runtime.xml
-[debug] 	report for default#datadictionary_2.12;0.1 test produced in /Users/noahlarsen/code/dataDictionary/target/scala-2.12/resolution-cache/reports/default-datadictionary_2.12-test.xml
-[debug] 	report for default#datadictionary_2.12;0.1 provided produced in /Users/noahlarsen/code/dataDictionary/target/scala-2.12/resolution-cache/reports/default-datadictionary_2.12-provided.xml
-[debug] 	report for default#datadictionary_2.12;0.1 optional produced in /Users/noahlarsen/code/dataDictionary/target/scala-2.12/resolution-cache/reports/default-datadictionary_2.12-optional.xml
-[debug] 	report for default#datadictionary_2.12;0.1 compile-internal produced in /Users/noahlarsen/code/dataDictionary/target/scala-2.12/resolution-cache/reports/default-datadictionary_2.12-compile-internal.xml
-[debug] 	report for default#datadictionary_2.12;0.1 runtime-internal produced in /Users/noahlarsen/code/dataDictionary/target/scala-2.12/resolution-cache/reports/default-datadictionary_2.12-runtime-internal.xml
-[debug] 	report for default#datadictionary_2.12;0.1 test-internal produced in /Users/noahlarsen/code/dataDictionary/target/scala-2.12/resolution-cache/reports/default-datadictionary_2.12-test-internal.xml
-[debug] 	report for default#datadictionary_2.12;0.1 plugin produced in /Users/noahlarsen/code/dataDictionary/target/scala-2.12/resolution-cache/reports/default-datadictionary_2.12-plugin.xml
-[debug] 	report for default#datadictionary_2.12;0.1 pom produced in /Users/noahlarsen/code/dataDictionary/target/scala-2.12/resolution-cache/reports/default-datadictionary_2.12-pom.xml
-[debug] 	report for default#datadictionary_2.12;0.1 scala-tool produced in /Users/noahlarsen/code/dataDictionary/target/scala-2.12/resolution-cache/reports/default-datadictionary_2.12-scala-tool.xml
-[debug] 	resolve done (900ms resolve - 211ms download)
+[debug] 	[NOT REQUIRED] commons-logging#commons-logging;1.1.1!commons-logging.jar
+[debug] 	[NOT REQUIRED] info.debatty#java-string-similarity;1.1.0!java-string-similarity.jar
+[debug] 	[NOT REQUIRED] com.google.oauth-client#google-oauth-client;1.23.0!google-oauth-client.jar
+[debug] 	[NOT REQUIRED] com.google.oauth-client#google-oauth-client-jetty;1.23.0!google-oauth-client-jetty.jar
+[debug] 	[NOT REQUIRED] org.mortbay.jetty#servlet-api;2.5-20081211!servlet-api.jar
+[debug] no default ivy user dir defined: set to /Users/noahlarsen/.ivy2
+[debug] no default ivy user dir defined: set to /Users/noahlarsen/.ivy2
+[debug] 	[NOT REQUIRED] commons-codec#commons-codec;1.3!commons-codec.jar
+[debug] 	[NOT REQUIRED] com.google.http-client#google-http-client-jackson2;1.23.0!google-http-client-jackson2.jar
+[debug] 	[NOT REQUIRED] net.jcip#jcip-annotations;1.0!jcip-annotations.jar
+[debug] 	[NOT REQUIRED] com.fasterxml.jackson.core#jackson-core;2.1.3!jackson-core.jar
+[debug] 	[NOT REQUIRED] com.google.oauth-client#google-oauth-client-java6;1.23.0!google-oauth-client-java6.jar
+[debug] 	[NOT REQUIRED] com.google.code.findbugs#jsr305;1.3.9!jsr305.jar
+[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(bundle)
+[debug] 	[NOT REQUIRED] org.mortbay.jetty#jetty;6.1.26!jetty.jar
+[debug] 	[NOT REQUIRED] org.rogach#scallop_2.12;3.1.2!scallop_2.12.jar
+[debug] 	[NOT REQUIRED] org.apache.httpcomponents#httpclient;4.0.1!httpclient.jar
+[debug] 	[NOT REQUIRED] jline#jline;2.14.5!jline.jar
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.4!scala-reflect.jar
+[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
+[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
+[debug] 	[NOT REQUIRED] com.google.http-client#google-http-client;1.23.0!google-http-client.jar
+[debug] no default cache defined: set to /Users/noahlarsen/.ivy2/cache
+[debug] no default cache defined: set to /Users/noahlarsen/.ivy2/cache
+[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
+[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
+[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
+[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
+[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
+[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
+[debug] settings loaded (9ms)
+[debug] 	default cache: /Users/noahlarsen/.ivy2/cache
+[debug] 	default resolver: default
+[debug] 	-- 5 resolvers:
+[debug] 	shared [file]
+[debug] 	default [chain] [local, main]
+[debug] 	public [ibiblio]
+[debug] 	main [chain] [shared, public]
+[debug] 	local [file]
+[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
+[debug] including url: jar:file:/Users/noahlarsen/.sbt/boot/scala-2.12.4/org.scala-sbt/sbt/1.0.3/ivy-2.3.0-sbt-1b57d3bbc08ecf671169fd548918da18c91f77be.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
+[debug] settings loaded (12ms)
+[debug] 	default cache: /Users/noahlarsen/.ivy2/cache
+[debug] 	default resolver: default
+[debug] 	-- 5 resolvers:
+[debug] 	shared [file]
+[debug] 	default [chain] [local, main]
+[debug] 	public [ibiblio]
+[debug] 	main [chain] [shared, public]
+[debug] 	local [file]
+[debug] :: resolution report :: resolve 508ms :: artifacts dl 37ms
+[debug] 	report for default#zgusta_2.12;0.1 compile produced in /Users/noahlarsen/code/zgusta/target/scala-2.12/resolution-cache/reports/default-zgusta_2.12-compile.xml
+[debug] 	report for default#zgusta_2.12;0.1 runtime produced in /Users/noahlarsen/code/zgusta/target/scala-2.12/resolution-cache/reports/default-zgusta_2.12-runtime.xml
+[debug] 	report for default#zgusta_2.12;0.1 test produced in /Users/noahlarsen/code/zgusta/target/scala-2.12/resolution-cache/reports/default-zgusta_2.12-test.xml
+[debug] 	report for default#zgusta_2.12;0.1 provided produced in /Users/noahlarsen/code/zgusta/target/scala-2.12/resolution-cache/reports/default-zgusta_2.12-provided.xml
+[debug] 	report for default#zgusta_2.12;0.1 optional produced in /Users/noahlarsen/code/zgusta/target/scala-2.12/resolution-cache/reports/default-zgusta_2.12-optional.xml
+[debug] 	report for default#zgusta_2.12;0.1 compile-internal produced in /Users/noahlarsen/code/zgusta/target/scala-2.12/resolution-cache/reports/default-zgusta_2.12-compile-internal.xml
+[debug] 	report for default#zgusta_2.12;0.1 runtime-internal produced in /Users/noahlarsen/code/zgusta/target/scala-2.12/resolution-cache/reports/default-zgusta_2.12-runtime-internal.xml
+[debug] 	report for default#zgusta_2.12;0.1 test-internal produced in /Users/noahlarsen/code/zgusta/target/scala-2.12/resolution-cache/reports/default-zgusta_2.12-test-internal.xml
+[debug] 	report for default#zgusta_2.12;0.1 plugin produced in /Users/noahlarsen/code/zgusta/target/scala-2.12/resolution-cache/reports/default-zgusta_2.12-plugin.xml
+[debug] 	report for default#zgusta_2.12;0.1 pom produced in /Users/noahlarsen/code/zgusta/target/scala-2.12/resolution-cache/reports/default-zgusta_2.12-pom.xml
+[debug] 	report for default#zgusta_2.12;0.1 scala-tool produced in /Users/noahlarsen/code/zgusta/target/scala-2.12/resolution-cache/reports/default-zgusta_2.12-scala-tool.xml
+[debug] 	resolve done (508ms resolve - 37ms download)
 [info] Done updating.

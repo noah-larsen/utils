@@ -136,15 +136,11 @@ object ObjectRow {
     override type T = StorageType
     sealed case class StorageType(name: String) extends EnumeratedType
 
-    object Avro extends StorageType("Avro")
-    object Csv extends StorageType("CSV")
-    object Fixed extends StorageType("Fixed")
-    object Parquet extends StorageType("Parquet")
-    object Xml extends StorageType("XML")
-    object TextExtended extends StorageType("Text-extended")
+    object HdfsAvro extends StorageType("HDFS-Avro")
+    object HdfsParquet extends StorageType("HDFS-Parquet")
 
 
-    override val values = Seq(Avro, Csv, Fixed, Parquet, Xml, TextExtended)
+    override val values = Seq(HdfsAvro, HdfsParquet)
 
   }
 

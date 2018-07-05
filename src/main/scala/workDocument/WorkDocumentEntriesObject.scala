@@ -25,7 +25,7 @@ case class WorkDocumentEntriesObject(entries: Seq[WorkDocumentEntry]) {
   }
 
 
-  def validatedByLocalAndGlobalArchitecture: Boolean = {
+  def allFieldsValidatedByLocalAndGlobalArchitecture: Boolean = {
     entries.forall(x => Seq(x.validatedByLocalArchitecture, x.validatedByGlobalArchitecture).forall(_.contains(ValidatedValues.OK)))
   }
 

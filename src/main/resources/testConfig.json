@@ -1,0 +1,13 @@
+{
+  "workDataDictionaryId": "1MaI7K82DFCHV43aoUZicUzwQy0ObgYaCMaiGSy5rci8",
+  "workDocumentId": "1qUKVQFMm4p_ntJicFSUB6nvYX_OLm7Jcv6wS58659Go",
+  "sourceSystemToDataDictionaryId": {
+    "cif": "1TGq-kVRlVt__ipiAsiKwBEp-_0662BrNDhA88oOrPN0",
+//    "aln_deposits": "1TGq-kVRlVt__ipiAsiKwBEp-_0662BrNDhA88oOrPN0",
+//    "aln_loans": "1TGq-kVRlVt__ipiAsiKwBEp-_0662BrNDhA88oOrPN0",
+//    "phx": "1TGq-kVRlVt__ipiAsiKwBEp-_0662BrNDhA88oOrPN0"
+  },
+  "applicationId": "wdco",
+  "language": "english",
+  "country": "United States"
+}

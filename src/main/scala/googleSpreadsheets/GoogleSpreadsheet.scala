@@ -33,22 +33,13 @@ class GoogleSpreadsheet(sheets: Sheets, spreadsheetId: String) {
 
 
   def update[T <: Row](rows: Seq[T], dataReaderWriter: DataReaderWriter[T], fromRow: Option[Int] = None, toRow: Option[Int] = None, valueInputOption: ValueInputOptions.Value = ValueInputOptions.userEntered): Try[UpdateValuesResponse] = {
-
-//    val range = Some(dataReaderWriter.sheetRange).map(x => x.copy(fromRow = fromRow.getOrElse(x.fromRow), toRow = toRow.orElse(x.toRow))).map(x => if(x.toRow.isEmpty) x.copy(fromRow = x.fromRow + get(dataReaderWriter).length) else x).get.range
     val range = Some(dataReaderWriter.sheetRange).map(x => x.copy(fromRow = fromRow.getOrElse(x.fromRow), toRow = toRow.orElse(x.toRow))).map(x => if(x.toRow.isEmpty) get(dataReaderWriter).map(y => x.copy(fromRow = x.fromRow + y.length)) else Try(x)).get.map(_.range)
-
-
-//    Try(sheets.spreadsheets.values.update(spreadsheetId, range, new ValueRange().setValues(rows.map(dataReaderWriter.toStringSeq(_).map(_.asInstanceOf[AnyRef]).asJava).asJava)).setValueInputOption(valueInputOption.toString).execute())
     range.flatMap(x => Try(sheets.spreadsheets.values.update(spreadsheetId, x, new ValueRange().setValues(rows.map(dataReaderWriter.toStringSeq(_).map(_.asInstanceOf[AnyRef]).asJava).asJava)).setValueInputOption(valueInputOption.toString).execute()))
-
   }
 
 
   def append[T <: Row](rows: Seq[T], dataReaderWriter: DataReaderWriter[T], valueInputOption: ValueInputOptions.Value = ValueInputOptions.userEntered): Try[AppendValuesResponse] = {
-
-//    val range = Some(dataReaderWriter.sheetRange).filter(_.toRow.isEmpty).map(x => x.copy(fromRow = x.fromRow + get(dataReaderWriter).length)).getOrElse(dataReaderWriter.sheetRange).range
     val range = Some(dataReaderWriter.sheetRange).filter(_.toRow.isEmpty).map(x => get(dataReaderWriter).map(y => x.copy(fromRow = x.fromRow + y.length))).getOrElse(Try(dataReaderWriter.sheetRange)).map(_.range)
-
     range.flatMap(x => Try(sheets.spreadsheets.values.append(spreadsheetId, x, new ValueRange().setValues(rows.map(dataReaderWriter.toStringSeq(_).map(_.asInstanceOf[AnyRef]).asJava).asJava)).setValueInputOption(valueInputOption.toString).execute()))
   }
 

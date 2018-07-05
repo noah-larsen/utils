@@ -10,6 +10,7 @@ import renaming.consoleApplication.ConsoleRenamer.Languages
 
 import scala.util.Try
 import collection.JavaConverters._
+import scala.io.Source
 
 case class Configuration(
                           workDataDictionaryId: String,
@@ -24,8 +25,8 @@ case class Configuration(
 
 object Configuration {
 
-  def apply(pathname: String): Try[Configuration] = {
-    val config = ConfigFactory.parseFile(new File(pathname))
+  def apply(source: Source): Try[Configuration] = {
+    val config = ConfigFactory.parseString(source.mkString)
     Try(Configuration(
       config.getString(WorkDataDictionaryId.name),
       config.getString(WorkDocumentId.name),

@@ -12,26 +12,31 @@ import general.DataHubException
 import org.rogach.scallop.{ScallopConf, ScallopOption}
 import renaming.consoleApplication.ConsoleRenamer.Languages
 import renaming.{ApprovedRenamings, NameComparator, Renaming}
-import us.{AlnovaTableLayouts, USSources}
+import us.USSourceSystems
 import workDocument.{WorkDocument, WorkDocumentEntriesObject}
 
-import scala.io.StdIn
+import scala.io.{Source, StdIn}
 import scala.util.{Failure, Success, Try}
 
 object Driver extends App {
 
   Try {
 
-    val configPathname = "config.json" //todo
-    val configuration = Configuration(configPathname).get
-
-
     class Conf(arguments: Seq[String]) extends ScallopConf(arguments) {
+      val test: ScallopOption[Boolean] = toggle(default = Some(false), hidden = true)
       verify()
     }
 
 
     val conf = new Conf(args)
+    val isTest = conf.test()
+
+
+    val configPathname = "config.json"
+    val testConfigPathname = "testConfig.json"
+    val configuration = Configuration(Source.fromResource(if(isTest) testConfigPathname else configPathname)).get
+
+
     implicit val language: Languages.Value = configuration.language
     val centralNamingsRepository = CentralNamingsRepository().get
     val workDataDictionary = DataDictionary(configuration.workDataDictionaryId).get
@@ -39,6 +44,7 @@ object Driver extends App {
     val lowercaseSourceOriginToDataDictionary = configuration.sourceSystemToDataDictionaryId.map(x => (x._1.toLowerCase, DataDictionary(x._2).get))
     val applicationId = configuration.applicationId
     val country = configuration.country
+    val sourceType = SourceTypes.Table
 
 
     main()
@@ -49,36 +55,29 @@ object Driver extends App {
       commandInvocation.command match {
         case MainCommands.Load =>
           Try {
-            val sourceSystem = MainCommands.Load.sourceSystem(commandInvocation.arguments)
-            val tableName = MainCommands.Load.tableName(commandInvocation.arguments)
-            val dataDictionary = DataDictionary(configuration.sourceSystemToDataDictionaryId(sourceSystem)).get
-            val approvedRenamings = ApprovedRenamings(dataDictionary)
-            val nameComparator = NameComparator(approvedRenamings.get.normalizedSubstringToMatchToNObservations)
-            val sourceType = SourceTypes.Table
-            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, sourceSystem, tableName)
-            val renaming = workDataDictionary.fieldEntriesObject(IngestionStages.Raw, physicalNameObject.string).flatMap(_.map(Try(_)).orElse(Some(Unit).filter(_ => country == Countries.UnitedStates).flatMap(_ => USSources
+            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.Load.sourceSystem(commandInvocation.arguments), MainCommands.Load.dataName(commandInvocation.arguments))
+            val dataDictionary = DataDictionary(configuration.sourceSystemToDataDictionaryId(physicalNameObject.sourceSystem)).get //todo handle key not found exception properly
+            val approvedRenamings = ApprovedRenamings(dataDictionary).get
+            val nameComparator = NameComparator(approvedRenamings.normalizedSubstringToMatchToNObservations)
+            val renaming = workDataDictionary.fieldEntriesObject(IngestionStages.Raw, physicalNameObject.string).flatMap(_.map(Try(_)).orElse(Some(Unit).filter(_ => country == Countries.UnitedStates).flatMap(_ => USSourceSystems
               .fieldEntriesObject(physicalNameObject))).getOrElse(Failure(DataHubException("Source not found"))).map(_.withCountry(country))).map(Renaming(_))
-            table(ConsoleRenamer(renaming.get, centralNamingsRepository.globalNamings, nameComparator))
-          }.recover { case e => println(e.getMessage) }
+            table(ConsoleRenamer(renaming.get, centralNamingsRepository.globalNamings, nameComparator, approvedRenamings.originalToRenamedNameToNOccurences))
+          }.recover{case e: Exception => println(e.getMessage)}
           main()
-        case MainCommands.WriteUnwrittenApprovedObjectsToDataDictionaries =>
-          workDocument.approvedEntriesObjects match {
-            case Success(approvedEntriesObjects) => approvedEntriesObjects.foreach {
-              case x if x.lowercaseSourceOrigin.isEmpty => println(s"${x.table}: Entries of approved object lack a consistent source origin.")
-              case x if !lowercaseSourceOriginToDataDictionary.contains(x.lowercaseSourceOrigin.get) => println(s"${x.table}: Cannot find dictionary for source origin ${x.lowercaseSourceOrigin.get}.")
-              case x if lowercaseSourceOriginToDataDictionary(x.lowercaseSourceOrigin.get).fieldEntries(IngestionStages.Raw).get.exists(_.physicalNameObject.contains(x.table)) => //todo error handling on get in condition
-              case x =>
-                println(
-                  x.merge(workDataDictionary, preserveRegistrationDatesThis = false, preserveRegistrationDatesThat = false)
-                    .recoverWith { case e: DataHubException => Failure(e.copy(s"${x.table}: Could not merge with work data dictionary entries. ${e.message}")) }
-                    .flatMap(y => lowercaseSourceOriginToDataDictionary(x.lowercaseSourceOrigin.get).write(IngestionStages.Raw, y.withRegistrationDates).map(_ => s"${x.table}: Wrote to data dictionary."))
-                    .recover { case e: DataHubException => e.message }
-                    .get
-                )
-            }
-            case Failure(e) => println(e.getMessage)
-          }
-
+        case MainCommands.WriteOnceToDataDictionary =>
+          val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.Load.sourceSystem(commandInvocation.arguments), MainCommands.Load.dataName(commandInvocation.arguments))
+          println(workDocument.entriesObject(physicalNameObject).flatMap(_.map(Try(_)).getOrElse(Failure(DataHubException("Object does not exist in work document")))).map{
+            case x if x.lowercaseSourceOrigin.isEmpty => "Entries of approved object lack a consistent source origin."
+            case x if !x.allFieldsValidatedByLocalAndGlobalArchitecture => "Work document entries exist for object that are unvalidated"
+            case x if !lowercaseSourceOriginToDataDictionary.contains(x.lowercaseSourceOrigin.get) => "Cannot find dictionary for source system"
+            case x if lowercaseSourceOriginToDataDictionary(x.lowercaseSourceOrigin.get).fieldEntries(IngestionStages.Raw).get.exists(_.physicalNameObject.contains(x.table)) => "Object already exists in data dictionary"
+            case x =>
+                x.merge(workDataDictionary, preserveRegistrationDatesThis = false, preserveRegistrationDatesThat = false)
+                  .recoverWith { case e: DataHubException => Failure(e.copy(s"Could not merge with work data dictionary entries. ${e.message}")) }
+                  .flatMap(y => lowercaseSourceOriginToDataDictionary(x.lowercaseSourceOrigin.get).write(IngestionStages.Raw, y.withRegistrationDates).map(_ => "Wrote to data dictionary"))
+                  .recover { case e: DataHubException => e.message }
+                  .get
+          }.recover{case e: Exception => e.getMessage}.get)
           main()
         case MainCommands.Quit =>
       }
@@ -88,7 +87,9 @@ object Driver extends App {
     def table(consoleRenamer: ConsoleRenamer): Unit = {
 
       def saveWithRegistrationDates(renaming: Renaming) = {
+        //todo need to rework this
         workDataDictionary.write(IngestionStages.Raw, workDataDictionary.fieldEntriesObject(IngestionStages.Raw, renaming.physicalNameObject.get).map(_ => renaming).getOrElse(renaming.withRegistrationDates))
+        ???
       }
 
 
@@ -112,6 +113,6 @@ object Driver extends App {
     }
 
 
-  }.recover{case e => println(e.getMessage)}
+  }.recover{case e: Exception => println(e.getMessage)}
 
 }

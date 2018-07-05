@@ -3,11 +3,9 @@ package dataDictionary
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-import dataDictionary.FieldEntry.ExcludeIncludeValues.ExcludeIncludeValue
+import dataDictionary.FieldEntry.FieldGeneratedValues.FieldGeneratedValue
 import dataDictionary.FieldEntry.FieldRowBooleans.FieldRowBoolean
-import dataDictionary.FieldEntry.LogicalFormats.LogicalFormat
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns._
-import dataDictionary.FieldEntry.{ExcludeIncludeValues, FieldRowBooleans, IngestionStages, LogicalFormats}
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns
 import dataDictionary.ObjectRow.Countries.Country
 import dataDictionary.ObjectRow.StorageTypes.StorageType
@@ -29,7 +27,7 @@ case class FieldEntry(
                        catalog: Option[String] = None,
                        dataType: Option[String] = None,
                        format: Option[String] = None,
-                       logicalFormat: Option[LogicalFormat] = None,
+                       logicalFormat: Option[String] = None,
                        key: Option[FieldRowBoolean] = None,
                        mandatory: Option[FieldRowBoolean] = None,
                        defaultValue: Option[String] = None,
@@ -39,7 +37,7 @@ case class FieldEntry(
                        formatSourceField: Option[String] = None,
                        tags: Option[Seq[String]] = None,
                        fieldPositionInTheObject: Option[Option[Int]] = None,
-                       excludeInclude: Option[ExcludeIncludeValue] = None,
+                       excludeInclude: Option[FieldGeneratedValue] = None,
                        tokenizationType: Option[String] = None,
                        registrationDate: Option[LocalDate] = None,
                        countryTheConceptualEntity: Option[Country] = None,
@@ -108,26 +106,25 @@ object FieldEntry {
 
     override type T = IngestionStage
     sealed abstract case class IngestionStage(name: String) extends EnumeratedType
-    
+
     object Raw extends IngestionStage("raw")
     object Master extends IngestionStage("master")
 
-    
+
     override val values = Seq(Raw, Master)
-    
+
   }
 
 
-  object ExcludeIncludeValues extends Enumerated {
+  object FieldGeneratedValues extends Enumerated {
 
-    override type T = ExcludeIncludeValue
-    sealed case class ExcludeIncludeValue(name: String) extends EnumeratedType
+    override type T = FieldGeneratedValue
+    sealed abstract case class FieldGeneratedValue(name: String) extends EnumeratedType
 
-    object Exclude extends ExcludeIncludeValue("Exclude")
-    object Include extends ExcludeIncludeValue("Include")
+    object Yes extends FieldGeneratedValue("YES")
 
 
-    override val values = Seq(Exclude, Include)
+    override val values = Seq(Yes)
 
   }
 
@@ -135,10 +132,10 @@ object FieldEntry {
   object FieldRowBooleans extends Enumerated {
 
     override type T = FieldRowBoolean
-    sealed case class FieldRowBoolean(name: String) extends EnumeratedType
+    sealed abstract case class FieldRowBoolean(name: String) extends EnumeratedType
 
-    object Yes extends FieldRowBoolean("Yes")
-    object No extends FieldRowBoolean("No")
+    object Yes extends FieldRowBoolean("YES")
+    object No extends FieldRowBoolean("NO")
 
 
     override val values = Seq(Yes, No)
@@ -146,33 +143,13 @@ object FieldEntry {
   }
 
 
-  object LogicalFormats extends Enumerated {
-
-    override type T = LogicalFormat
-    sealed case class LogicalFormat(name: String) extends EnumeratedType
-
-    object Alphanumeric extends LogicalFormat("Alphanumeric")
-    object NumericShort extends LogicalFormat("Numeric short")
-    object NumericLarge extends LogicalFormat("Numeric Large")
-    object NumericBig extends LogicalFormat("Numeric Big")
-    object DecimalP extends LogicalFormat("Decimal (p)")
-    object DecimalPS extends LogicalFormat("Decimal (p,s)")
-    object Date extends LogicalFormat("Date")
-    object Time extends LogicalFormat("Time")
-    object Timestamp extends LogicalFormat("Timestamp")
-    object Float extends LogicalFormat("Float")
-    object Double extends LogicalFormat("Double")
-    object Clob extends LogicalFormat("Clob")
-    object Xml extends LogicalFormat("XML")
-
-
-    override val values = Seq(Alphanumeric, NumericShort, NumericLarge, NumericBig, DecimalP, DecimalPS, Date, Time, Timestamp, Float, Double, Clob, Xml)
-
+  object DataTypes {
+    val string = "STRING"
   }
 
 
-  object DataTypes {
-    val string = "STRING"
+  object DefaultValues {
+    val null_ = "NULL"
   }
 
 }

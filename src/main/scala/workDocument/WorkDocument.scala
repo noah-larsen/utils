@@ -1,6 +1,7 @@
 package workDocument
 
 import com.google.api.client.json.GenericJson
+import dataDictionary.PhysicalNameObject
 import general.DataHubException
 import googleSpreadsheets.GoogleSpreadsheet
 
@@ -18,14 +19,14 @@ case class WorkDocument(private val spreadsheet: GoogleSpreadsheet) {
   }
 
 
-  def approvedEntriesObjects: Try[Seq[WorkDocumentEntriesObject]] = {
-    entriesObjects.map(_.filter(_.validatedByLocalAndGlobalArchitecture))
+  def entriesObject(physicalNameObject: PhysicalNameObject): Try[Option[WorkDocumentEntriesObject]] = {
+    entriesObjects.map(_.find(_.table.equalsIgnoreCase(physicalNameObject.string)))
   }
 
 
   def writeOnce(workDocumentEntriesObject: WorkDocumentEntriesObject): Try[GenericJson] = {
     entries.flatMap(_.find(_.table == workDocumentEntriesObject.table)
-      .map(_ => Failure(DataHubException("Entries for the table already exist in work document.")))
+      .map(_ => Failure(DataHubException("Entries for the table already exist in the work document")))
       .getOrElse(spreadsheet.append(workDocumentEntriesObject.entries, WorkDocumentEntry))
     )
   }

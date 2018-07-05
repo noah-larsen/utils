@@ -1,0 +1,24 @@
+package us.alnova
+
+import googleSpreadsheets.{DataReader, Row, SheetRange}
+
+private[alnova] case class ATLRow(
+                           tableName: String,
+                           fieldName: String,
+                           columnNumber: String,
+                           type_ : String,
+                           length: String,
+                           nullsAllowed: String,
+                           description: String
+                         ) extends Row
+
+private[alnova] object ATLRow extends DataReader[ATLRow] {
+
+  override def sheetRange: SheetRange = SheetRange("ben2", "G", 2)
+
+
+  override def toRow(row: Int => String): ATLRow = {
+    ATLRow(row(0), row(1), row(2), row(3), row(4), row(5), row(6))
+  }
+
+}

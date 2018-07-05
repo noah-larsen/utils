@@ -13,7 +13,7 @@ import info.debatty.java.stringsimilarity._
 import renaming.consoleApplication.Configuration
 import renaming.consoleApplication.ConsoleRenamer.Languages
 import renaming.{ApprovedRenamings, Name, NameComparator}
-import us.AlnovaTableLayouts
+import us.alnova.AlnovaTableLayouts
 import workDocument.WorkDocument
 
 import scala.io.{Source, StdIn}
@@ -23,8 +23,8 @@ object Scratch extends App {
 
 
 
-  val configPathname = "config.json" //todo
-  val configuration = Configuration(configPathname).get
+//  val configPathname = "config.json" //todo
+//  val configuration = Configuration(configPathname).get
 
 
 
