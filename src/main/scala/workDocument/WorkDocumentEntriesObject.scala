@@ -63,6 +63,7 @@ object WorkDocumentEntriesObject {
     val usedYN_NValue = "N"
     WorkDocumentEntriesObject(fieldEntriesObject.fieldEntries.map(fieldEntry =>
       WorkDocumentEntry(
+        columnRank = Some(fieldEntriesObject.fieldEntries.indexOf(fieldEntry) + 1),
         registrationDate = fieldEntry.registrationDate.filter(_ => preserveRegistrationDates),
         status = fieldEntry match {
           case x if x.isFreeField => Some(Statuses.NotUsed)

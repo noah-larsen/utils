@@ -15,6 +15,7 @@ import workDocument.WorkDocumentEntry.{Statuses, ValidatedValues}
 import scala.util.Try
 
 case class WorkDocumentEntry(
+                              columnRank: Option[Int],
                               registrationDate: Option[LocalDate],
                               status: Option[Status],
                               sourceOrigin: String,
@@ -50,7 +51,7 @@ case class WorkDocumentEntry(
 object WorkDocumentEntry extends DataReaderWriter[WorkDocumentEntry] {
 
   override def sheetRange: SheetRange = {
-    SheetRange("Namings Repository - Work Document - Avro", "O", 4)
+    SheetRange("Namings Repository - Work Document - Avro", "P", 4)
   }
 
 
@@ -87,6 +88,7 @@ object WorkDocumentEntry extends DataReaderWriter[WorkDocumentEntry] {
 
   override protected def toRow(r: Int => String): WorkDocumentEntry = {
     WorkDocumentEntry(
+      columnRank = Some(r(columns.order.indexOf(Columns.ColumnRank))).filter(x => Try(x.toInt).isSuccess).map(_.toInt), //todo reconsider whole error handling strategy here
       registrationDate = possibleRegistrationDateFormats.map(x => Try(LocalDate.parse(r(columns.order.indexOf(Columns.RegistrationDate)), DateTimeFormatter.ofPattern(x)))).maxBy(_.isSuccess).toOption,
       status = dropDown(Statuses, r(columns.order.indexOf(Columns.Status))),
       sourceOrigin = r(columns.order.indexOf(Columns.SourceOrigin)),
@@ -111,6 +113,7 @@ object WorkDocumentEntry extends DataReaderWriter[WorkDocumentEntry] {
 
   private object Columns extends AbstractColumns[WorkDocumentEntry] {
     sealed class Column(val string: WorkDocumentEntry => String) extends AbstractColumn[WorkDocumentEntry]
+    case object ColumnRank extends Column(_.columnRank.map(_.toString).getOrElse(new String))
     case object RegistrationDate extends Column(_.registrationDate.map(_.format(DateTimeFormatter.ofPattern(registrationDateFormat))).getOrElse(new String))
     case object Status extends Column(x => enumeratedTypeOptionToString(x.status))
     case object SourceOrigin extends Column(_.sourceOrigin.toString)
@@ -126,7 +129,7 @@ object WorkDocumentEntry extends DataReaderWriter[WorkDocumentEntry] {
     case object ValidatedByGlobalArchitecture extends Column(x => enumeratedTypeOptionToString(x.validatedByGlobalArchitecture))
     case object FieldCode extends Column(_.fieldCode.toString)
     case object GlobalNamingField extends Column(_.globalNamingField.toString)
-    val order = Seq(RegistrationDate, Status, SourceOrigin, Table, SourceField, LogicFormat, FieldDescription, UsedYN, DataModelerComments, GlobalArchitectureComments, LocalArchitectureComments, ValidatedByLocalArchitecture, ValidatedByGlobalArchitecture,
+    val order = Seq(ColumnRank, RegistrationDate, Status, SourceOrigin, Table, SourceField, LogicFormat, FieldDescription, UsedYN, DataModelerComments, GlobalArchitectureComments, LocalArchitectureComments, ValidatedByLocalArchitecture, ValidatedByGlobalArchitecture,
       FieldCode, GlobalNamingField
     )
   }

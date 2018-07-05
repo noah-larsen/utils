@@ -3,6 +3,7 @@ package renaming.consoleApplication
 import java.io.File
 
 import centralNamingsRepository.CentralNamingsRepository
+import com.google.api.client.json.GenericJson
 import com.typesafe.config.ConfigFactory
 import dataDictionary.{DataDictionary, PhysicalNameObject}
 import dataDictionary.FieldEntry.IngestionStages
@@ -86,10 +87,9 @@ object Driver extends App {
 
     def table(consoleRenamer: ConsoleRenamer): Unit = {
 
-      def saveWithRegistrationDates(renaming: Renaming) = {
-        //todo need to rework this
-        workDataDictionary.write(IngestionStages.Raw, workDataDictionary.fieldEntriesObject(IngestionStages.Raw, renaming.physicalNameObject.get).map(_ => renaming).getOrElse(renaming.withRegistrationDates))
-        ???
+      def saveWithRegistrationDates(renaming: Renaming): Try[GenericJson] = {
+        //todo specific exception message
+        workDataDictionary.fieldEntriesObject(IngestionStages.Raw, renaming.physicalNameObject.get).flatMap(x => workDataDictionary.write(IngestionStages.Raw, x.map(_ => renaming).getOrElse(renaming.withRegistrationDates)))
       }
 
 
