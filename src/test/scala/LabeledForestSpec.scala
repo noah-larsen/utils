@@ -1,58 +1,53 @@
+import LabeledForestSpec.LabeledForestTestData
 import connectedForests.LabeledForest
 import org.scalatest.FunSpec
 
-class LabeledForestSpec extends FunSpec {
+class LabeledForestSpec extends FunSpec with LabeledForestTestData {
 
   describe("LabeledForest"){
 
-    val emptyLF = LabeledForest[Int]()
-    val pathsToLeaves = Set(Seq(0), Seq(1, 2), Seq(3, 4, 5), Seq(3, 4, 6), Seq(3, 7))
+    val emptyLF = LabeledForest[N]()
     val labeledForest = LabeledForest(pathsToLeaves)
-    val pathTo__parentLabel_childrenLabels = Map(
-      Seq(0) -> (None, Set()),
-      Seq(1) -> (None, Set(2)),
-      Seq(1, 2) -> (Some(1), Set()),
-      Seq(3) -> (None, Set(4, 7)),
-      Seq(3, 4) -> (Some(3), Set(5, 6)),
-      Seq(3, 4, 5) -> (Some(4), Set()),
-      Seq(3, 4, 6) -> (Some(4), Set()),
-      Seq(3, 7) -> (Some(3), Set()),
-    )
-    val paths = pathTo__parentLabel_childrenLabels.keys
-    val rootLabels = Set(0, 1, 3)
-    val validNonExistentPaths = Seq(Seq(8), Seq(0, 0), Seq(0, 1), Seq(2), Seq(1, 1), Seq(2, 1), Seq(2, 2), Seq(1, 2, 1), Seq(1, 2, 2), Seq(1, 2, 0))
-    val nonExistentPaths = validNonExistentPaths.++(Seq())
-    val nonExistentLabel = -1
 
 
     describe("children"){
-      it("should return the node's children if the node exists, and None otherwise"){
-        pathTo__parentLabel_childrenLabels.foreach(x => assert(labeledForest.children(x._1).contains(x._2._2)))
-        nonExistentPaths.foreach(x => assert(labeledForest.children(x).isEmpty))
+      it("should return the node's children if the node exists, and throw an exception otherwise"){
+        pathTo__parentLabel_childrenLabels.foreach(x => assert(labeledForest.children(x._1) == x._2._2))
+        nonExistentPaths.foreach(x => assertThrows[Exception](labeledForest.children(x).isEmpty))
       }
     }
 
 
     describe("id"){
-      it("should return an id uniquely identifying the node if the node exists, and None otherwise"){
+      it("should return an id uniquely identifying the node if the node exists, and throw an exception otherwise"){
         pathTo__parentLabel_childrenLabels.foreach{path__parentLabel_childrenLabels =>
           val path = path__parentLabel_childrenLabels._1
-          assert(labeledForest.path(labeledForest.id(path).get).get == path)
+          assert(labeledForest.path(labeledForest.id(path)) == path)
         }
-        nonExistentPaths.foreach(x => assert(labeledForest.id(x).isEmpty))
+        nonExistentPaths.foreach(x => assertThrows[Exception](labeledForest.id(x)))
       }
     }
 
 
+    describe("idsSubtree"){
+      //todo
+    }
+
+
     describe("path"){
-      it("should return the path of a node given a uniquely identifying id of a node if the id is valid, and None otherwise"){
+      it("should return the path of a node given a uniquely identifying id of a node if the id is valid, and throw an exception otherwise"){
         pathTo__parentLabel_childrenLabels.foreach{path__parentLabel_childrenLabels =>
           val path = path__parentLabel_childrenLabels._1
-          assert(labeledForest.path(labeledForest.id(path).get).get == path)
+          assert(labeledForest.path(labeledForest.id(path)) == path)
         }
-        val invalidId = pathTo__parentLabel_childrenLabels.keySet.map(x => labeledForest.id(x).get).max + 1
-        nonExistentPaths.foreach(x => assert(labeledForest.path(invalidId).isEmpty))
+        val invalidId = pathTo__parentLabel_childrenLabels.keySet.map(x => labeledForest.id(x)).max + 1
+        nonExistentPaths.foreach(x => assertThrows[Exception](labeledForest.path(invalidId)))
       }
+    }
+
+
+    describe("pathToId"){
+      //todo
     }
 
 
@@ -60,6 +55,11 @@ class LabeledForestSpec extends FunSpec {
       it("should return the paths of all nodes in the forest"){
         assert(labeledForest.paths == pathTo__parentLabel_childrenLabels.keys)
       }
+    }
+
+
+    describe("pathsSubtree"){
+      //todo
     }
 
 
@@ -75,8 +75,8 @@ class LabeledForestSpec extends FunSpec {
         pathTo__parentLabel_childrenLabels.foreach{path__parentLabel_childrenLabels =>
           val path = path__parentLabel_childrenLabels._1
           val relabeledLF = labeledForest.withLabel(path, nonExistentLabel)
-          assert(relabeledLF.get.children(path.slice(0, path.length - 1).:+(nonExistentLabel)).isDefined)
-          assert(relabeledLF.get.children(path).isEmpty)
+          relabeledLF.children(path.slice(0, path.length - 1).:+(nonExistentLabel))
+          assertThrows[Exception](relabeledLF.children(path))
         }
       }
       it("should transfer a node's children to the sibling and remove the node if both the node and a sibling with the label exist"){
@@ -86,13 +86,13 @@ class LabeledForestSpec extends FunSpec {
             val relabeledLF = labeledForest.withLabel(path, siblingPath.last)
             val childrenLabelsOriginalPath = pathTo__parentLabel_childrenLabels(path)._2
             val childrenLabelsOriginialSiblingPath = pathTo__parentLabel_childrenLabels(siblingPath)._2
-            assert(relabeledLF.get.children(siblingPath).contains(childrenLabelsOriginialSiblingPath ++ childrenLabelsOriginalPath))
-            assert(relabeledLF.get.children(path).isEmpty)
+            assert(relabeledLF.children(siblingPath) == childrenLabelsOriginialSiblingPath ++ childrenLabelsOriginalPath)
+            assertThrows[Exception](relabeledLF.children(path))
           }
         }
       }
-      it("should return None if the node does not exist"){
-        nonExistentPaths.foreach(x => assert(labeledForest.withLabel(x, nonExistentLabel).isEmpty))
+      it("should throw an exception if the node does not exist"){
+        nonExistentPaths.foreach(x => assertThrows[Exception](labeledForest.withLabel(x, nonExistentLabel)))
       }
     }
 
@@ -133,5 +133,40 @@ class LabeledForestSpec extends FunSpec {
       }
     }
 
+
+    describe("companion object"){
+
+      describe("apply with pathToId"){
+        it("should return a LabeledForest with the specified paths and corresponding ids"){
+          assert(LabeledForest(labeledForest.pathToId) == labeledForest)
+        }
+      }
+
+    }
+
   }
+}
+
+object LabeledForestSpec {
+
+  trait LabeledForestTestData {
+    type N = Int
+    val pathsToLeaves = Set(Seq(0), Seq(1, 2), Seq(3, 4, 5), Seq(3, 4, 6), Seq(3, 7))
+    val pathTo__parentLabel_childrenLabels = Map(
+      Seq(0) -> (None, Set()),
+      Seq(1) -> (None, Set(2)),
+      Seq(1, 2) -> (Some(1), Set()),
+      Seq(3) -> (None, Set(4, 7)),
+      Seq(3, 4) -> (Some(3), Set(5, 6)),
+      Seq(3, 4, 5) -> (Some(4), Set()),
+      Seq(3, 4, 6) -> (Some(4), Set()),
+      Seq(3, 7) -> (Some(3), Set()),
+    )
+    val paths: Iterable[Seq[Int]] = pathTo__parentLabel_childrenLabels.keys
+    val rootLabels = Set(0, 1, 3)
+    val validNonExistentPaths = Seq(Seq(8), Seq(0, 0), Seq(0, 1), Seq(2), Seq(1, 1), Seq(2, 1), Seq(2, 2), Seq(1, 2, 1), Seq(1, 2, 2), Seq(1, 2, 0))
+    val nonExistentPaths: Seq[Seq[Int]] = validNonExistentPaths.++(Seq())
+    val nonExistentLabel: Int = -1
+  }
+
 }

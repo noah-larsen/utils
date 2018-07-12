@@ -2,33 +2,51 @@ package connectedForests
 
 import connectedForests.LabeledForest.LabeledTreeNode
 
-class LabeledForest[N] private(
-                                private val idToNode: Map[Long, LabeledTreeNode[N]],
-                                private val labelToRootId: Map[N, Long]
-                              ) {
+import scala.util.Try
+
+case class LabeledForest[N] private(
+                                     private val idToNode: Map[Long, LabeledTreeNode[N]],
+                                     private val labelToRootId: Map[N, Long]
+                                   ) {
 
   def this(){
     this(Map(), Map())
   }
 
 
-  def children(path: Seq[N]): Option[Set[N]] = {
-    id(path).map(idToNode(_).labelToChildId.keySet)
+  def children(path: Seq[N]): Set[N] = {
+    idToNode(id(path)).labelToChildId.keySet
   }
 
 
-  def id(path: Seq[N]): Option[Long] = {
-    path.headOption.map(x => path.tail.foldLeft(labelToRootId.get(x))((y, z) => y.map(idToNode(_).labelToChildId.get(z)).getOrElse(None))).getOrElse(None)
+  def id(path: Seq[N]): Long = {
+    path.tail.foldLeft(labelToRootId(path.head))((x, y) => idToNode(x).labelToChildId(y))
   }
 
 
-  def path(id: Long): Option[Seq[N]] = {
-    idToNode.get(id).map(x => x.parentId.map(y => path(y).get.:+(x.label)).getOrElse(Seq(x.label)))
+  def idsSubtree(path: Seq[N]): Set[Long] = {
+    idsSubtree(id(path))
+  }
+
+
+  def path(id: Long): Seq[N] = {
+    val node = idToNode(id)
+    node.parentId.map(y => path(y).:+(node.label)).getOrElse(Seq(node.label))
+  }
+
+
+  def pathToId: Map[Seq[N], Long] = {
+    paths.map(x => (x, id(x))).toMap
   }
 
 
   def paths: Set[Seq[N]] = {
-    idToNode.keys.map(path(_).get).toSet
+    idToNode.keys.map(path).toSet
+  }
+
+
+  def pathsSubtree(path: Seq[N]): Set[Seq[N]] = {
+    idsSubtree(path).map(this.path)
   }
 
 
@@ -37,7 +55,7 @@ class LabeledForest[N] private(
   }
 
 
-  def withLabel(path: Seq[N], label: N): Option[LabeledForest[N]] = {
+  def withLabel(path: Seq[N], label: N): LabeledForest[N] = {
 
     def copyChildren(idToNode: Map[Long, LabeledTreeNode[N]], from: Long, to: Long): Map[Long, LabeledTreeNode[N]] = {
       idToNode.+(to -> idToNode(to).addChildren(idToNode(from).labelToChildId))
@@ -59,71 +77,91 @@ class LabeledForest[N] private(
     }
 
 
-    def siblingId(path: Seq[N], label: N): Option[Long] = {
+    def siblingId(path: Seq[N], label: N): Long = {
       id(path.slice(0, path.length - 1).:+(label))
     }
 
-    id(path).map(idNodeToRelabel =>
-      siblingId(path, label)
-        .map(x => new LabeledForest[N](
-          LabeledForest.withoutNode(copyChildren(idToNode, idNodeToRelabel, x), idNodeToRelabel),
-          LabeledForest.withoutNode(labelToRootId, idToNode(idNodeToRelabel))
-        ))
-        .getOrElse(new LabeledForest[N](relabelIdToNode(idToNode, idNodeToRelabel, label), relabelLabelToRootId(labelToRootId, idNodeToRelabel, label))))
+    val idNodeToRelabel = id(path)
+    Try(siblingId(path, label))
+      .map(x => new LabeledForest[N](
+        LabeledForest.withoutNode(copyChildren(idToNode, idNodeToRelabel, x), idNodeToRelabel),
+        LabeledForest.withoutNode(labelToRootId, idToNode(idNodeToRelabel))
+      ))
+      .getOrElse(new LabeledForest[N](relabelIdToNode(idToNode, idNodeToRelabel, label), relabelLabelToRootId(labelToRootId, idNodeToRelabel, label)))
 
   }
 
 
   def withPath(path: Seq[N]): LabeledForest[N] = {
-    def subpaths(path: Seq[N]): Seq[Seq[N]] = {
-      path.zipWithIndex.map(x => path.take(x._2 + 1))
-    }
-    subpaths(path).foldLeft((this, None: Option[Long])){(labeledForest_parentId, subPath) =>
-      val labeledForest = labeledForest_parentId._1
-      val parentId = labeledForest_parentId._2
-      val id = parentId.map(labeledForest.idToNode(_).labelToChildId).getOrElse(labeledForest.labelToRootId).get(subPath.last)
-      val labeledForestWithSubpath = id.map(_ => labeledForest).getOrElse(
-        new LabeledForest[N](
-          parentId.map(x => labeledForest.idToNode.+(x -> labeledForest.idToNode(x).addChild(subPath.last, labeledForest.nextId))).getOrElse(labeledForest.idToNode)
-            .+(labeledForest.nextId -> LabeledTreeNode(subPath.last, parentId, Map())),
-          parentId.map(_ => labeledForest.labelToRootId).getOrElse(labeledForest.labelToRootId.+(subPath.last -> id.getOrElse(labeledForest.nextId)))
-        )
-      )
-      (labeledForestWithSubpath, id.orElse(Some(labeledForest.nextId)))
-    }._1
+    withPath(path, Map())
   }
 
 
-  def withPaths(paths: Traversable[Seq[N]]): LabeledForest[N] = {
+  def withPaths(paths: Iterable[Seq[N]]): LabeledForest[N] = {
     paths.foldLeft(this)((x, y) => x.withPath(y))
   }
 
 
   def withoutSubtree(path: Seq[N]): LabeledForest[N] = {
-    def idsSubtree(idToNode: Map[Long, LabeledTreeNode[N]], rootId: Long): Set[Long] = {
-      idToNode.get(rootId).map(_.labelToChildId.values.foldLeft(Set(rootId))((x, y) => x.++(idsSubtree(idToNode, y)))).getOrElse(Set())
-    }
-    id(path).map { rootId =>
-      new LabeledForest[N](
-        LabeledForest.withoutNode(idToNode, rootId).--(idsSubtree(idToNode, rootId)),
-        LabeledForest.withoutNode(labelToRootId, idToNode(rootId))
-      )
-    }.getOrElse(this)
+    val rootId = id(path)
+    new LabeledForest[N](
+      LabeledForest.withoutNode(idToNode, rootId).--(idsSubtree(rootId)),
+      LabeledForest.withoutNode(labelToRootId, idToNode(rootId))
+    )
   }
 
 
-  private def nextId: Long = {
-    Some(idToNode.keys).filter(_.nonEmpty)
-      .map(_.max + 1)
-      .getOrElse(0)
+  private def idsSubtree(rootId: Long): Set[Long] = {
+    idToNode.get(rootId).map(_.labelToChildId.values.foldLeft(Set(rootId))((x, y) => x.++(idsSubtree(y)))).getOrElse(Set())
+  }
+
+
+  private def withPath(path: Seq[N], subPathToId: Map[Seq[N], Long]): LabeledForest[N] = {
+
+    def subpaths(path: Seq[N]): Seq[Seq[N]] = {
+      path.zipWithIndex.map(x => path.take(x._2 + 1))
+    }
+
+
+    def nextId(labeledForest: LabeledForest[N]): Long = {
+      Some(labeledForest.idToNode.keys).filter(_.nonEmpty)
+        .map(_.max + 1)
+        .getOrElse(0)
+    }
+
+
+    subpaths(path).foldLeft((this, None: Option[Long])){(labeledForest_parentId, subPath) =>
+      val labeledForest = labeledForest_parentId._1
+      val parentId = labeledForest_parentId._2
+      val id = parentId.map(labeledForest.idToNode(_).labelToChildId).getOrElse(labeledForest.labelToRootId).get(subPath.last)
+
+
+      val subPathId = subPathToId.getOrElse(subPath, nextId(labeledForest))
+
+
+      val labeledForestWithSubpath = id.map(_ => labeledForest).getOrElse(
+        new LabeledForest[N](
+          parentId.map(x => labeledForest.idToNode.+(x -> labeledForest.idToNode(x).addChild(subPath.last, subPathId))).getOrElse(labeledForest.idToNode)
+            .+(subPathId -> LabeledTreeNode(subPath.last, parentId, Map())),
+          parentId.map(_ => labeledForest.labelToRootId).getOrElse(labeledForest.labelToRootId.+(subPath.last -> id.getOrElse(subPathId)))
+        )
+      )
+      (labeledForestWithSubpath, id.orElse(Some(subPathId)))
+    }._1
+
   }
 
 }
 
 object LabeledForest {
 
-  def apply[N](paths: Set[Seq[N]] = Set[Seq[N]]()): LabeledForest[N] = {
+  def apply[N](paths: Iterable[Seq[N]] = Iterable[Seq[N]]()): LabeledForest[N] = {
     new LabeledForest().withPaths(paths)
+  }
+
+
+  def apply[N](pathToId: Map[Seq[N], Long]): LabeledForest[N] = {
+    pathToId.foldLeft(LabeledForest[N]())((x, y) => x.withPath(y._1, pathToId))
   }
 
 
@@ -137,7 +175,7 @@ object LabeledForest {
   }
 
 
-  private case class LabeledTreeNode[N](
+  private[connectedForests] case class LabeledTreeNode[N](
                                          label: N,
                                          parentId: Option[Long],
                                          labelToChildId: Map[N, Long]
@@ -170,7 +208,3 @@ object LabeledForest {
   }
 
 }
-
-
-
-
