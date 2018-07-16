@@ -5,7 +5,7 @@ import utils.commands.{Command, Commands, Parameter}
 object TableCommands extends Commands {
 
   override type CommandType = TableCommand
-  sealed abstract case class TableCommand(name: String, parameters: Seq[Parameter] = Seq()) extends Command
+  sealed abstract class TableCommand(name: String) extends Command(name)
   object RenameFields extends TableCommand("r")
   object ViewRenamings extends TableCommand("v")
   object Save extends TableCommand("s")

@@ -110,9 +110,7 @@ object Driver extends App {
       val commandInvocation = TableCommands.promptUntilParsed()
       commandInvocation.command match {
         case TableCommands.RenameFields => table(consoleRenamer.iterate)
-        case TableCommands.ViewRenamings =>
-          consoleRenamer.viewRenamings()
-          table(consoleRenamer)
+        case TableCommands.ViewRenamings => table(consoleRenamer.viewRenamings())
         case TableCommands.Save =>
           val withRegistrationDates = saveWithRegistrationDates(consoleRenamer.renaming)
           withRegistrationDates.failed.foreach(x => println(x.getMessage))

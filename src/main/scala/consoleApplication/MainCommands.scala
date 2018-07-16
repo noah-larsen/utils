@@ -5,7 +5,7 @@ import utils.commands.{Command, Commands, Parameter}
 object MainCommands extends Commands {
 
   override type CommandType = MainCommand
-  sealed abstract case class MainCommand(name: String, parameters: Seq[Parameter] = Seq()) extends Command
+  sealed abstract class MainCommand(name: String, parameters: Seq[Parameter] = Seq()) extends Command(name, parameters)
 
   object Load extends MainCommand("l", Seq(Parameter("sourceSystem"), Parameter("tableName"))) with ParameterizedBySourceSystemAndTableName
   object WriteOnceToDataDictionary extends MainCommand("w", Seq(Parameter("sourceSystem"), Parameter("tableName"))) with ParameterizedBySourceSystemAndTableName

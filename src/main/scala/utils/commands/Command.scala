@@ -1,12 +1,9 @@
 package utils.commands
 
-trait Command {
-
-  def name: String
-
-
-  def parameters: Seq[Parameter]
-
+abstract class Command(
+                        val name: String,
+                        val parameters: Seq[Parameter] = Seq()
+                      ) {
 
   def description: String = {
     descriptionFromClassName
