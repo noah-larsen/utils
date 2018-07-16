@@ -109,7 +109,7 @@ object Driver extends App {
 
       val commandInvocation = TableCommands.promptUntilParsed()
       commandInvocation.command match {
-        case TableCommands.IterateUnnamedFields => table(consoleRenamer.iterate)
+        case TableCommands.RenameFields => table(consoleRenamer.iterate)
         case TableCommands.ViewRenamings =>
           consoleRenamer.viewRenamings()
           table(consoleRenamer)
