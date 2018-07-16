@@ -9,9 +9,8 @@ import dataDictionary.ObjectRow.Frequencies.Frequency
 import dataDictionary.ObjectRow.LoadingTypes.LoadingType
 import dataDictionary.ObjectRow.StorageTypes.StorageType
 import dataDictionary.ObjectRow.StorageZones.StorageZone
-import dataDictionary.ObjectRow._
-import utils.Enumerated
-import utils.Enumerated.EnumeratedType
+import utils.enumerated.Enumerated
+import utils.enumerated.Enumerated.EnumeratedType
 
 case class ObjectRow(
                       countryTheDataSource: Country,

@@ -1,18 +1,31 @@
 package us.alnova
 
+import dataDictionary.FieldEntry.DefaultValues
 import dataDictionary.FieldEntry.FieldRowBooleans.Yes
 import dataDictionary.ObjectRow.Countries
-import dataDictionary.{FieldEntriesObject, FieldEntry, PhysicalNameObject}
+import dataDictionary.types.DB2Types
+import dataDictionary.types.DB2Types.DB2Type
+import dataDictionary.{FieldEntriesObject, FieldEntry, PhysicalNameObject, Type}
 import general.DataHubException
 import googleSpreadsheets._
-import utils.Enumerated
-import utils.Enumerated.EnumeratedType
+import utils.enumerated.Enumerated
+import utils.enumerated.Enumerated.EnumeratedType
 
 import scala.util.{Failure, Try}
 
 object AlnovaTableLayouts {
 
   def fieldEntriesObject(physicalNameObject: PhysicalNameObject): Option[Try[FieldEntriesObject]] = {
+
+    def db2Type(dB2Type: DB2Type, length: Int): Option[Type[DB2Type]] = {
+      dB2Type match {
+        case DB2Types.Decimal => None
+        case DB2Types.Float => None
+        case x if x == DB2Types.Char => Some(Type(x, Some(length)))
+        case x => Some(Type(x))
+      }
+    }
+
     AlnovaSourceSystems.withName(physicalNameObject.sourceSystem).map{ _ =>
       GoogleSpreadsheet(alnovaTableLayoutsGSId).flatMap(_.get(ATLRow).flatMap{ atlRows =>
         Try(atlRows.filter(_.tableName.equalsIgnoreCase(physicalNameObject.dataName)).sortBy(_.columnNumber.toInt))
@@ -22,9 +35,10 @@ object AlnovaTableLayouts {
             FieldEntry(
               physicalNameObject = Some(physicalNameObject.string),
               logicalNameField = Some(atlRow.description).filter(_.trim.nonEmpty),
+              logicalFormat = DB2Types.withName(atlRow.type_).flatMap(db2Type(_, atlRow.length.toInt).flatMap(_.logicalFormat.map(_.string))),
+              defaultValue = Some(Unit).filter(_ => atlRow.areNullsAllowed).map(_ => DefaultValues.null_),
               sourceField = Some(atlRow.fieldName),
               fieldPositionInTheObject = Some(Some(fieldPositionInTheObject))
-              //todo
             )
           })
           .map(FieldEntriesObject(_)
@@ -43,12 +57,12 @@ object AlnovaTableLayouts {
     override type T = AlnovaSourceSystem
     case class AlnovaSourceSystem(name: String) extends EnumeratedType
 
-    object Cif extends AlnovaSourceSystem("cif")
+    object AlnovaCif extends AlnovaSourceSystem("aln_cif")
     object AlnovaDeposits extends AlnovaSourceSystem("aln_deposits")
     object AlnovaLoans extends AlnovaSourceSystem("aln_loans")
 
 
-    override val values = Seq(Cif, AlnovaDeposits, AlnovaLoans)
+    override val values = Seq(AlnovaCif, AlnovaDeposits, AlnovaLoans)
 
   }
 

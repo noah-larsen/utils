@@ -1,12 +1,13 @@
-package renaming.consoleApplication
+package consoleApplication
 
 import java.io.File
 
 import com.typesafe.config.ConfigFactory
 import dataDictionary.ObjectRow.Countries
 import dataDictionary.ObjectRow.Countries.Country
-import renaming.consoleApplication.Configuration.ConfigParameters._
-import renaming.consoleApplication.ConsoleRenamer.Languages
+import consoleApplication.Configuration.ConfigParameters._
+import consoleApplication.ConsoleRenamer.Languages
+import consoleApplication.ConsoleRenamer.Languages.Language
 
 import scala.util.Try
 import collection.JavaConverters._
@@ -17,7 +18,7 @@ case class Configuration(
                           workDocumentId: String,
                           sourceSystemToDataDictionaryId: Map[String, String],
                           applicationId: String,
-                          language: Languages.Value,
+                          language: Language,
                           country: Country
                         ) {
 
@@ -32,14 +33,14 @@ object Configuration {
       config.getString(WorkDocumentId.name),
       config.getObject(SourceSystemToDataDictionaryId.name).unwrapped().asScala.toMap.asInstanceOf[Map[String, String]],
       config.getString(ApplicationId.name),
-      Languages.withName(config.getString(Language.name)),
-      Countries.withName(config.getString(ConfigParameters.Country.name)).get
+      Languages.withName(config.getString(ConfigParameters.Language.name)).get, //todo error handling
+      Countries.withName(config.getString(ConfigParameters.Country.name)).get //todo error handling
     ))
   }
 
 
   object ConfigParameters {
-    sealed class ConfigParameter(val name: String)
+    sealed abstract class ConfigParameter(val name: String)
     case object WorkDataDictionaryId extends ConfigParameter("workDataDictionaryId")
     case object WorkDocumentId extends ConfigParameter("workDocumentId")
     case object SourceSystemToDataDictionaryId extends ConfigParameter("sourceSystemToDataDictionaryId")

@@ -1,11 +1,11 @@
-package utils
+package utils.commands
 
-trait AbstractCommand {
+trait Command {
 
   def name: String
 
 
-  def parameters: Seq[String]
+  def parameters: Seq[Parameter]
 
 
   def description: String = {
@@ -14,7 +14,10 @@ trait AbstractCommand {
 
 
   def usage: String = {
-    s"$name - $description${parameters.headOption.map(_ => ": " + parameters.mkString(" ")).getOrElse(new String)}"
+    val descriptionParametersSeparator = ": "
+    val parametersSeparator = " "
+    val listParameterSuffix = " ..."
+    s"$name - $description${parameters.headOption.map(_ => descriptionParametersSeparator + parameters.map(x => x.name + (if(x.isList) listParameterSuffix else new String)).mkString(parametersSeparator)).getOrElse(new String)}"
   }
 
 

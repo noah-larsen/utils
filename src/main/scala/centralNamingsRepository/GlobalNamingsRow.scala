@@ -2,7 +2,8 @@ package centralNamingsRepository
 
 import googleSpreadsheets.{DataReader, Row, SheetRange}
 import renaming.ApprovedName
-import renaming.consoleApplication.ConsoleRenamer.Languages
+import consoleApplication.ConsoleRenamer.Languages
+import consoleApplication.ConsoleRenamer.Languages.Language
 
 case class GlobalNamingsRow(
                                                                termCode: String,
@@ -22,27 +23,7 @@ case class GlobalNamingsRow(
                                                                relatedFields: String,
                                                                dateLastModification: String
                                                                //todo
-                                                             ) extends Row with ApprovedName{
-
-  override def name: String = {
-    globalNamingField
-  }
-
-
-  override def logicalName(implicit language: Languages.Value): String = {
-    language match {
-      case Languages.english => logicalNameTheFieldEnglish
-      case Languages.spanish => logicalNameTheFieldSpanish
-    }
-  }
-
-
-  override def description(implicit language: Languages.Value): String = {
-    language match {
-      case Languages.english => fieldDescriptionEnglish
-      case Languages.spanish => fieldDescriptionSpanish
-    }
-  }
+                                                             ) extends Row {
 
 }
 

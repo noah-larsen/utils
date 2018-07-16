@@ -10,7 +10,19 @@ private[alnova] case class ATLRow(
                            length: String,
                            nullsAllowed: String,
                            description: String
-                         ) extends Row
+                         ) extends Row{
+
+  def areNullsAllowed: Boolean = {
+    //todo error handling, although this is all temporary
+    val nullsAllowedString = "Y"
+    val nullsNotAllowedString = "N"
+    nullsAllowed match {
+      case `nullsAllowedString` => true
+      case `nullsNotAllowedString` => false
+    }
+  }
+
+}
 
 private[alnova] object ATLRow extends DataReader[ATLRow] {
 

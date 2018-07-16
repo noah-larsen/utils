@@ -1,8 +1,17 @@
 package renaming
 
-case class Name(name: String) {
+trait Name {
 
-  lazy val normalizedSubstrings: Seq[String] = {
+  def name: String
+
+
+  lazy val normalizedSubstrings: Seq[String] = Name.normalizedSubstrings(name)
+
+}
+
+object Name {
+
+  def normalizedSubstrings(name: String): Seq[String] = {
     val separator = "_"
     name.split(separator).map(_.toLowerCase)
   }

@@ -65,18 +65,13 @@ object WorkDocumentEntriesObject {
       WorkDocumentEntry(
         columnRank = Some(fieldEntriesObject.fieldEntries.indexOf(fieldEntry) + 1),
         registrationDate = fieldEntry.registrationDate.filter(_ => preserveRegistrationDates),
-        status = fieldEntry match {
-          case x if x.isFreeField => Some(Statuses.NotUsed)
-          case x if x.physicalNameField.exists(globalNameSet.contains) => Some(Statuses.ExistsInGlobalRepo)
-          case x if x.physicalNameField.isDefined => Some(Statuses.PendingLocalArchitecture)
-          case _ => None
-        },
+        status = Some(Statuses.PendingDataModeler),
         sourceOrigin = fieldEntry.sourceOrigin.getOrElse(new String).toUpperCase,
         table = fieldEntry.physicalNameObject.getOrElse(new String),
         sourceField = fieldEntry.sourceField.getOrElse(new String),
         logicFormat = fieldEntry.format.getOrElse(new String),
         fieldDescription = fieldEntry.logicalNameField.map(_ + fieldEntry.simpleFieldDescription.map(logicalNameDescriptionSeparator + _).getOrElse(new String)).getOrElse(fieldEntry.simpleFieldDescription.getOrElse(new String)),
-        usedYN = if(fieldEntry.isFreeField) usedYN_NValue else usedYN_YValue,
+        usedYN = fieldEntry.isFreeField.map(if(_) usedYN_NValue else usedYN_YValue).getOrElse(new String),
         dataModelerComments = new String,
         globalArchitectureComments = new String,
         localArchitectureComments = new String,

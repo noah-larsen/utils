@@ -1,8 +1,8 @@
 package googleSpreadsheets
 
 import googleSpreadsheets.DataReaderWriter.{AbstractColumn, AbstractColumns}
-import utils.Enumerated
-import utils.Enumerated.EnumeratedType
+import utils.enumerated.Enumerated
+import utils.enumerated.Enumerated.EnumeratedType
 
 trait DataReaderWriter[T <: Row] extends DataReader[T] {
 

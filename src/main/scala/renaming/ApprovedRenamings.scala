@@ -26,7 +26,7 @@ case class ApprovedRenamings(originalAndRenamedNames: Seq[(String, String)]) {
     }
 
 
-    originalAndRenamedNames.flatMap(x => nonTrivialInferableSubstringMatches(Name(x._1).normalizedSubstrings, Name(x._2).normalizedSubstrings)).groupBy(_._1).mapValues(_.map(_._2).groupBy(x => x).mapValues(_.length))
+    originalAndRenamedNames.flatMap(x => nonTrivialInferableSubstringMatches(Name.normalizedSubstrings(x._1), Name.normalizedSubstrings(x._2))).groupBy(_._1).mapValues(_.map(_._2).groupBy(x => x).mapValues(_.length))
 
   }
 

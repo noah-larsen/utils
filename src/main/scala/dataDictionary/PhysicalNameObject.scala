@@ -1,8 +1,8 @@
 package dataDictionary
 
 import dataDictionary.PhysicalNameObject.SourceTypes.SourceType
-import utils.Enumerated
-import utils.Enumerated.EnumeratedType
+import utils.enumerated.Enumerated
+import utils.enumerated.Enumerated.EnumeratedType
 
 case class PhysicalNameObject(
                                sourceType: SourceType,

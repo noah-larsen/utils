@@ -11,8 +11,8 @@ import dataDictionary.ObjectRow.Countries.Country
 import dataDictionary.ObjectRow.StorageTypes.StorageType
 import dataDictionary.ObjectRow.StorageZones.StorageZone
 import googleSpreadsheets.{DataReaderWriter, Row, SheetRange}
-import utils.Enumerated
-import utils.Enumerated.EnumeratedType
+import utils.enumerated.Enumerated
+import utils.enumerated.Enumerated.EnumeratedType
 
 import scala.util.Try
 
@@ -86,9 +86,9 @@ case class FieldEntry(
   }
 
 
-  def isFreeField: Boolean = {
+  def isFreeField: Option[Boolean] = {
     val freeFieldPrefix = "free_field"
-    physicalNameField.exists(_.startsWith(freeFieldPrefix))
+    physicalNameField.map(_.startsWith(freeFieldPrefix))
   }
 
 

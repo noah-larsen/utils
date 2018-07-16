@@ -1,6 +1,6 @@
-package utils
+package utils.enumerated
 
-import utils.Enumerated.EnumeratedType
+import utils.enumerated.Enumerated.EnumeratedType
 
 trait Enumerated {
 

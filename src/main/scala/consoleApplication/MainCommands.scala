@@ -1,0 +1,23 @@
+package consoleApplication
+
+import utils.commands.{Command, Commands, Parameter}
+
+object MainCommands extends Commands {
+
+  override type CommandType = MainCommand
+  sealed abstract case class MainCommand(name: String, parameters: Seq[Parameter] = Seq()) extends Command
+
+  object Load extends MainCommand("l", Seq(Parameter("sourceSystem"), Parameter("tableName"))) with ParameterizedBySourceSystemAndTableName
+  object WriteOnceToDataDictionary extends MainCommand("w", Seq(Parameter("sourceSystem"), Parameter("tableName"))) with ParameterizedBySourceSystemAndTableName
+  object Quit extends MainCommand("q")
+
+
+  override protected def commands: Seq[CommandType] = Seq(Load, WriteOnceToDataDictionary, Quit)
+
+
+  trait ParameterizedBySourceSystemAndTableName {
+    def sourceSystem(arguments: Seq[String]): String = arguments.head
+    def dataName(arguments: Seq[String]): String = arguments(1)
+  }
+
+}

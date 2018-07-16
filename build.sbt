@@ -10,4 +10,5 @@ libraryDependencies += "com.google.apis" % "google-api-services-sheets" % "v4-re
 libraryDependencies += "info.debatty" % "java-string-similarity" % "1.1.0"
 libraryDependencies += "org.rogach" %% "scallop" % "3.1.2"
 libraryDependencies += "com.typesafe" % "config" % "1.3.2"
-
+libraryDependencies += "org.apache.lucene" % "lucene-core" % "7.4.0"
+libraryDependencies += "org.apache.lucene" % "lucene-queryparser" % "7.4.0"

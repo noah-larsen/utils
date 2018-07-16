@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter
 import dataDictionary.FieldEntry
 import googleSpreadsheets.DataReaderWriter.{AbstractColumn, AbstractColumns}
 import googleSpreadsheets.{DataReaderWriter, Row, SheetRange}
-import utils.Enumerated
-import utils.Enumerated.EnumeratedType
+import utils.enumerated.Enumerated
+import utils.enumerated.Enumerated.EnumeratedType
 import workDocument.WorkDocumentEntry.Statuses.Status
 import workDocument.WorkDocumentEntry.ValidatedValues.ValidatedValue
 import workDocument.WorkDocumentEntry.{Statuses, ValidatedValues}
@@ -58,7 +58,7 @@ object WorkDocumentEntry extends DataReaderWriter[WorkDocumentEntry] {
   object Statuses extends Enumerated {
     
     override type T = Status
-    sealed case class Status(name: String) extends EnumeratedType
+    sealed abstract case class Status(name: String) extends EnumeratedType
     
     object RegisteredInTheCentralRepository extends Status("Registered in the Central Repository")
     object PendingDataModeler extends Status("Pending Data Modeler")
@@ -68,7 +68,9 @@ object WorkDocumentEntry extends DataReaderWriter[WorkDocumentEntry] {
     object ExistsInGlobalRepo extends Status("Exists in Global Repo")
     object NotUsed extends Status("Not Used")
 
+
     override val values = Seq(RegisteredInTheCentralRepository, PendingDataModeler, PendingLocalArchitecture, PendingGlobalArchitecutre, RuledOut, ExistsInGlobalRepo, NotUsed)
+
   }
 
 
