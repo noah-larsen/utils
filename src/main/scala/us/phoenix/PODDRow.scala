@@ -3,12 +3,12 @@ package us.phoenix
 import googleSpreadsheets.{DataReader, Row, SheetRange}
 
 private[phoenix] case class PODDRow(
-                    tableName: String,
-                    columnName: String,
-                    nullOption: String,
-                    dataType: String,
-                    comment: String
-                  ) extends Row {
+                                     tableName: String,
+                                     columnName: String,
+                                     dataType: String,
+                                     nullable: String,
+                                     comments: String
+                                   ) extends Row {
 
   def description: String = {
     logicalName_description._2
@@ -22,7 +22,7 @@ private[phoenix] case class PODDRow(
 
   private def logicalName_description: (String, String) = {
     val logicalNameDescriptionCommentSeparator = ":"
-    Some(comment.indexOf(logicalNameDescriptionCommentSeparator)).filter(_ != -1).map(x => (comment.substring(0, x), comment.substring(x).tail)).orElse(Some((new String, comment))).map(x => (x._1.trim, x._2.trim)).get
+    Some(comments.indexOf(logicalNameDescriptionCommentSeparator)).filter(_ != -1).map(x => (comments.substring(0, x), comments.substring(x).tail)).orElse(Some((new String, comments))).map(x => (x._1.trim, x._2.trim)).get
   }
 
 }

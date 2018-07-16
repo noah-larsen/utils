@@ -12,7 +12,7 @@ import us.alnova.AlnovaTableLayouts.alnovaTableLayoutsGSId
 
 import scala.util.{Failure, Try}
 
-object PhoenixOwnerDataDictionary {
+object PhoenixDataDictionary {
 
   def fieldEntriesObject(physicalNameObject: PhysicalNameObject): Option[Try[FieldEntriesObject]] = {
     Some(Unit).filter(_ => physicalNameObject.sourceSystem.equals(phoenixSourceSystem)).map(_ =>
@@ -23,7 +23,7 @@ object PhoenixOwnerDataDictionary {
             logicalNameField = Some(poddRow.logicalName).filter(_.nonEmpty),
             simpleFieldDescription = Some(poddRow.description).filter(_.nonEmpty),
             logicalFormat = Type(poddRow.dataType, OracleTypes).flatMap(_.logicalFormat.map(_.string)),
-            defaultValue = Some(poddRow.nullOption).filter(_.trim.equalsIgnoreCase(nullOptionNullValue)).map(_ => DefaultValues.null_),
+            defaultValue = Some(poddRow.nullable).filter(_.trim.equalsIgnoreCase(nullableIsNullableValue)).map(_ => DefaultValues.null_),
             sourceField = Some(poddRow.columnName)
           )
         )).filter(_.nonEmpty).recoverWith{case e: Exception => Failure(DataHubException(s"No entries for table ${physicalNameObject.dataName} in alnova table layouts"))}
@@ -39,8 +39,8 @@ object PhoenixOwnerDataDictionary {
   }
 
 
-  private val phoenixOwnerDataDictionaryGSId = "1qf3svMM2OQNgifC43lJpRgQxhW17rk2L6qgdS_kbpVQ"
+  private val phoenixOwnerDataDictionaryGSId = "1n7mqabYfD7ZHDH85KIFRqQWrj5z97Vvyi1PXOtoSmU0"
   private val phoenixSourceSystem = "phx"
-  private val nullOptionNullValue = "Null"
+  private val nullableIsNullableValue = "Y"
 
 }

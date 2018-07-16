@@ -62,9 +62,13 @@ case class ConsoleRenamer(
   }
 
 
-  def viewRenamings(): Unit = {
-    val header = Seq("Source", "Renamed To")
-    println(display(renaming.fieldEntries.map(x => Seq(x.sourceField.getOrElse(new String), x.physicalNameField.getOrElse(new String))), header))
+  def viewRenamings(): ConsoleRenamer = {
+    val header = Seq(" " * (renaming.fieldEntries.length.toString.length + 1), "Source", "Renamed To")
+    println(display(renaming.fieldEntries.zipWithIndex.map(x => Seq((x._2 + 1).toString, x._1.sourceField.getOrElse(new String), x._1.physicalNameField.getOrElse(new String))), header))
+    val commandInvokation = ViewRenamingsCommands.promptUntilParsed()
+    commandInvokation.command match {
+      case ViewRenamingsCommands.Back => this
+    }
   }
 
 
@@ -121,7 +125,7 @@ case class ConsoleRenamer(
   private object RenameCommands extends Commands {
 
     override type CommandType = RenameCommand
-    sealed abstract case class RenameCommand(name: String, parameters: Seq[Parameter] = Seq()) extends Command
+    sealed abstract class RenameCommand(name: String, parameters: Seq[Parameter] = Seq()) extends Command(name, parameters)
 
     object Search extends RenameCommand("s", Seq(Parameter("terms", isList = true)))
     object EnterNameManually extends RenameCommand("e", Seq(Parameter("name")))
@@ -130,6 +134,19 @@ case class ConsoleRenamer(
 
 
     override protected def commands: Seq[CommandType] = Seq(Search, EnterNameManually, Pass, GoBackToTableMenu)
+
+  }
+
+
+  private object ViewRenamingsCommands extends Commands {
+
+    override type CommandType = ViewRenamingsCommand
+    sealed abstract class ViewRenamingsCommand(name: String) extends Command(name)
+
+    object Back extends ViewRenamingsCommand("b")
+
+
+    override protected def commands = Seq(Back)
 
   }
 
