@@ -1,7 +1,5 @@
 package utils.enumerated
 
-import utils.enumerated.Enumerated.EnumeratedType
-
 trait Enumerated {
 
   type T <: EnumeratedType
@@ -13,18 +11,8 @@ trait Enumerated {
   }
 
 
-  def withName(name: String): Option[T] = {
-    values.find(_.name.equalsIgnoreCase(name))
-  }
-
-}
-
-object Enumerated {
-
-  trait EnumeratedType {
-
-    def name: String
-
+  def withName(name: String, ignoreCase: Boolean = true): Option[T] = {
+    values.find(x => if(ignoreCase) x.name.equalsIgnoreCase(name) else x.name == name)
   }
 
 }

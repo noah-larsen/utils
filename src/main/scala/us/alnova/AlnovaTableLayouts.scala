@@ -9,7 +9,9 @@ import dataDictionary.{FieldEntriesObject, FieldEntry, PhysicalNameObject, Type}
 import general.DataHubException
 import googleSpreadsheets._
 import utils.enumerated.Enumerated
-import utils.enumerated.Enumerated.EnumeratedType
+import utils.enumerated.EnumeratedType
+import utils.enumerated.EnumeratedType.NameFormats.CaseFormats.Lowercase
+import utils.enumerated.EnumeratedType.NameFormats.ObjectNameWithUnderscoresBetweenWords
 
 import scala.util.{Failure, Try}
 
@@ -55,14 +57,14 @@ object AlnovaTableLayouts {
   private object AlnovaSourceSystems extends Enumerated {
 
     override type T = AlnovaSourceSystem
-    case class AlnovaSourceSystem(name: String) extends EnumeratedType
+    sealed abstract class AlnovaSourceSystem extends EnumeratedType(ObjectNameWithUnderscoresBetweenWords(Lowercase))
 
-    object AlnovaCif extends AlnovaSourceSystem("aln_cif")
-    object AlnovaDeposits extends AlnovaSourceSystem("aln_deposits")
-    object AlnovaLoans extends AlnovaSourceSystem("aln_loans")
+    object AlnCif extends AlnovaSourceSystem
+    object AlnDeposits extends AlnovaSourceSystem
+    object AlnLoans extends AlnovaSourceSystem
 
 
-    override val values = Seq(AlnovaCif, AlnovaDeposits, AlnovaLoans)
+    override val values = Seq(AlnCif, AlnDeposits, AlnLoans)
 
   }
 

@@ -2,7 +2,7 @@ package googleSpreadsheets
 
 import googleSpreadsheets.DataReaderWriter.{AbstractColumn, AbstractColumns}
 import utils.enumerated.Enumerated
-import utils.enumerated.Enumerated.EnumeratedType
+import utils.enumerated.EnumeratedType
 
 trait DataReaderWriter[T <: Row] extends DataReader[T] {
 

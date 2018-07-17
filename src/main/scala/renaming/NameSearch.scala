@@ -11,7 +11,7 @@ import org.apache.lucene.search.{IndexSearcher, MatchNoDocsQuery, Query}
 import org.apache.lucene.store.RAMDirectory
 import renaming.NameSearch.Fields
 import renaming.NameSearch.Fields.Field
-import utils.enumerated.{Enumerated, SelfNamed}
+import utils.enumerated.{Enumerated, EnumeratedType}
 
 import scala.util.Try
 
@@ -83,7 +83,7 @@ object NameSearch {
   object Fields extends Enumerated {
 
     override type T = Field
-    sealed abstract case class Field() extends SelfNamed
+    sealed abstract case class Field() extends EnumeratedType
 
     object Name extends Field
     object NameSubstrings extends Field

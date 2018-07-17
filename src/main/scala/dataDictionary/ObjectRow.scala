@@ -9,8 +9,9 @@ import dataDictionary.ObjectRow.Frequencies.Frequency
 import dataDictionary.ObjectRow.LoadingTypes.LoadingType
 import dataDictionary.ObjectRow.StorageTypes.StorageType
 import dataDictionary.ObjectRow.StorageZones.StorageZone
-import utils.enumerated.Enumerated
-import utils.enumerated.Enumerated.EnumeratedType
+import utils.enumerated.EnumeratedType.NameFormats.CaseFormats.Uppercase
+import utils.enumerated.EnumeratedType.NameFormats.{Custom, ObjectName, ObjectNameWithSpacesBetweenWords}
+import utils.enumerated.{Enumerated, EnumeratedType}
 
 case class ObjectRow(
                       countryTheDataSource: Country,
@@ -59,10 +60,10 @@ object ObjectRow {
   object CoreValues extends Enumerated {
 
     override type T = CoreValue
-    sealed case class CoreValue(name: String) extends EnumeratedType
+    sealed abstract class CoreValue extends EnumeratedType(ObjectName(Uppercase))
 
-    object Yes extends CoreValue("YES")
-    object No extends CoreValue("NO")
+    object Yes extends CoreValue
+    object No extends CoreValue
 
 
     override val values = Seq(Yes, No)
@@ -73,20 +74,20 @@ object ObjectRow {
   object Countries extends Enumerated {
     
     override type T = Country
-    sealed case class Country(name: String) extends EnumeratedType
+    sealed abstract class Country extends EnumeratedType(ObjectNameWithSpacesBetweenWords())
     
-    object Argentina extends Country("Argentina")
-    object Colombia extends Country("Colombia")
-    object Chile extends Country("Chile")
-    object Holding extends Country("Holding")
-    object Mexico extends Country("Mexico")
-    object Paraguay extends Country("Paraguay")
-    object Peru extends Country("Peru")
-    object Spain extends Country("Spain")
-    object Turkey extends Country("Turkey")
-    object UnitedStates extends Country("United States")
-    object Uruguay extends Country("Uruguay")
-    object Venezuela extends Country("Venezuela")
+    object Argentina extends Country
+    object Colombia extends Country
+    object Chile extends Country
+    object Holding extends Country
+    object Mexico extends Country
+    object Paraguay extends Country
+    object Peru extends Country
+    object Spain extends Country
+    object Turkey extends Country
+    object UnitedStates extends Country
+    object Uruguay extends Country
+    object Venezuela extends Country
     
     
     override val values = Seq(Argentina, Colombia, Chile, Holding, Mexico, Paraguay, Peru, Spain, Turkey, UnitedStates, Uruguay, Venezuela)
@@ -97,21 +98,21 @@ object ObjectRow {
   object Frequencies extends Enumerated {
 
     override type T = Frequency
-    sealed case class Frequency(name: String) extends EnumeratedType
+    sealed abstract class Frequency extends EnumeratedType(ObjectNameWithSpacesBetweenWords())
 
-    object Annually extends Frequency("Annually")
-    object BiMonthly extends Frequency("Bimonthly")
-    object ByRequest extends Frequency("By Request")
-    object Daily extends Frequency("Daily")
-    object Monthly extends Frequency("Monthly")
-    object Punctual extends Frequency("Punctual")
-    object Quarterly extends Frequency("Quarterly")
-    object RealTime extends Frequency("Real Time")
-    object SemiAnnual extends Frequency("Semiannual")
-    object Weekly extends Frequency("Weekly")
+    object Annually extends Frequency
+    object Bimonthly extends Frequency
+    object ByRequest extends Frequency
+    object Daily extends Frequency
+    object Monthly extends Frequency
+    object Punctual extends Frequency
+    object Quarterly extends Frequency
+    object RealTime extends Frequency
+    object Semiannual extends Frequency
+    object Weekly extends Frequency
 
 
-    override val values = Seq(Annually, BiMonthly, ByRequest, Daily, Monthly, Punctual, Quarterly, RealTime, SemiAnnual, Weekly)
+    override val values = Seq(Annually, Bimonthly, ByRequest, Daily, Monthly, Punctual, Quarterly, RealTime, Semiannual, Weekly)
 
   }
 
@@ -119,10 +120,10 @@ object ObjectRow {
   object LoadingTypes extends Enumerated {
 
     override type T = LoadingType
-    sealed case class LoadingType(name: String) extends EnumeratedType
+    sealed abstract class LoadingType extends EnumeratedType
 
-    object Complete extends LoadingType("Complete")
-    object Incremental extends LoadingType("Incremental")
+    object Complete extends LoadingType
+    object Incremental extends LoadingType
 
 
     override val values = Seq(Complete, Incremental)
@@ -133,7 +134,7 @@ object ObjectRow {
   object StorageTypes extends Enumerated {
 
     override type T = StorageType
-    sealed case class StorageType(name: String) extends EnumeratedType
+    sealed case class StorageType(customName: String) extends EnumeratedType(Custom(customName))
 
     object HdfsAvro extends StorageType("HDFS-Avro")
     object HdfsParquet extends StorageType("HDFS-Parquet")
@@ -147,7 +148,7 @@ object ObjectRow {
   object StorageZones extends Enumerated {
 
     override type T = StorageZone
-    sealed case class StorageZone(name: String) extends EnumeratedType
+    sealed abstract class StorageZone(customName: String) extends EnumeratedType(Custom(customName))
 
     object MasterData extends StorageZone("MASTERDATA")
     object Production extends StorageZone("Production")

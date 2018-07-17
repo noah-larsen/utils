@@ -7,7 +7,8 @@ import dataDictionary.FieldEntry
 import googleSpreadsheets.DataReaderWriter.{AbstractColumn, AbstractColumns}
 import googleSpreadsheets.{DataReaderWriter, Row, SheetRange}
 import utils.enumerated.Enumerated
-import utils.enumerated.Enumerated.EnumeratedType
+import utils.enumerated.EnumeratedType
+import utils.enumerated.EnumeratedType.NameFormats.Custom
 import workDocument.WorkDocumentEntry.Statuses.Status
 import workDocument.WorkDocumentEntry.ValidatedValues.ValidatedValue
 import workDocument.WorkDocumentEntry.{Statuses, ValidatedValues}
@@ -58,7 +59,7 @@ object WorkDocumentEntry extends DataReaderWriter[WorkDocumentEntry] {
   object Statuses extends Enumerated {
     
     override type T = Status
-    sealed abstract case class Status(name: String) extends EnumeratedType
+    sealed abstract case class Status(customName: String) extends EnumeratedType(Custom(customName))
     
     object RegisteredInTheCentralRepository extends Status("Registered in the Central Repository")
     object PendingDataModeler extends Status("Pending Data Modeler")
@@ -77,10 +78,10 @@ object WorkDocumentEntry extends DataReaderWriter[WorkDocumentEntry] {
   object ValidatedValues extends Enumerated {
 
     override type T = ValidatedValue
-    sealed case class ValidatedValue(name: String) extends EnumeratedType
+    sealed abstract class ValidatedValue extends EnumeratedType
 
-    object OK extends ValidatedValue("OK")
-    object KO extends ValidatedValue("KO")
+    object OK extends ValidatedValue
+    object KO extends ValidatedValue
 
 
     override val values = Seq(OK, KO)

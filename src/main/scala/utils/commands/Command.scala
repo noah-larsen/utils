@@ -1,9 +1,8 @@
 package utils.commands
 
 abstract class Command(
-                        val name: String,
-                        val parameters: Seq[Parameter] = Seq(),
-                        val representsCountingNumberNamedCommands: Boolean = false
+                        val letterName: Option[Char],
+                        val parameters: Seq[Parameter] = Seq()
                       ) {
 
   def description: String = {
@@ -15,7 +14,9 @@ abstract class Command(
     val descriptionParametersSeparator = ": "
     val parametersSeparator = " "
     val listParameterSuffix = " ..."
-    s"$name - $description${parameters.headOption.map(_ => descriptionParametersSeparator + parameters.map(x => x.name + (if(x.isList) listParameterSuffix else new String)).mkString(parametersSeparator)).getOrElse(new String)}"
+    val countingNumberRangedNamedCommandDescriptionSuffix = s" $countingNumberRangedNamedCommandUsageSymbol"
+    s"${letterName.getOrElse(countingNumberRangedNamedCommandUsageSymbol)} - $description${letterName.map(_ => new String).getOrElse(countingNumberRangedNamedCommandDescriptionSuffix)}${parameters.headOption.map(_ => descriptionParametersSeparator + parameters
+      .map(x => x.name + (if(x.isList) listParameterSuffix else new String)).mkString(parametersSeparator)).getOrElse(new String)}"
   }
 
 
@@ -25,5 +26,8 @@ abstract class Command(
     val classNameSeparatorRE = "[.$]"
     getClass.getName.split(classNameSeparatorRE).filter(_.nonEmpty).last.zipWithIndex.flatMap(y => Some(Unit).filter(_ => y._1.isUpper && y._2 != 0).map(_ => wordSeparator).getOrElse(new String) + y._1.toLower).mkString
   }
+
+
+  private val countingNumberRangedNamedCommandUsageSymbol = "#"
 
 }

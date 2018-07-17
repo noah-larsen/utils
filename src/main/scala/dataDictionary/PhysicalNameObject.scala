@@ -2,7 +2,7 @@ package dataDictionary
 
 import dataDictionary.PhysicalNameObject.SourceTypes.SourceType
 import utils.enumerated.Enumerated
-import utils.enumerated.Enumerated.EnumeratedType
+import utils.enumerated.EnumeratedType
 
 case class PhysicalNameObject(
                                sourceType: SourceType,

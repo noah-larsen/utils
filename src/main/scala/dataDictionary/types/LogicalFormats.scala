@@ -2,12 +2,13 @@ package dataDictionary.types
 
 import dataDictionary.Type
 import dataDictionary.Type.{TypeType, TypesType}
+import utils.enumerated.EnumeratedType.NameFormats.ObjectNameWithSpacesBetweenWords
 
 object LogicalFormats extends TypesType {
 
   override type T = LogicalFormat
 
-  sealed abstract class LogicalFormat extends TypeType(addSpacesBetweenWords = true){
+  sealed abstract class LogicalFormat extends TypeType(ObjectNameWithSpacesBetweenWords()){
 
     override def withLogicalFormat[T <: this.type](type_ : Type[T]): Option[Type[LogicalFormat]] = {
       Some(type_.asInstanceOf[Type[LogicalFormat]])
