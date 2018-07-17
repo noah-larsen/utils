@@ -15,7 +15,7 @@ import scala.util.Try
 case class FieldEntryReaderWriter(ingestionStage: IngestionStage) extends DataReaderWriter[FieldEntry] {
 
   override def sheetRange: SheetRange = {
-    SheetRange(s"DC-DD-Field-${ingestionStage match{case IngestionStages.Raw => "RAW" case IngestionStages.Master => "Master"}}", "AA", 5)
+    SheetRange(s"DC-DD-Field-${ingestionStage match{case IngestionStages.Raw => "RAW" case IngestionStages.Master => "Master"}}", "AA", 6)
   }
 
 
