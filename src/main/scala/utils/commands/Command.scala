@@ -2,7 +2,8 @@ package utils.commands
 
 abstract class Command(
                         val name: String,
-                        val parameters: Seq[Parameter] = Seq()
+                        val parameters: Seq[Parameter] = Seq(),
+                        val representsCountingNumberNamedCommands: Boolean = false
                       ) {
 
   def description: String = {

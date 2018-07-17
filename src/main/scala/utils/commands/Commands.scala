@@ -10,23 +10,14 @@ trait Commands {
   type CommandType <: Command
 
 
-  def promptUntilParsed(leadWithNewlineInitial: Boolean = true, leadWithNewlineSubsequent: Boolean = true): CommandInvocation = {
+  def promptUntilParsed(nCountingNumberNamedCommands: Int = 0, leadWithNewlineInitial: Boolean = true, leadWithNewlineSubsequent: Boolean = true): CommandInvocation = {
     println((if(leadWithNewlineInitial) System.lineSeparator() else new String) + usage)
     def readLineUntilNonEmpty: String = StdIn.readLine() match {case x if x.trim.isEmpty => readLineUntilNonEmpty case x => x}
-    parse(readLineUntilNonEmpty).recover{case e: CommandException =>
+    parse(readLineUntilNonEmpty, nCountingNumberNamedCommands).recover{case e: CommandException =>
       println(e.message.trim + System.lineSeparator())
       if(leadWithNewlineSubsequent) print(System.lineSeparator())
-      promptUntilParsed(leadWithNewlineSubsequent, leadWithNewlineSubsequent)
+      promptUntilParsed(nCountingNumberNamedCommands, leadWithNewlineSubsequent, leadWithNewlineSubsequent)
     }.get
-  }
-
-
-  def parse(line: String): Try[CommandInvocation] = {
-    val whitespaceRe = "\\s+"
-    val tokens = line.split(whitespaceRe)
-    commands.find(_.name == tokens.head)
-      .map(x => CommandInvocation(x, tokens.tail).validate)
-      .getOrElse(Failure[CommandInvocation](UnknownCommandException))
   }
 
 
@@ -45,7 +36,8 @@ trait Commands {
 
   private[utils] case class CommandInvocation(
                                                command: CommandType,
-                                               arguments: Seq[String]
+                                               arguments: Seq[String],
+                                               countingNumberNamedCommandN: Option[Int] = None
                                              ){
 
     def validate: Try[CommandInvocation] = {
@@ -55,6 +47,17 @@ trait Commands {
       }
     }
 
+  }
+
+
+  private def parse(line: String, nCountingNumberNamedCommands: Int = 0): Try[CommandInvocation] = {
+    val whitespaceRe = "\\s+"
+    val tokens = line.split(whitespaceRe)
+    commands
+      .find(x => !x.representsCountingNumberNamedCommands && x.name == tokens.head).map(x => CommandInvocation(x, tokens.tail).validate)
+      .orElse(commands.find(_.representsCountingNumberNamedCommands).map((_, Try(tokens.head.toInt))).filter(_._2.isSuccess).map(x => (x._1, x._2.get)).filter(x => x._2 > 0 && x._2 <= nCountingNumberNamedCommands).map(x => CommandInvocation(x._1,
+        tokens.tail, Some(x._2)).validate))
+      .getOrElse(Failure[CommandInvocation](UnknownCommandException))
   }
 
 }
