@@ -69,7 +69,7 @@ object WorkDocumentEntriesObject {
         sourceOrigin = fieldEntry.sourceOrigin.getOrElse(new String).toUpperCase,
         table = fieldEntry.physicalNameObject.getOrElse(new String),
         sourceField = fieldEntry.sourceField.getOrElse(new String),
-        logicFormat = fieldEntry.format.getOrElse(new String),
+        logicFormat = fieldEntry.logicalFormat.getOrElse(new String),
         fieldDescription = fieldEntry.logicalNameField.map(_ + fieldEntry.simpleFieldDescription.map(logicalNameDescriptionSeparator + _).getOrElse(new String)).getOrElse(fieldEntry.simpleFieldDescription.getOrElse(new String)),
         usedYN = fieldEntry.isFreeField.map(if(_) usedYN_NValue else usedYN_YValue).getOrElse(new String),
         dataModelerComments = new String,
