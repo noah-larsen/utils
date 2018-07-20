@@ -2,7 +2,7 @@ package workDocument
 
 import com.google.api.client.json.GenericJson
 import dataDictionary.PhysicalNameObject
-import general.DataHubException
+import exceptions.DataHubException
 import googleSpreadsheets.GoogleSpreadsheet
 
 import scala.util.{Failure, Try}

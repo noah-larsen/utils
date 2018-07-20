@@ -3,7 +3,7 @@ package dataDictionary
 import com.google.api.client.json.GenericJson
 import dataDictionary.FieldEntry.IngestionStages.IngestionStage
 import dataDictionary.FieldEntry._
-import general.DataHubException
+import exceptions.DataHubException
 import googleSpreadsheets._
 
 import scala.util.{Failure, Try}
@@ -32,6 +32,12 @@ case class DataDictionary(private val spreadsheet: GoogleSpreadsheet) {
         case _ => Failure(DataHubException("Existing field entries for the object in the spreadsheet are not contiguous"))
       }
     }
+  }
+
+
+  def write(rawFieldEntriesObject: FieldEntriesObject, masterFieldEntriesObject: FieldEntriesObject): Try[Seq[GenericJson]] = {
+    //todo better error handling
+    write(IngestionStages.Raw, rawFieldEntriesObject).flatMap(x => write(IngestionStages.Master, masterFieldEntriesObject).map(Seq(x) :+ _))
   }
 
 }

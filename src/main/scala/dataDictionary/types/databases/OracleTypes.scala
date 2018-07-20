@@ -1,7 +1,8 @@
-package dataDictionary.types
+package dataDictionary.types.databases
 
 import dataDictionary.Type
 import dataDictionary.Type.{TypeType, TypesType}
+import dataDictionary.types.LogicalFormats
 import dataDictionary.types.LogicalFormats._
 
 object OracleTypes extends TypesType {

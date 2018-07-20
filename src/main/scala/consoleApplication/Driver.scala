@@ -9,7 +9,7 @@ import dataDictionary.{DataDictionary, FieldEntriesObject, PhysicalNameObject}
 import dataDictionary.FieldEntry.IngestionStages
 import dataDictionary.ObjectRow.Countries
 import dataDictionary.PhysicalNameObject.SourceTypes
-import general.DataHubException
+import exceptions.DataHubException
 import org.rogach.scallop.{ScallopConf, ScallopOption}
 import consoleApplication.ConsoleRenamer.Languages
 import consoleApplication.ConsoleRenamer.Languages.Language
@@ -103,7 +103,7 @@ object Driver extends App {
       def saveWithRegistrationDates(renaming: Renaming): Try[Renaming] = {
         //todo specific exception message
         val withRegistrationDates = workDataDictionary.fieldEntriesObject(IngestionStages.Raw, renaming.physicalNameObject.get).map(_.map(_ => renaming).getOrElse(Renaming(renaming.withRegistrationDates)))
-        withRegistrationDates.flatMap(workDataDictionary.write(IngestionStages.Raw, _)).map(_ => withRegistrationDates.get)
+        withRegistrationDates.flatMap(x => workDataDictionary.write(x, x.toMaster)).map(_ => withRegistrationDates.get)
       }
 
 

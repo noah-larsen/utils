@@ -1,7 +1,7 @@
 package dataDictionary
 
 import dataDictionary.Type.{Arguments, TypeType, TypesType}
-import dataDictionary.types.DB2Types.DB2Type
+import dataDictionary.types.databases.DB2Types.DB2Type
 import dataDictionary.types.LogicalFormats.LogicalFormat
 import utils.enumerated.EnumeratedType.NameFormats.{NameFormat, ObjectName}
 import utils.enumerated.{Enumerated, EnumeratedType}
@@ -58,6 +58,7 @@ object Type {
     protected def withLogicalFormat[T <: this.type](type_ : Type[T]): Option[Type[LogicalFormat]]
 
   }
+
 
 
   private object Arguments {

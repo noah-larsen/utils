@@ -6,8 +6,14 @@ import dataDictionary.FieldEntry.FieldRowBooleans.FieldRowBoolean
 import dataDictionary.FieldEntry.{DataTypes, FieldGeneratedValues, FieldRowBooleans}
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
 import dataDictionary.ObjectRow.Countries.Country
+import dataDictionary.ObjectRow.{StorageTypes, StorageZones}
 import dataDictionary.ObjectRow.StorageTypes.{HdfsAvro, StorageType}
 import dataDictionary.ObjectRow.StorageZones.{RawData, StorageZone}
+import dataDictionary.types.LogicalFormats
+import dataDictionary.types.LogicalFormats.LogicalFormat
+import dataDictionary.types.bigData.ParquetTypes
+
+import scala.util.Try
 
 case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
 
@@ -25,6 +31,21 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
 
   def physicalNameObject: Option[String] = {
     Some(fieldEntries.flatMap(_.physicalNameObject).distinct).filter(_.lengthCompare(1) == 0).map(_.head)
+  }
+
+
+  def toMaster: FieldEntriesObject = {
+    FieldEntriesObject(fieldEntries.filter(!_.isFreeField.contains(true)).map(fieldEntry => fieldEntry.copy(
+      storageType = fieldEntry.storageType.filter(_ == StorageTypes.HdfsAvro).map(_ => StorageTypes.HdfsParquet),
+      storageZone = Some(StorageZones.MasterData),
+      dataType = fieldEntry.logicalFormat.flatMap(Type(_, LogicalFormats).asInstanceOf[Option[Type[LogicalFormat]]].map(ParquetTypes.fromLogicalFormat(_).string)),
+      physicalNameSourceObject = physicalNameObject,
+      sourceField = fieldEntry.physicalNameField,
+      dataTypeSourceField = fieldEntry.dataType,
+      formatSourceField = fieldEntry.format,
+      fieldPositionInTheObject = Some(None),
+      generatedField = None
+    )))
   }
 
 

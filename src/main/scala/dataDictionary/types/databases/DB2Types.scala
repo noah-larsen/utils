@@ -1,7 +1,8 @@
-package dataDictionary.types
+package dataDictionary.types.databases
 
 import dataDictionary.Type
 import dataDictionary.Type.{TypeType, TypesType}
+import dataDictionary.types.LogicalFormats
 import dataDictionary.types.LogicalFormats._
 
 object DB2Types extends TypesType {
@@ -42,7 +43,5 @@ object DB2Types extends TypesType {
 
 
   override val values = Seq(BigInt, Char, Date, Decimal, Float, Integer, SmallInt, Time, Timestamp)
-
-
 
 }

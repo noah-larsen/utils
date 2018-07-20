@@ -3,10 +3,10 @@ package us.alnova
 import dataDictionary.FieldEntry.DefaultValues
 import dataDictionary.FieldEntry.FieldRowBooleans.Yes
 import dataDictionary.ObjectRow.Countries
-import dataDictionary.types.DB2Types
-import dataDictionary.types.DB2Types.DB2Type
+import dataDictionary.types.databases.DB2Types
+import dataDictionary.types.databases.DB2Types.DB2Type
 import dataDictionary.{FieldEntriesObject, FieldEntry, PhysicalNameObject, Type}
-import general.DataHubException
+import exceptions.DataHubException
 import googleSpreadsheets._
 import utils.enumerated.Enumerated
 import utils.enumerated.EnumeratedType

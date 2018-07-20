@@ -39,14 +39,14 @@ case class FieldEntry(
                        formatSourceField: Option[String] = None,
                        tags: Option[Seq[String]] = None,
                        fieldPositionInTheObject: Option[Option[Int]] = None,
-                       excludeInclude: Option[FieldGeneratedValue] = None,
+                       generatedField: Option[FieldGeneratedValue] = None,
                        tokenizationType: Option[String] = None,
                        registrationDate: Option[LocalDate] = None,
                        countryTheConceptualEntity: Option[Country] = None,
                        conceptualEntity: Option[String] = None,
                        operationalEntity: Option[String] = None,
                        tds: Option[FieldRowBoolean] = None
-                   ) extends Row {
+                     ) extends Row {
 
   def merge(fieldEntry: FieldEntry, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn] = Seq()): FieldEntry = {
 
@@ -76,7 +76,7 @@ case class FieldEntry(
       mergedValue(_.formatSourceField, FormatSourceField),
       mergedValue(_.tags, Tags),
       mergedValue(_.fieldPositionInTheObject, FieldPositionInTheObject),
-      mergedValue(_.excludeInclude, ExcludeInclude),
+      mergedValue(_.generatedField, ExcludeInclude),
       mergedValue(_.tokenizationType, TokenizationType),
       mergedValue(_.registrationDate, RegistrationDate),
       mergedValue(_.countryTheConceptualEntity, CountryTheConceptualEntity),

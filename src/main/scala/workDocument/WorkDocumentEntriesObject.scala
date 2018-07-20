@@ -6,7 +6,7 @@ import centralNamingsRepository.CentralNamingsRepository
 import dataDictionary.FieldEntry.IngestionStages
 import dataDictionary.{DataDictionary, FieldEntriesObject}
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
-import general.DataHubException
+import exceptions.DataHubException
 import workDocument.WorkDocumentEntry.{Statuses, ValidatedValues}
 
 import scala.util.{Failure, Try}

@@ -3,9 +3,9 @@ package us.phoenix
 import dataDictionary.FieldEntry.DefaultValues
 import dataDictionary.FieldEntry.FieldRowBooleans.Yes
 import dataDictionary.ObjectRow.Countries
-import dataDictionary.types.OracleTypes
+import dataDictionary.types.databases.OracleTypes
 import dataDictionary.{FieldEntriesObject, FieldEntry, PhysicalNameObject, Type}
-import general.DataHubException
+import exceptions.DataHubException
 import googleSpreadsheets.GoogleSpreadsheet
 import us.alnova.ATLRow
 import us.alnova.AlnovaTableLayouts.alnovaTableLayoutsGSId

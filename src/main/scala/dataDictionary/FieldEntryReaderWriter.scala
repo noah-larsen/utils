@@ -90,7 +90,7 @@ object FieldEntryReaderWriter {
     case object FormatSourceField extends FieldEntryColumn(x => stringOptionToString(x.formatSourceField))
     case object Tags extends FieldEntryColumn(_.tags.map(_.mkString(tagsSeparator)).getOrElse(new String))
     case object FieldPositionInTheObject extends FieldEntryColumn(_.fieldPositionInTheObject.flatten.map(_.toString).getOrElse(new String))
-    case object ExcludeInclude extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.excludeInclude))
+    case object ExcludeInclude extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.generatedField))
     case object TokenizationType extends FieldEntryColumn(x => stringOptionToString(x.tokenizationType))
     case object RegistrationDate extends FieldEntryColumn(_.registrationDate.map(_.format(DateTimeFormatter.ofPattern(registrationDateFormat))).getOrElse(new String))
     case object CountryTheConceptualEntity extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.countryTheConceptualEntity))
