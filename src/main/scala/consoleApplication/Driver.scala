@@ -57,7 +57,7 @@ object Driver extends App {
 
 
     def main(): Unit = {
-      val commandInvocation = MainCommands.promptUntilParsed(leadWithNewlineInitial = false)
+      val commandInvocation = MainCommands.promptUntilParsed(leadWithNewline = false)
       commandInvocation.command match {
         case MainCommands.Load =>
           Try {

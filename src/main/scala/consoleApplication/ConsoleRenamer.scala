@@ -4,7 +4,7 @@ import dataDictionary.FieldEntry
 import consoleApplication.ConsoleRenamer.Languages.Language
 import renaming.nameComparator.NameComparator
 import renaming.{ApprovedName, NameSearch, Renaming, SourceName}
-import utils.commands.{Command, Commands, Parameter}
+import utils.commands._
 import utils.commands.Commands.CommandException
 import utils.enumerated.{Enumerated, EnumeratedType}
 
@@ -30,7 +30,7 @@ case class ConsoleRenamer(
     println(display(renaming.fieldEntries.zipWithIndex.map(x => Seq((x._2 + 1).toString, x._1.sourceField.getOrElse(new String), x._1.physicalNameField.getOrElse(new String))), header))
     val commandInvocation = ViewRenamingsCommands.promptUntilParsed(renaming.fieldEntries)
     commandInvocation.command match {
-      case ViewRenamingsCommands.RenameFieldWithIndex => iterate(Seq(commandInvocation.countingNumberNamedCommandN.get))
+      case ViewRenamingsCommands.RenameFieldWithIndex => iterate(Seq(commandInvocation.oneBasedIndexCommandSelection.get))
       case ViewRenamingsCommands.Back => this
     }
   }
@@ -45,7 +45,7 @@ case class ConsoleRenamer(
             println(displayMatchResults(unnamedFieldEntry, matchResults, reverse = true) + System.lineSeparator())
             val commandInvocation = RenameCommands.promptUntilParsed(matchResults)
             commandInvocation.command match {
-              case RenameCommands.RenameToFieldWithIndex => (updatedRenaming.name(sourceField, commandInvocation.countingNumberNamedCommandN.get.name), true)
+              case RenameCommands.RenameToFieldWithIndex => (updatedRenaming.name(sourceField, commandInvocation.oneBasedIndexCommandSelection.get.name), true)
               case RenameCommands.Search => processMatchResults(withPositiveScoreOrdered(nameSearch.approvedNameToNormalizedScoreFromArgs(commandInvocation.arguments, nTopHitsToGetPossiblyPositiveScoresWhenSearching)))
               case RenameCommands.EnterNameManually => (updatedRenaming.name(sourceField, commandInvocation.arguments.head), continue)
               case RenameCommands.Pass => (updatedRenaming, continue)
@@ -117,16 +117,17 @@ case class ConsoleRenamer(
   private object RenameCommands extends Commands {
 
     override type CommandType = RenameCommand
-    sealed abstract class RenameCommand(letterName: Option[Char], parameters: Seq[Parameter] = Seq()) extends Command(letterName, parameters)
+    sealed abstract class RenameCommand(parameters: Seq[Parameter] = Seq(), specifiedLetterName: Option[Char] = None) extends Command(parameters, specifiedLetterName)
 
-    object RenameToFieldWithIndex extends RenameCommand(None)
-    object Search extends RenameCommand(Some('s'), Seq(Parameter("terms", isList = true)))
-    object EnterNameManually extends RenameCommand(Some('e'), Seq(Parameter("name")))
-    object Pass extends RenameCommand(Some('p'))
-    object GoBackToTableMenu extends RenameCommand(Some('b'))
+    object RenameToFieldWithIndex extends RenameCommand with OneBasedIndexCommand
+    object Search extends RenameCommand(Seq(Parameter("terms", isList = true)))
+    object EnterNameManually extends RenameCommand(Seq(Parameter("name")))
+    object Pass extends RenameCommand
+    object GoBackToTableMenu extends RenameCommand(specifiedLetterName = Some('b'))
 
 
-    override protected def commands: Seq[CommandType] = Seq(RenameToFieldWithIndex, Search, EnterNameManually, Pass, GoBackToTableMenu)
+    override protected def letterCommands = Seq(Search, EnterNameManually, Pass, GoBackToTableMenu)
+    override protected def oneBasedIndexCommand = Some(RenameToFieldWithIndex)
 
   }
 
@@ -134,13 +135,14 @@ case class ConsoleRenamer(
   private object ViewRenamingsCommands extends Commands {
 
     override type CommandType = ViewRenamingsCommand
-    sealed abstract class ViewRenamingsCommand(letterName: Option[Char]) extends Command(letterName)
+    sealed abstract class ViewRenamingsCommand extends Command
 
-    object RenameFieldWithIndex extends ViewRenamingsCommand(None)
-    object Back extends ViewRenamingsCommand(Some('b'))
+    object RenameFieldWithIndex extends ViewRenamingsCommand with OneBasedIndexCommand
+    object Back extends ViewRenamingsCommand
 
 
-    override protected def commands = Seq(RenameFieldWithIndex, Back)
+    override protected def letterCommands = Seq(Back)
+    override protected def oneBasedIndexCommand = Some(RenameFieldWithIndex)
 
   }
 

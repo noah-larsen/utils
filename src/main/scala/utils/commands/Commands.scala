@@ -10,19 +10,18 @@ trait Commands {
   type CommandType <: Command
 
 
-  def promptUntilParsed[T](nCountingNumberNamedCommands: Seq[T] = Seq(), leadWithNewlineInitial: Boolean = true, leadWithNewlineSubsequent: Boolean = true): CommandInvocation[T] = {
-    println((if(leadWithNewlineInitial) System.lineSeparator() else new String) + usage)
+  def promptUntilParsed[T](translatedOneBasedIndexCommandItems: Seq[T] = Seq(), showUsage: Boolean = true, leadWithNewline: Boolean = true): CommandInvocation[T] = {
+    if(showUsage) println((if(leadWithNewline) System.lineSeparator() else new String) + usage)
     def readLineUntilNonEmpty: String = StdIn.readLine() match {case x if x.trim.isEmpty => readLineUntilNonEmpty case x => x}
-    parse(readLineUntilNonEmpty, nCountingNumberNamedCommands).recover{case e: CommandException =>
+    parse(readLineUntilNonEmpty, translatedOneBasedIndexCommandItems).recover{case e: CommandException =>
       println(e.message.trim + System.lineSeparator())
-      if(leadWithNewlineSubsequent) print(System.lineSeparator())
-      promptUntilParsed(nCountingNumberNamedCommands, leadWithNewlineSubsequent, leadWithNewlineSubsequent)
+      promptUntilParsed(translatedOneBasedIndexCommandItems, showUsage = false)
     }.get
   }
 
 
   def usage: String = {
-    commands.map(_.usage).mkString(System.lineSeparator())
+    oneBasedIndexCommand.map(Seq(_)).getOrElse(Nil).++(letterCommands).map(_.usage).mkString(System.lineSeparator())
   }
 
 
@@ -31,14 +30,15 @@ trait Commands {
   }
 
 
-  protected def commands: Seq[CommandType]
+  protected def letterCommands: Seq[CommandType]
+  protected def oneBasedIndexCommand: Option[CommandType with OneBasedIndexCommand] = None
 
 
   private[utils] case class CommandInvocation[T](
-                                               command: CommandType,
-                                               arguments: Seq[String],
-                                               countingNumberNamedCommandN: Option[T] = None
-                                             ){
+                                                  command: CommandType,
+                                                  arguments: Seq[String],
+                                                  oneBasedIndexCommandSelection: Option[T] = None
+                                                ){
 
     def validate: Try[CommandInvocation[T]] = {
       this match{
@@ -50,13 +50,13 @@ trait Commands {
   }
 
 
-  private def parse[T](line: String, nCountingNumberNamedCommands: Seq[T] = Seq()): Try[CommandInvocation[T]] = {
+  private def parse[T](line: String, translatedOneBasedIndexCommandItems: Seq[T] = Seq()): Try[CommandInvocation[T]] = {
     val whitespaceRe = "\\s+"
     val tokens = line.split(whitespaceRe)
-    commands
-      .find(x => x.letterName.exists(_.toString == tokens.head)).map(x => CommandInvocation[T](x, tokens.tail).validate)
-      .orElse(commands.find(_.letterName.isEmpty).map((_, Try(tokens.head.toInt))).filter(_._2.isSuccess).map(x => (x._1, x._2.get)).filter(x => x._2 > 0 && x._2 <= nCountingNumberNamedCommands.length).map(x => CommandInvocation(x._1, tokens.tail, Some(
-        nCountingNumberNamedCommands(x._2 - 1))).validate))
+    letterCommands
+      .find(_.letterName.toString == tokens.head).map(CommandInvocation[T](_, tokens.tail).validate)
+      .orElse(oneBasedIndexCommand.map((_, Try(tokens.head.toInt))).filter(_._2.isSuccess).map(x => (x._1, x._2.get)).filter(x => x._2 > 0 && x._2 <= translatedOneBasedIndexCommandItems.length).map(x => CommandInvocation(x._1, tokens.tail, Some(
+        translatedOneBasedIndexCommandItems(x._2 - 1))).validate))
       .getOrElse(Failure[CommandInvocation[T]](UnknownCommandException))
   }
 
