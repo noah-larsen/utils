@@ -1,9 +1,9 @@
 package persistence
 
 import play.api.libs.json.{JsValue, Json}
-import utils.JsonSerializer
+import utils.JsonFormat
 
-object StringJsonSerializer extends JsonSerializer[String] {
+object StringJsonFormat extends JsonFormat[String] {
 
   override def toJson(t: String): JsValue = {
     Json.toJson(t)

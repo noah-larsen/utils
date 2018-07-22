@@ -2,18 +2,46 @@ package connectedForests
 
 import connectedForests.ConnectedForests.RelatedNodesKey
 
-class DevelopingConnectedForests[F, N] private (
-                                                 connectedForests: ConnectedForests[F, N],
-                                                 relatedNodesKeyToFinishedProportion: Map[RelatedNodesKey[F], Double]
-                                               ) extends AbstractConnectedForests[F, N] {
-
-  override def children(forestLabel: F, path: Seq[N]): Set[N] = {
-    connectedForests.children(forestLabel, path)
-  }
-
+case class DevelopingConnectedForests[F, N] private (
+                                                      private val connectedForests: ConnectedForests[F, N],
+                                                      private val relatedNodesKeyToFinishedProportion: Map[RelatedNodesKey[F], Double]
+                                                    ) extends AbstractConnectedForests[F, N] {
 
   def finishedProportion(fromForestLabel: F, path: Seq[N], toForestLabel: F): Double = {
     relatedNodesKeyToFinishedProportion.getOrElse(relatedNodesKey(fromForestLabel, path, toForestLabel), 0)
+  }
+
+
+  def connectedForestsAndRelatedNodesToFinishedProportion: (ConnectedForests[F, N], Map[(F, Long, F), Double]) = {
+    (connectedForests, relatedNodesKeyToFinishedProportion.map(x => ((x._1.fromForestLabel, x._1.fromForestNodeId, x._1.toForestLabel), x._2)))
+  }
+
+
+  def unfinishedSubroots(fromForestLabel: F, toForestLabel: F, minFinishedProportionFinishedNode: Double,
+                         sortBy: (ConnectedForests[F, N], F) => Seq[N] => Seq[Int] = DevelopingConnectedForests.SortByFs.breadthFirstLargestSubtree): Seq[Seq[N]] = {
+
+    def unfinishedSubroots(subrootPaths: Iterable[Seq[N]] = connectedForests.roots(fromForestLabel).map(Seq(_))): Iterable[Seq[N]] = {
+      subrootPaths.flatMap{
+        case x if finishedProportion(fromForestLabel, x, toForestLabel) >= minFinishedProportionFinishedNode && connectedForests.children(fromForestLabel, x).isEmpty => Seq()
+        case x if finishedProportion(fromForestLabel, x, toForestLabel) >= minFinishedProportionFinishedNode => unfinishedSubroots(connectedForests.children(fromForestLabel,
+          x).map(x :+ _))
+        case x => Seq(x)
+      }
+    }
+
+
+    unfinishedSubroots().toSeq.sortBy(sortBy(connectedForests, fromForestLabel))(Ordering.Implicits.seqDerivedOrdering)
+
+  }
+
+
+  def withFinishedProportion(fromForestLabel: F, path: Seq[N], toForestLabel: F, finishedProportion: Double): DevelopingConnectedForests[F, N] = {
+    DevelopingConnectedForests(connectedForests, relatedNodesKeyToFinishedProportion.+((relatedNodesKey(fromForestLabel, path, toForestLabel), finishedProportion)))
+  }
+
+
+  override def children(forestLabel: F, path: Seq[N]): Set[N] = {
+    connectedForests.children(forestLabel, path)
   }
 
 
@@ -39,28 +67,6 @@ class DevelopingConnectedForests[F, N] private (
 
   override def roots(forestLabel: F): Set[N] = {
     connectedForests.roots(forestLabel)
-  }
-
-
-  def unfinishedSubroots(fromForestLabel: F, toForestLabel: F, minFinishedProportionFinishedNode: Double): Iterable[Seq[N]] = {
-
-    def unfinishedSubroots(subrootPaths: Iterable[Seq[N]] = connectedForests.roots(fromForestLabel).map(Seq(_))): Iterable[Seq[N]] = {
-      subrootPaths.flatMap{
-        case x if finishedProportion(fromForestLabel, x, toForestLabel) >= minFinishedProportionFinishedNode && connectedForests.children(fromForestLabel, x).isEmpty => Seq()
-        case x if finishedProportion(fromForestLabel, x, toForestLabel) >= minFinishedProportionFinishedNode => unfinishedSubroots(connectedForests.children(fromForestLabel, x)
-          .map(x :+ _))
-        case x => Seq(x)
-      }
-    }
-
-
-    unfinishedSubroots()
-
-  }
-
-
-  def withFinishedProportion(fromForestLabel: F, path: Seq[N], toForestLabel: F, finishedProportion: Double): DevelopingConnectedForests[F, N] = {
-    DevelopingConnectedForests(connectedForests, relatedNodesKeyToFinishedProportion.+((relatedNodesKey(fromForestLabel, path, toForestLabel), finishedProportion)))
   }
 
 
@@ -122,6 +128,21 @@ object DevelopingConnectedForests {
                    relatedNodesKeyToFinishedProportion: Map[RelatedNodesKey[F], Double] = Map[RelatedNodesKey[F], Double]()
                  ): DevelopingConnectedForests[F, N] = {
     new DevelopingConnectedForests(connectedForests, relatedNodesKeyToFinishedProportion)
+  }
+
+
+  def apply[F, N](connectedForestsAndRelatedNodesToFinishedProportion: (ConnectedForests[F, N], Map[(F, Long, F), Double])): DevelopingConnectedForests[F, N] = {
+    DevelopingConnectedForests(connectedForestsAndRelatedNodesToFinishedProportion._1, connectedForestsAndRelatedNodesToFinishedProportion._2.map(x => (RelatedNodesKey(
+      x._1._1, x._1._2, x._1._3), x._2)))
+  }
+
+
+  object SortByFs {
+
+    def breadthFirstLargestSubtree[F, N](connectedForests: ConnectedForests[F, N], fromForestLabel: F)(path: Seq[N]): Seq[Int] = {
+      Seq(path.length, -connectedForests.pathsSubtree(fromForestLabel, path).size)
+    }
+
   }
 
 }

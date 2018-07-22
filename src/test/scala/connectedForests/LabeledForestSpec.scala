@@ -1,14 +1,11 @@
-import LabeledForestSpec.LabeledForestTestData
-import connectedForests.LabeledForest
+package connectedForests
+
+import connectedForests.LabeledForestSpec.LabeledForestTestData
 import org.scalatest.FunSpec
 
 class LabeledForestSpec extends FunSpec with LabeledForestTestData {
 
   describe("LabeledForest"){
-
-    val emptyLF = LabeledForest[N]()
-    val labeledForest = LabeledForest(pathsToLeaves)
-
 
     describe("children"){
       it("should return the node's children if the node exists, and throw an exception otherwise"){
@@ -167,6 +164,8 @@ object LabeledForestSpec {
     val validNonExistentPaths = Seq(Seq(8), Seq(0, 0), Seq(0, 1), Seq(2), Seq(1, 1), Seq(2, 1), Seq(2, 2), Seq(1, 2, 1), Seq(1, 2, 2), Seq(1, 2, 0))
     val nonExistentPaths: Seq[Seq[Int]] = validNonExistentPaths.++(Seq())
     val nonExistentLabel: Int = -1
+    val emptyLF: LabeledForest[N] = LabeledForest[N]()
+    val labeledForest = LabeledForest(pathsToLeaves)
   }
 
 }

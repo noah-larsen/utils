@@ -1,6 +1,7 @@
-import ConnectedForestsSpec.ConnectedForestsTestData
-import LabeledForestSpec.LabeledForestTestData
-import connectedForests.ConnectedForests
+package connectedForests
+
+import connectedForests.ConnectedForestsSpec.ConnectedForestsTestData
+import connectedForests.LabeledForestSpec.LabeledForestTestData
 import org.scalatest.FunSpec
 
 class ConnectedForestsSpec extends FunSpec with ConnectedForestsTestData {
@@ -180,8 +181,9 @@ object ConnectedForestsSpec {
   trait ConnectedForestsTestData extends LabeledForestTestData {
     val forest1Label = 0
     val forest2Label = 1
-    val nonExistentForestLabel = -1
-    val connectedForests = ConnectedForests().withForest(forest1Label).withPaths(forest1Label, pathsToLeaves).withForest(forest2Label).withPaths(forest2Label, pathsToLeaves)
+    val nonExistentForestLabel: Int = -1
+    val connectedForests: ConnectedForests[Int, Int] = ConnectedForests().withForest(forest1Label).withPaths(forest1Label, pathsToLeaves).withForest(forest2Label)
+      .withPaths(forest2Label, pathsToLeaves)
   }
 
 }

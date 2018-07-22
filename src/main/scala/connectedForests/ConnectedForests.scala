@@ -2,10 +2,20 @@ package connectedForests
 
 import connectedForests.ConnectedForests.RelatedNodesKey
 
-class ConnectedForests[F, N] private (
-                                       private val labelToForest: Map[F, LabeledForest[N]],
-                                       private val relatedNodes: Map[RelatedNodesKey[F], Set[Long]]
-                                     ) extends AbstractConnectedForests[F, N] {
+case class ConnectedForests[F, N] private (
+                                            private val labelToForest: Map[F, LabeledForest[N]],
+                                            private val relatedNodes: Map[RelatedNodesKey[F], Set[Long]]
+                                          ) extends AbstractConnectedForests[F, N] {
+
+  def labelToForestAndRelatedNodes: Map[F, (LabeledForest[N], Map[(Long, F), Set[Long]])] = {
+    labelToForest.map(x => (x._1, (x._2, relatedNodes.filter(_._1.fromForestLabel == x).map(y => ((y._1.fromForestNodeId, y._1.toForestLabel), y._2)))))
+  }
+
+
+  def id(forestLabel: F, path: Seq[N]): Long = {
+    labelToForest(forestLabel).id(path)
+  }
+
 
   override def children(forestLabel: F, path: Seq[N]): Set[N] = {
     labelToForest(forestLabel).children(path)
@@ -14,11 +24,6 @@ class ConnectedForests[F, N] private (
 
   override def forestLabels: Set[F] = {
     labelToForest.keySet
-  }
-
-
-  def id(forestLabel: F, path: Seq[N]): Long = {
-    labelToForest(forestLabel).id(path)
   }
 
 
@@ -132,6 +137,12 @@ object ConnectedForests {
                    relatedNodes: Map[RelatedNodesKey[F], Set[Long]] = Map[RelatedNodesKey[F], Set[Long]]()
                  ): ConnectedForests[F, N] = {
     new ConnectedForests(labelToForest, relatedNodes)
+  }
+
+
+  def apply[F, N](labelToForestAndRelatedNodes: Map[F, (LabeledForest[N], Map[(Long, F), Set[Long]])]): ConnectedForests[F, N] = {
+    ConnectedForests(labelToForestAndRelatedNodes.mapValues(_._1), labelToForestAndRelatedNodes.flatMap(x => x._2._2.map(y => (RelatedNodesKey(x._1, y._1._1, y._1._2),
+      y._2))))
   }
 
 

@@ -1,13 +1,12 @@
-import ConnectedForestsSpec.ConnectedForestsTestData
-import connectedForests.DevelopingConnectedForests
+package connectedForests
+
+import connectedForests.ConnectedForestsSpec.ConnectedForestsTestData
+import connectedForests.DevelopingConnectedForestsSpec.DevelopingConnectedForestsTestData
 import org.scalatest.FunSpec
 
-class DevelopingConnectedForestsSpec extends FunSpec with ConnectedForestsTestData {
+class DevelopingConnectedForestsSpec extends FunSpec with DevelopingConnectedForestsTestData {
 
   describe("DevelopingConnectedForests") {
-
-    val developingConnectedForests = DevelopingConnectedForests(connectedForests)
-
 
     describe("finishedProportion") {
       //todo
@@ -31,6 +30,16 @@ class DevelopingConnectedForestsSpec extends FunSpec with ConnectedForestsTestDa
     describe("withFinishedProportion") {
       //todo
     }
+
+  }
+
+}
+
+object DevelopingConnectedForestsSpec {
+
+  trait DevelopingConnectedForestsTestData extends ConnectedForestsTestData {
+
+    val developingConnectedForests = DevelopingConnectedForests(connectedForests)
 
   }
 
