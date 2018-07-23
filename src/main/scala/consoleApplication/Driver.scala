@@ -1,7 +1,7 @@
-package connectedForests
+package consoleApplication
 
+import connectedForests.LabeledForest
 import persistence.{PathToIdJsonFormat, StringJsonFormat}
-import play.api.libs.json.Json
 
 
 object Driver extends App {
