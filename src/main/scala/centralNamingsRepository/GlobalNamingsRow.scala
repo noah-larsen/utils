@@ -1,29 +1,29 @@
 package centralNamingsRepository
 
 import googleSpreadsheets.{DataReader, Row, SheetRange}
-import renaming.ApprovedName
+import renaming.TargetName
 import consoleApplication.ConsoleRenamer.Languages
 import consoleApplication.ConsoleRenamer.Languages.Language
 
 case class GlobalNamingsRow(
-                                                               termCode: String,
-                                                               fieldCode: String,
-                                                               globalNamingField: String,
-                                                               globalFormatDomainPlusLength: String,
-                                                               hierarchy: String,
-                                                               logicalNameCode: String,
-                                                               logicalNameTheFieldSpanish: String,
-                                                               fieldDescriptionSpanish: String,
-                                                               logicalNameTheFieldEnglish: String,
-                                                               fieldDescriptionEnglish: String,
-                                                               functionalGroupingPhysicalFieldsLevel1: String,
-                                                               functionalGroupingPhysicalFieldsLevel2: String,
-                                                               functionalGroupingPhysicalFieldsLevel3: String,
-                                                               tagsPhysicalFields: String,
-                                                               relatedFields: String,
-                                                               dateLastModification: String
-                                                               //todo
-                                                             ) extends Row {
+                             termCode: String,
+                             fieldCode: String,
+                             globalNamingField: String,
+                             globalFormatDomainPlusLength: String,
+                             hierarchy: String,
+                             logicalNameCode: String,
+                             logicalNameTheFieldSpanish: String,
+                             fieldDescriptionSpanish: String,
+                             logicalNameTheFieldEnglish: String,
+                             fieldDescriptionEnglish: String,
+                             functionalGroupingPhysicalFieldsLevel1: String,
+                             functionalGroupingPhysicalFieldsLevel2: String,
+                             functionalGroupingPhysicalFieldsLevel3: String,
+                             tagsPhysicalFields: String,
+                             relatedFields: String,
+                             dateLastModification: String
+                             //todo
+                           ) extends Row {
 
 }
 

@@ -57,7 +57,6 @@ case class WorkDocumentEntriesObject(entries: Seq[WorkDocumentEntry]) {
 object WorkDocumentEntriesObject {
 
   def apply(fieldEntriesObject: FieldEntriesObject, centralNamingsRepository: CentralNamingsRepository, preserveRegistrationDates: Boolean): WorkDocumentEntriesObject = {
-    val globalNameSet = centralNamingsRepository.globalNameSet
     val logicalNameDescriptionSeparator = ". "
     val usedYN_YValue = "Y"
     val usedYN_NValue = "N"

@@ -12,9 +12,9 @@ import dataDictionary.ObjectRow.StorageTypes.StorageType
 import dataDictionary.ObjectRow.StorageZones.StorageZone
 import googleSpreadsheets.{DataReaderWriter, Row, SheetRange}
 import utils.enumerated.Enumerated
-import utils.enumerated.EnumeratedType
-import utils.enumerated.EnumeratedType.NameFormats.CaseFormats.Uppercase
-import utils.enumerated.EnumeratedType.NameFormats.ObjectName
+import utils.enumerated.SelfNamed
+import utils.enumerated.SelfNamed.NameFormats.CaseFormats.Uppercase
+import utils.enumerated.SelfNamed.NameFormats.ObjectName
 
 import scala.util.Try
 
@@ -114,7 +114,7 @@ object FieldEntry {
   object FieldGeneratedValues extends Enumerated {
 
     override type T = FieldGeneratedValue
-    sealed abstract class FieldGeneratedValue extends EnumeratedType(ObjectName(Uppercase))
+    sealed abstract class FieldGeneratedValue extends SelfNamed(ObjectName(Uppercase))
 
     object Yes extends FieldGeneratedValue
 
@@ -127,7 +127,7 @@ object FieldEntry {
   object FieldRowBooleans extends Enumerated {
 
     override type T = FieldRowBoolean
-    sealed abstract class FieldRowBoolean extends EnumeratedType(ObjectName(Uppercase))
+    sealed abstract class FieldRowBoolean extends SelfNamed(ObjectName(Uppercase))
 
     object Yes extends FieldRowBoolean
     object No extends FieldRowBoolean

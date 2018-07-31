@@ -4,7 +4,7 @@ import dataDictionary.Type
 import dataDictionary.Type.{TypeType, TypesType}
 import dataDictionary.types.LogicalFormats
 import dataDictionary.types.LogicalFormats.{LogicalFormat, Timestamp}
-import utils.enumerated.EnumeratedType.NameFormats.{CaseFormats, ObjectName}
+import utils.enumerated.SelfNamed.NameFormats.{CaseFormats, ObjectName}
 
 object ParquetTypes extends TypesTypeBigData {
 

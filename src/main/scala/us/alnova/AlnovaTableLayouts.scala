@@ -9,9 +9,9 @@ import dataDictionary.{FieldEntriesObject, FieldEntry, PhysicalNameObject, Type}
 import exceptions.DataHubException
 import googleSpreadsheets._
 import utils.enumerated.Enumerated
-import utils.enumerated.EnumeratedType
-import utils.enumerated.EnumeratedType.NameFormats.CaseFormats.Lowercase
-import utils.enumerated.EnumeratedType.NameFormats.ObjectNameWithUnderscoresBetweenWords
+import utils.enumerated.SelfNamed
+import utils.enumerated.SelfNamed.NameFormats.CaseFormats.Lowercase
+import utils.enumerated.SelfNamed.NameFormats.ObjectNameWithUnderscoresBetweenWords
 
 import scala.util.{Failure, Try}
 
@@ -57,7 +57,7 @@ object AlnovaTableLayouts {
   private object AlnovaSourceSystems extends Enumerated {
 
     override type T = AlnovaSourceSystem
-    sealed abstract class AlnovaSourceSystem extends EnumeratedType(ObjectNameWithUnderscoresBetweenWords(Lowercase))
+    sealed abstract class AlnovaSourceSystem extends SelfNamed(ObjectNameWithUnderscoresBetweenWords(Lowercase))
 
     object AlnCif extends AlnovaSourceSystem
     object AlnDeposits extends AlnovaSourceSystem

@@ -3,13 +3,14 @@ package centralNamingsRepository
 import java.net.SocketTimeoutException
 
 import googleSpreadsheets._
+import renaming.TargetName
 
 import scala.util.{Failure, Try}
 
 case class CentralNamingsRepository(globalNamings: Seq[GlobalNamingsRow]) {
 
-  def globalNameSet: Set[String] = {
-    globalNamings.map(_.globalNamingField).toSet
+  def targetNames: Seq[TargetName] = {
+    globalNamings.map(TargetName(_))
   }
 
 }

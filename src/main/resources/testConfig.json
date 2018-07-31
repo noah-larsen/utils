@@ -1,13 +1,13 @@
 {
-  "workDataDictionaryId": "1MaI7K82DFCHV43aoUZicUzwQy0ObgYaCMaiGSy5rci8",
-  "workDocumentId": "1Pp-zmpWNF8NNve1JP6vjoO2wa2kwXg_DskBeNHCMuVM",
-  "sourceSystemToDataDictionaryId": {
+  "IntermediateDataDictionaryId": "1MaI7K82DFCHV43aoUZicUzwQy0ObgYaCMaiGSy5rci8",
+  "WorkDocumentId": "1Pp-zmpWNF8NNve1JP6vjoO2wa2kwXg_DskBeNHCMuVM",
+  "SourceSystemToDataDictionaryId": {
     "aln_cif": "1TGq-kVRlVt__ipiAsiKwBEp-_0662BrNDhA88oOrPN0",
     "aln_deposits": "1XcGTCWWmmUne8TV5qJH35jcsWi09wV5H5OSc3DkGMOA",
     "aln_loans": "1CRHvdROE9Und3MEv3Scl50gzhRdio2lcnFJUsmjcM54",
     "phx": "1EGPTF-RFgQzL7VMGch0TP_Gwqlums48kMSayspGCwZY"
   },
-  "applicationId": "wdco",
-  "language": "english",
-  "country": "United States"
+  "ApplicationId": "wdco",
+  "Language": "english",
+  "Country": "United States"
 }

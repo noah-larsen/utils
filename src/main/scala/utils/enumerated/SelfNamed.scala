@@ -1,9 +1,9 @@
 package utils.enumerated
 
-import utils.enumerated.EnumeratedType.NameFormats.CaseFormats.{CaseFormat, Lowercase, Uppercase}
-import utils.enumerated.EnumeratedType.NameFormats._
+import utils.enumerated.SelfNamed.NameFormats.CaseFormats.{CaseFormat, Lowercase, Uppercase}
+import utils.enumerated.SelfNamed.NameFormats._
 
-abstract class EnumeratedType(nameFormat: NameFormat = ObjectName()) {
+abstract class SelfNamed(nameFormat: NameFormat = ObjectName()) {
 
   def name: String = {
 
@@ -36,7 +36,7 @@ abstract class EnumeratedType(nameFormat: NameFormat = ObjectName()) {
 
 }
 
-object EnumeratedType {
+object SelfNamed {
 
   object NameFormats {
 

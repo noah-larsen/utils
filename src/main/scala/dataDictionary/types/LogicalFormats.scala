@@ -2,7 +2,7 @@ package dataDictionary.types
 
 import dataDictionary.Type
 import dataDictionary.Type.{TypeType, TypesType}
-import utils.enumerated.EnumeratedType.NameFormats.ObjectNameWithSpacesBetweenWords
+import utils.enumerated.SelfNamed.NameFormats.ObjectNameWithSpacesBetweenWords
 
 object LogicalFormats extends TypesType {
 

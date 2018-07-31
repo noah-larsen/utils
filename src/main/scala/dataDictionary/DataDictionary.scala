@@ -1,10 +1,12 @@
 package dataDictionary
 
 import com.google.api.client.json.GenericJson
+import consoleApplication.ConsoleRenamer.Languages.Language
 import dataDictionary.FieldEntry.IngestionStages.IngestionStage
 import dataDictionary.FieldEntry._
 import exceptions.DataHubException
 import googleSpreadsheets._
+import renaming.TargetName
 
 import scala.util.{Failure, Try}
 
@@ -17,6 +19,11 @@ case class DataDictionary(private val spreadsheet: GoogleSpreadsheet) {
 
   def fieldEntriesObject(ingestionStage: IngestionStage, physicalNameObject: String): Try[Option[FieldEntriesObject]] = {
     fieldEntries(ingestionStage).map(x => Some(FieldEntriesObject(x.filter(_.physicalNameObject.contains(physicalNameObject)))).filter(_.fieldEntries.nonEmpty))
+  }
+
+
+  def targetNames(isApproved: Boolean)(implicit language: Language): Try[Iterable[TargetName]] = {
+    fieldEntries(IngestionStages.Raw).map(_.map(TargetName(_, isApproved)).groupBy(_.name).values.map(_.maxBy(_.description.length)))
   }
 
 

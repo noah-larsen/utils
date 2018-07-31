@@ -2,7 +2,7 @@ package dataDictionary
 
 import dataDictionary.PhysicalNameObject.SourceTypes.SourceType
 import utils.enumerated.Enumerated
-import utils.enumerated.EnumeratedType
+import utils.enumerated.SelfNamed
 
 case class PhysicalNameObject(
                                sourceType: SourceType,
@@ -46,7 +46,7 @@ object PhysicalNameObject {
 
     override type T = SourceType
 
-    sealed case class SourceType(code: Char) extends EnumeratedType {
+    sealed case class SourceType(code: Char) extends SelfNamed {
       override def name: String = code.toString
     }
 

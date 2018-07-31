@@ -3,8 +3,8 @@ package dataDictionary
 import dataDictionary.Type.{Arguments, TypeType, TypesType}
 import dataDictionary.types.databases.DB2Types.DB2Type
 import dataDictionary.types.LogicalFormats.LogicalFormat
-import utils.enumerated.EnumeratedType.NameFormats.{NameFormat, ObjectName}
-import utils.enumerated.{Enumerated, EnumeratedType}
+import utils.enumerated.SelfNamed.NameFormats.{NameFormat, ObjectName}
+import utils.enumerated.{Enumerated, SelfNamed}
 
 import scala.util.Try
 
@@ -48,7 +48,7 @@ object Type {
   }
 
 
-  abstract class TypeType(nameFormat: NameFormat = ObjectName()) extends EnumeratedType(nameFormat){
+  abstract class TypeType(nameFormat: NameFormat = ObjectName()) extends SelfNamed(nameFormat){
 
     def logicalFormat(arg1: Option[Int] = None, arg2: Option[Int] = None): Option[Type[LogicalFormat]] = {
       withLogicalFormat(Type[this.type](this, arg1, arg2))

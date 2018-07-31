@@ -11,12 +11,12 @@ import org.apache.lucene.search.{IndexSearcher, MatchNoDocsQuery, Query}
 import org.apache.lucene.store.RAMDirectory
 import renaming.NameSearch.Fields
 import renaming.NameSearch.Fields.Field
-import utils.enumerated.{Enumerated, EnumeratedType}
+import utils.enumerated.{Enumerated, SelfNamed}
 
 import scala.util.Try
 
 case class NameSearch(
-                       approvedNames: Iterable[ApprovedName]
+                       approvedNames: Iterable[TargetName]
                      )(implicit language: Language) {
 
   private val ramDirectory = new RAMDirectory()
@@ -26,7 +26,7 @@ case class NameSearch(
   writeIndex()
 
 
-  def approvedNameToNormalizedScore(query: String, maxNTopHitsToGetNonZeroScores: Integer, fields: Seq[Field] = Fields.values): Map[ApprovedName, Double] = {
+  def approvedNameToNormalizedScore(query: String, maxNTopHitsToGetNonZeroScores: Integer, fields: Seq[Field] = Fields.values): Map[TargetName, Double] = {
     val directoryReader = DirectoryReader.open(ramDirectory)
     try {
       val indexSearcher = new IndexSearcher(directoryReader)
@@ -39,7 +39,7 @@ case class NameSearch(
   }
 
 
-  def approvedNameToNormalizedScoreFromArgs(query: Seq[String], maxNTopHitsToGetNonZeroScores: Integer, fields: Seq[Field] = Fields.values): Map[ApprovedName, Double] = {
+  def approvedNameToNormalizedScoreFromArgs(query: Seq[String], maxNTopHitsToGetNonZeroScores: Integer, fields: Seq[Field] = Fields.values): Map[TargetName, Double] = {
     val separator = " "
     approvedNameToNormalizedScore(query.mkString(separator), maxNTopHitsToGetNonZeroScores, fields)
   }
@@ -83,7 +83,7 @@ object NameSearch {
   object Fields extends Enumerated {
 
     override type T = Field
-    sealed abstract case class Field() extends EnumeratedType
+    sealed abstract case class Field() extends SelfNamed
 
     object Name extends Field
     object NameSubstrings extends Field

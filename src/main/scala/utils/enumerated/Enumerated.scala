@@ -2,7 +2,7 @@ package utils.enumerated
 
 trait Enumerated {
 
-  type T <: EnumeratedType
+  type T <: SelfNamed
   val values: Seq[T]
 
 

@@ -3,21 +3,22 @@ package consoleApplication
 import dataDictionary.FieldEntry
 import consoleApplication.ConsoleRenamer.Languages.Language
 import renaming.nameComparator.NameComparator
-import renaming.{ApprovedName, NameSearch, Renaming, SourceName}
+import renaming.{TargetName, NameSearch, Renaming, SourceName}
 import utils.commands._
 import utils.commands.Commands.CommandException
-import utils.enumerated.{Enumerated, EnumeratedType}
+import utils.enumerated.{Enumerated, SelfNamed}
 
 import scala.io.StdIn
 import scala.util.Try
 
 case class ConsoleRenamer(
                            renaming: Renaming,
-                           approvedNames: Seq[ApprovedName],
+                           targetNames: Seq[TargetName],
                            nameComparator: NameComparator,
                            nameSearch: NameSearch,
                            nTopHitsToGetPossiblyPositiveScoresWhenSearching: Int,
-                           originalToRenamedNameToNOccurences: Map[String, Map[String, Int]]
+                           originalToApprovedRenamedNameToNOccurences: Map[String, Map[String, Int]],
+                           originalToUnapprovedRenamedNameToNOccurences: Map[String, Map[String, Int]]
                          )(implicit val language: Language) {
 
   def iterate: ConsoleRenamer = {
@@ -41,7 +42,7 @@ case class ConsoleRenamer(
       val (updatedRenaming, continue) = updatedRenaming_continue
       (unnamedFieldEntry.sourceField, continue) match{
         case (Some(sourceField), true) =>
-          def processMatchResults(matchResults: Seq[ApprovedName]): (Renaming, Boolean) = {
+          def processMatchResults(matchResults: Seq[TargetName]): (Renaming, Boolean) = {
             println(displayMatchResults(unnamedFieldEntry, matchResults, reverse = true) + System.lineSeparator())
             val commandInvocation = RenameCommands.promptUntilParsed(matchResults)
             commandInvocation.command match {
@@ -64,35 +65,45 @@ case class ConsoleRenamer(
   }
 
 
-  private def matchResults(fieldEntry: FieldEntry): Seq[ApprovedName] = {
-    withPositiveScoreOrdered(nameComparator.approvedNameToNormalizedScore(SourceName(fieldEntry), approvedNames))
+  private def matchResults(fieldEntry: FieldEntry): Seq[TargetName] = {
+    withPositiveScoreOrdered(nameComparator.approvedNameToNormalizedScore(SourceName(fieldEntry), targetNames))
   }
 
 
-  private def withPositiveScoreOrdered(approvedNameToNormalizedScore: Map[ApprovedName, Double]): Seq[ApprovedName] = {
+  private def withPositiveScoreOrdered(approvedNameToNormalizedScore: Map[TargetName, Double]): Seq[TargetName] = {
     approvedNameToNormalizedScore.filter(_._2 > 0).toSeq.sortBy(-_._2).map(_._1)
   }
 
 
-  private def withMatchesNameRenamedToBeforeAtFront(fieldEntry: FieldEntry, matchResults: Seq[ApprovedName]): Seq[ApprovedName] = {
-    Some(matchResults.partition(x => originalToRenamedNameToNOccurences.get(fieldEntry.sourceField.get).exists(_.contains(x.name)))).map(x => x._1 ++ x._2).get
+  private def withMatchesNameRenamedToBeforeAtFront(fieldEntry: FieldEntry, matchResults: Seq[TargetName]): Seq[TargetName] = {
+    Some(matchResults.partition(renamedToBefore(fieldEntry, _))).map(x => x._1 ++ x._2).get
   }
 
 
-  private def displayMatchResults(fieldEntry: FieldEntry, matchResults: Seq[ApprovedName], reverse: Boolean = false): String = {
+  private def displayMatchResults(fieldEntry: FieldEntry, matchResults: Seq[TargetName], reverse: Boolean = false): String = {
 
-    def renamedToBeforeIndicator(matchResult: ApprovedName): String = {
-      val renamedToBeforeTrueIndicator = "*"
-      if(originalToRenamedNameToNOccurences.get(fieldEntry.sourceField.get).exists(_.contains(matchResult.name))) renamedToBeforeTrueIndicator else new String
+    def indicatorSymbols(matchResult: TargetName): String = {
+      val renamedToBeforeIndicator = "*"
+      val unapprovedIndicator = "U"
+      val indicatorsAndConditions = Seq(
+        (renamedToBeforeIndicator, renamedToBefore(fieldEntry, matchResult)),
+        (unapprovedIndicator, !matchResult.isApproved)
+      )
+      indicatorsAndConditions.map(x => Some(x._1).filter(_ => x._2).getOrElse(new String)).mkString
     }
 
 
     val space = " "
     val defaultLogicalNameHeader = "(logical name)"
     val defaultDescriptionHeader = "(description)"
-    display(matchResults.zipWithIndex.map(x => Seq((x._2 + 1).toString, x._1.name, renamedToBeforeIndicator(x._1), x._1.logicalName, x._1.description).zipWithIndex.map(y => if(y._2 != 0) y._1.trim else y._1)), Seq(new String, fieldEntry.sourceField.get,
-      space, fieldEntry.logicalNameField.getOrElse(defaultLogicalNameHeader), fieldEntry.simpleFieldDescription.getOrElse(defaultDescriptionHeader)).map(_ + space), reverse)
+    display(matchResults.zipWithIndex.map(x => Seq((x._2 + 1).toString, x._1.name, indicatorSymbols(x._1), x._1.logicalName, x._1.description).zipWithIndex.map(y => if(y._2 != 0) y._1.trim else y._1)), Seq(new String, fieldEntry.sourceField.get, space,
+      fieldEntry.logicalNameField.getOrElse(defaultLogicalNameHeader), fieldEntry.simpleFieldDescription.getOrElse(defaultDescriptionHeader)).map(_ + space), reverse)
 
+  }
+
+
+  private def renamedToBefore(fieldEntry: FieldEntry, targetName: TargetName): Boolean = {
+    Seq(originalToApprovedRenamedNameToNOccurences, originalToUnapprovedRenamedNameToNOccurences).exists(_.get(fieldEntry.sourceField.get).exists(_.contains(targetName.name)))
   }
 
 
@@ -153,7 +164,7 @@ object ConsoleRenamer {
   object Languages extends Enumerated {
 
     override type T = Language
-    sealed abstract class Language extends EnumeratedType
+    sealed abstract class Language extends SelfNamed
 
     object English extends Language
     object Spanish extends Language

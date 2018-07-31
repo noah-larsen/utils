@@ -1,9 +1,9 @@
 package utils.commands
 
-import utils.enumerated.EnumeratedType
-import utils.enumerated.EnumeratedType.NameFormats.{CaseFormats, ObjectNameWithSpacesBetweenWords}
+import utils.enumerated.SelfNamed
+import utils.enumerated.SelfNamed.NameFormats.{CaseFormats, ObjectNameWithSpacesBetweenWords}
 
-abstract class AbstractCommand extends EnumeratedType(ObjectNameWithSpacesBetweenWords(CaseFormats.Lowercase)) {
+abstract class AbstractCommand extends SelfNamed(ObjectNameWithSpacesBetweenWords(CaseFormats.Lowercase)) {
 
   def parameters: Seq[Parameter]
 

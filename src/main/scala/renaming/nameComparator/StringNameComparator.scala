@@ -1,14 +1,14 @@
 package renaming.nameComparator
 
 import info.debatty.java.stringsimilarity.Jaccard
-import renaming.{ApprovedName, SourceName}
+import renaming.{TargetName, SourceName}
 
 case class StringNameComparator(
                                  normalizedSubstringToMatchToImportance: Map[String, Map[String, Int]] = Map(),
                                  normalizedDistance: (String, String) => Double = StringNameComparator.normalizedDistance
                                ) extends IndividualNameComparator {
 
-  override def normalizedScore(name: SourceName, approvedName: ApprovedName): Double = {
+  override def normalizedScore(name: SourceName, approvedName: TargetName): Double = {
 
     def combinations[T](possibleValuesForEachIndex: Seq[Seq[T]]): Seq[Seq[T]] = {
       possibleValuesForEachIndex.headOption.map(x => possibleValuesForEachIndex.tail.foldLeft(x.map(Seq(_)))((x, y) => y.flatMap(z => x.map(_ :+ z)))).getOrElse(Seq())

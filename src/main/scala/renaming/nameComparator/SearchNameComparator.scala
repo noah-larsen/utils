@@ -3,7 +3,7 @@ package renaming.nameComparator
 import consoleApplication.ConsoleRenamer.Languages.Language
 import renaming.NameSearch.Fields
 import renaming.NameSearch.Fields.Field
-import renaming.{ApprovedName, NameSearch, SourceName}
+import renaming.{TargetName, NameSearch, SourceName}
 
 case class SearchNameComparator(
                                  nameSearch: NameSearch,
@@ -12,7 +12,7 @@ case class SearchNameComparator(
                                  fields: Seq[Field] = Fields.values
                                )(implicit language: Language) extends NameComparator {
 
-  override def approvedNameToNormalizedScore(name: SourceName, approvedNames: Iterable[ApprovedName]): Map[ApprovedName, Double] = {
+  override def approvedNameToNormalizedScore(name: SourceName, approvedNames: Iterable[TargetName]): Map[TargetName, Double] = {
     nameSearch.approvedNameToNormalizedScore(query(name), nTopHitsToGetNonZeroScores, fields)
   }
 

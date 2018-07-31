@@ -2,6 +2,7 @@ package dataDictionary
 
 import java.time.LocalDate
 
+import consoleApplication.ConsoleRenamer.Languages.Language
 import dataDictionary.FieldEntry.FieldRowBooleans.FieldRowBoolean
 import dataDictionary.FieldEntry.{DataTypes, FieldGeneratedValues, FieldRowBooleans}
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
@@ -12,6 +13,7 @@ import dataDictionary.ObjectRow.StorageZones.{RawData, StorageZone}
 import dataDictionary.types.LogicalFormats
 import dataDictionary.types.LogicalFormats.LogicalFormat
 import dataDictionary.types.bigData.ParquetTypes
+import renaming.TargetName
 
 import scala.util.Try
 

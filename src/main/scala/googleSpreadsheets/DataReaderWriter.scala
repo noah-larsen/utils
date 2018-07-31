@@ -2,7 +2,7 @@ package googleSpreadsheets
 
 import googleSpreadsheets.DataReaderWriter.{AbstractColumn, AbstractColumns}
 import utils.enumerated.Enumerated
-import utils.enumerated.EnumeratedType
+import utils.enumerated.SelfNamed
 
 trait DataReaderWriter[T <: Row] extends DataReader[T] {
 
@@ -30,7 +30,7 @@ object DataReaderWriter {
     def order: Seq[Column]
 
 
-    protected def enumeratedTypeOptionToString(x: Option[EnumeratedType]): String = x.map(_.name).getOrElse(new String)
+    protected def enumeratedTypeOptionToString(x: Option[SelfNamed]): String = x.map(_.name).getOrElse(new String)
 
   }
 

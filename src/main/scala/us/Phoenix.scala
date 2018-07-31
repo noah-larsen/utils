@@ -1,5 +1,0 @@
-package us
-
-object Phoenix {
-
-}

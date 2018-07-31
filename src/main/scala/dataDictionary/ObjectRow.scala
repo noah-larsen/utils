@@ -9,9 +9,9 @@ import dataDictionary.ObjectRow.Frequencies.Frequency
 import dataDictionary.ObjectRow.LoadingTypes.LoadingType
 import dataDictionary.ObjectRow.StorageTypes.StorageType
 import dataDictionary.ObjectRow.StorageZones.StorageZone
-import utils.enumerated.EnumeratedType.NameFormats.CaseFormats.Uppercase
-import utils.enumerated.EnumeratedType.NameFormats.{Custom, ObjectName, ObjectNameWithSpacesBetweenWords}
-import utils.enumerated.{Enumerated, EnumeratedType}
+import utils.enumerated.SelfNamed.NameFormats.CaseFormats.Uppercase
+import utils.enumerated.SelfNamed.NameFormats.{Custom, ObjectName, ObjectNameWithSpacesBetweenWords}
+import utils.enumerated.{Enumerated, SelfNamed}
 
 case class ObjectRow(
                       countryTheDataSource: Country,
@@ -60,7 +60,7 @@ object ObjectRow {
   object CoreValues extends Enumerated {
 
     override type T = CoreValue
-    sealed abstract class CoreValue extends EnumeratedType(ObjectName(Uppercase))
+    sealed abstract class CoreValue extends SelfNamed(ObjectName(Uppercase))
 
     object Yes extends CoreValue
     object No extends CoreValue
@@ -74,7 +74,7 @@ object ObjectRow {
   object Countries extends Enumerated {
     
     override type T = Country
-    sealed abstract class Country extends EnumeratedType(ObjectNameWithSpacesBetweenWords())
+    sealed abstract class Country extends SelfNamed(ObjectNameWithSpacesBetweenWords())
     
     object Argentina extends Country
     object Colombia extends Country
@@ -98,7 +98,7 @@ object ObjectRow {
   object Frequencies extends Enumerated {
 
     override type T = Frequency
-    sealed abstract class Frequency extends EnumeratedType(ObjectNameWithSpacesBetweenWords())
+    sealed abstract class Frequency extends SelfNamed(ObjectNameWithSpacesBetweenWords())
 
     object Annually extends Frequency
     object Bimonthly extends Frequency
@@ -120,7 +120,7 @@ object ObjectRow {
   object LoadingTypes extends Enumerated {
 
     override type T = LoadingType
-    sealed abstract class LoadingType extends EnumeratedType
+    sealed abstract class LoadingType extends SelfNamed
 
     object Complete extends LoadingType
     object Incremental extends LoadingType
@@ -134,7 +134,7 @@ object ObjectRow {
   object StorageTypes extends Enumerated {
 
     override type T = StorageType
-    sealed case class StorageType(customName: String) extends EnumeratedType(Custom(customName))
+    sealed case class StorageType(customName: String) extends SelfNamed(Custom(customName))
 
     object HdfsAvro extends StorageType("HDFS-Avro")
     object HdfsParquet extends StorageType("HDFS-Parquet")
@@ -148,7 +148,7 @@ object ObjectRow {
   object StorageZones extends Enumerated {
 
     override type T = StorageZone
-    sealed abstract class StorageZone(customName: String) extends EnumeratedType(Custom(customName))
+    sealed abstract class StorageZone(customName: String) extends SelfNamed(Custom(customName))
 
     object MasterData extends StorageZone("MASTERDATA")
     object Production extends StorageZone("Production")
