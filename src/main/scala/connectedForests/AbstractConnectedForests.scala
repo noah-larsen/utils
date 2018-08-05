@@ -20,6 +20,9 @@ trait AbstractConnectedForests[F, N] {
   def relatedNodes(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Set[Seq[N]]
 
 
+  def relatedNodesOfPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]]
+
+
   def roots(forestLabel: F): Set[N]
 
 
@@ -45,5 +48,10 @@ trait AbstractConnectedForests[F, N] {
 
 
   def withoutSubtree(forestLabel: F, path: Seq[N]): Self
+
+
+  def subPaths(path: Seq[N]): Seq[Seq[N]] = {
+    path.inits.toSeq.reverse.tail
+  }
 
 }

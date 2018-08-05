@@ -1,9 +1,10 @@
 package utils.commands
 
+
 abstract class Command(
-                        val parameters: Seq[Parameter] = Seq(),
+                        parameters: Seq[AbstractParameter] = Seq(),
                         specifiedLetterName: Option[Char] = None
-                      ) extends AbstractCommand{
+                      ) extends AbstractCommand(parameters) {
 
   def letterName: Char = {
     specifiedLetterName.getOrElse(name.head.toLower)

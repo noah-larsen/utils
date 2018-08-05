@@ -17,13 +17,13 @@ case class DevelopingConnectedForests[F, N] private (
   }
 
 
-  def unfinishedSubroots(fromForestLabel: F, toForestLabel: F, minFinishedProportionFinishedNode: Double,
+  def unfinishedSubroots(fromForestLabel: F, toForestLabel: F, maxFinishedProportionUnfinishedNode: Double,
                          sortBy: (ConnectedForests[F, N], F) => Seq[N] => Seq[Int] = DevelopingConnectedForests.SortByFs.breadthFirstLargestSubtree): Seq[Seq[N]] = {
 
     def unfinishedSubroots(subrootPaths: Iterable[Seq[N]] = connectedForests.roots(fromForestLabel).map(Seq(_))): Iterable[Seq[N]] = {
       subrootPaths.flatMap{
-        case x if finishedProportion(fromForestLabel, x, toForestLabel) >= minFinishedProportionFinishedNode && connectedForests.children(fromForestLabel, x).isEmpty => Seq()
-        case x if finishedProportion(fromForestLabel, x, toForestLabel) >= minFinishedProportionFinishedNode => unfinishedSubroots(connectedForests.children(fromForestLabel,
+        case x if finishedProportion(fromForestLabel, x, toForestLabel) > maxFinishedProportionUnfinishedNode && connectedForests.children(fromForestLabel, x).isEmpty => Seq()
+        case x if finishedProportion(fromForestLabel, x, toForestLabel) > maxFinishedProportionUnfinishedNode => unfinishedSubroots(connectedForests.children(fromForestLabel,
           x).map(x :+ _))
         case x => Seq(x)
       }
@@ -65,48 +65,53 @@ case class DevelopingConnectedForests[F, N] private (
   }
 
 
+  override def relatedNodesOfPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]] = {
+    connectedForests.relatedNodesOfPath(fromForestLabel, fromForestPath, toForestLabel)
+  }
+
+
   override def roots(forestLabel: F): Set[N] = {
     connectedForests.roots(forestLabel)
   }
 
 
-  override def withForest(label: F): Self = {
+  override def withForest(label: F): DevelopingConnectedForests[F, N] = {
     DevelopingConnectedForests(connectedForests.withForest(label), relatedNodesKeyToFinishedProportion)
   }
 
 
-  override def withLabel(forestLabel: F, path: Seq[N], label: N): Self = {
+  override def withLabel(forestLabel: F, path: Seq[N], label: N): DevelopingConnectedForests[F, N] = {
     DevelopingConnectedForests(connectedForests.withLabel(forestLabel, path, label), relatedNodesKeyToFinishedProportion)
   }
 
 
-  override def withPath(forestLabel: F, path: Seq[N]): Self = {
+  override def withPath(forestLabel: F, path: Seq[N]): DevelopingConnectedForests[F, N] = {
     DevelopingConnectedForests(connectedForests.withPath(forestLabel, path), relatedNodesKeyToFinishedProportion)
   }
 
 
-  override def withPaths(forestLabel: F, paths: Iterable[Seq[N]]): Self = {
+  override def withPaths(forestLabel: F, paths: Iterable[Seq[N]]): DevelopingConnectedForests[F, N] = {
     DevelopingConnectedForests(connectedForests.withPaths(forestLabel, paths), relatedNodesKeyToFinishedProportion)
   }
 
 
-  override def withRelationship(forest1Label: F, forest1Path: Seq[N], forest2Label: F, forest2Path: Seq[N]): Self = {
+  override def withRelationship(forest1Label: F, forest1Path: Seq[N], forest2Label: F, forest2Path: Seq[N]): DevelopingConnectedForests[F, N] = {
     DevelopingConnectedForests(connectedForests.withRelationship(forest1Label, forest1Path, forest2Label, forest2Path), relatedNodesKeyToFinishedProportion)
   }
 
 
-  override def withoutRelationship(forest1Label: F, forest1Path: Seq[N], forest2Label: F, forest2Path: Seq[N]): Self = {
+  override def withoutRelationship(forest1Label: F, forest1Path: Seq[N], forest2Label: F, forest2Path: Seq[N]): DevelopingConnectedForests[F, N] = {
     DevelopingConnectedForests(connectedForests.withoutRelationship(forest1Label, forest1Path, forest2Label, forest2Path), relatedNodesKeyToFinishedProportion)
   }
 
 
-  override def withoutForest(forestLabel: F): Self = {
+  override def withoutForest(forestLabel: F): DevelopingConnectedForests[F, N] = {
     DevelopingConnectedForests(connectedForests.withoutForest(forestLabel), relatedNodesKeyToFinishedProportion.filterKeys(x => !Seq(x.fromForestLabel, x.toForestLabel)
       .contains(forestLabel)))
   }
 
 
-  override def withoutSubtree(forestLabel: F, path: Seq[N]): Self = {
+  override def withoutSubtree(forestLabel: F, path: Seq[N]): DevelopingConnectedForests[F, N] = {
     DevelopingConnectedForests(connectedForests.withoutSubtree(forestLabel, path), relatedNodesKeyToFinishedProportion.filterKeys(x => connectedForests.pathsSubtree(forestLabel,
       path).exists(y => x.fromForestLabel == forestLabel && x.fromForestNodeId == connectedForests.id(forestLabel, y))))
   }
