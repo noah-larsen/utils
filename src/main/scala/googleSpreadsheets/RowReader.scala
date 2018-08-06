@@ -12,5 +12,15 @@ trait RowReader[T <: Row] {
 
   protected def toRow(r: Int => String): T
 
+
+  protected def withDefaultIfEmpty[U](value: String, transform: String => U, default: U): U = {
+    if(value.isEmpty) default else transform(value)
+  }
+
+
+  protected def withDefaultIfEmpty(value: String, default: String): String = {
+    Some(value).filter(_.nonEmpty).getOrElse(default)
+  }
+
 }
 

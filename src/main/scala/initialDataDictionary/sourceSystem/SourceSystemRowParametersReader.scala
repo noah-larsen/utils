@@ -2,7 +2,7 @@ package initialDataDictionary.sourceSystem
 
 import dataDictionary.FieldEntry.YesOrNoValues
 import dataDictionary.FieldEntry.YesOrNoValues.Yes
-import dataDictionary.ObjectRow.{Countries, FileTypes}
+import dataDictionary.ObjectRow.{Countries, FileTypes, Frequencies, LoadingTypes}
 import dataDictionary.PhysicalNameObject.SourceTypes
 import googleSpreadsheets.RowParametersReader.{RowParameter, RowParameters}
 import googleSpreadsheets.{RowParametersReader, SheetRange}
@@ -23,13 +23,17 @@ object SourceSystemRowParametersReader extends RowParametersReader[SourceSystem]
   override protected def transform(parameterToValue: Map[RowParameter, String], parameterToValues: Map[RowParameter, Seq[String]]): SourceSystem = {
     initialDataDictionary.sourceSystem.SourceSystem(
       additionalOperationalSourceSystems = parameterToValues(AdditionalOperationalSourceSystems),
+      defaultCountryTheConceptualEntity = Countries.withName(parameterToValue(DefaultCountryOfTheConceptualEntity)),
       defaultCountryTheDataSource = Countries.withName(parameterToValue(DefaultCountryOfTheDataSource)),
       defaultDataSuperType = DataSuperTypes.withName(parameterToValue(DefaultDataSuperType)),
       defaultExtractionFileType = FileTypes.withName(parameterToValue(DefaultExtractionFileType)),
       defaultExtractionFileDelimeter = parameterToValue(DefaultExtractionFileDelimeter),
-      defaultIsCore = YesOrNoValues.withName(parameterToValue(DefaultIsIngestedFromFixedWidthTextFiles)).map(YesOrNoValues.toBoolean),
-      defaultIsIngestedFromFixedWidthTextFiles = YesOrNoValues.withName(parameterToValue(DefaultIsIngestedFromFixedWidthTextFiles)).map(_ == Yes),
+      defaultFrequency = Frequencies.withName(parameterToValue(DefaultFrequency)),
+      defaultIsCore = YesOrNoValues.withName(parameterToValue(DefaultIsCore)).map(YesOrNoValues.toBoolean),
+      defaultIsIngestedFromFixedWidth = YesOrNoValues.withName(parameterToValue(DefaultIsIngestedFromFixedWidth)).map(_ == Yes),
       defaultIsTDS = YesOrNoValues.withName(parameterToValue(DefaultIsTDS)).map(_ == Yes),
+      defaultLoadingType = LoadingTypes.withName(parameterToValue(DefaultLoadingType)),
+      defaultMailbox = parameterToValue(DefaultMailbox),
       defaultMasterSchemaPath = parameterToValue(DefaultMasterSchemaPath),
       defaultObjectType = ObjectTypes.withName(parameterToValue(DefaultObjectType)),
       defaultPartitions = parameterToValues(DefaultPartitions),
