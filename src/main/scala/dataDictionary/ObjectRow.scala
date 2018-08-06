@@ -5,12 +5,13 @@ import java.time.LocalDate
 
 import dataDictionary.ObjectRow.CoreValues.CoreValue
 import dataDictionary.ObjectRow.Countries.Country
+import dataDictionary.ObjectRow.FileTypes.FileType
 import dataDictionary.ObjectRow.Frequencies.Frequency
 import dataDictionary.ObjectRow.LoadingTypes.LoadingType
 import dataDictionary.ObjectRow.StorageTypes.StorageType
 import dataDictionary.ObjectRow.StorageZones.StorageZone
 import utils.enumerated.SelfNamed.NameFormats.CaseFormats.Uppercase
-import utils.enumerated.SelfNamed.NameFormats.{Custom, ObjectName, ObjectNameWithSpacesBetweenWords}
+import utils.enumerated.SelfNamed.NameFormats.{Custom, NameFormat, ObjectName, ObjectNameWithSpacesBetweenWords}
 import utils.enumerated.{Enumerated, SelfNamed}
 
 case class ObjectRow(
@@ -45,9 +46,9 @@ case class ObjectRow(
                       mailboxSourceTable: String,
                       sourcePath: String,
                       schemaPath: Path,
-                      sourceFileType: StorageType,
+                      sourceFileType: FileType,
                       sourceFileDelimeter : Option[String],
-                      targetFileType: StorageType,
+                      targetFileType: FileType,
                       targetFileDelimeter: Option[String],
                       tags: Seq[String],
                       registrationDate: LocalDate
@@ -92,6 +93,24 @@ object ObjectRow {
     
     override val values = Seq(Argentina, Colombia, Chile, Holding, Mexico, Paraguay, Peru, Spain, Turkey, UnitedStates, Uruguay, Venezuela)
     
+  }
+
+
+  object FileTypes extends Enumerated {
+
+    override type T = FileType
+    sealed abstract class FileType(nameFormat: NameFormat = ObjectName()) extends SelfNamed(nameFormat)
+
+    object Avro extends FileType
+    object CSV extends FileType
+    object Fixed extends FileType
+    object Parquet extends FileType
+    object TextExtended extends FileType
+    object XML extends FileType
+
+
+    override val values = Seq(Avro, CSV, Fixed, Parquet, TextExtended, XML)
+
   }
   
   

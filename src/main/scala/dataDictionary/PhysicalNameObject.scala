@@ -46,7 +46,7 @@ object PhysicalNameObject {
 
     override type T = SourceType
 
-    sealed case class SourceType(code: Char) extends SelfNamed {
+    sealed abstract case class SourceType(code: Char) extends SelfNamed {
       override def name: String = code.toString
     }
 

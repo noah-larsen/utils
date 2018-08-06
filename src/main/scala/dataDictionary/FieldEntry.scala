@@ -4,13 +4,13 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 import dataDictionary.FieldEntry.FieldGeneratedValues.FieldGeneratedValue
-import dataDictionary.FieldEntry.FieldRowBooleans.FieldRowBoolean
+import dataDictionary.FieldEntry.YesOrNoValues.YesOrNo
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns._
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns
 import dataDictionary.ObjectRow.Countries.Country
 import dataDictionary.ObjectRow.StorageTypes.StorageType
 import dataDictionary.ObjectRow.StorageZones.StorageZone
-import googleSpreadsheets.{DataReaderWriter, Row, SheetRange}
+import googleSpreadsheets.{RowReaderWriter, Row, SheetRange}
 import utils.enumerated.Enumerated
 import utils.enumerated.SelfNamed
 import utils.enumerated.SelfNamed.NameFormats.CaseFormats.Uppercase
@@ -30,8 +30,8 @@ case class FieldEntry(
                        dataType: Option[String] = None,
                        format: Option[String] = None,
                        logicalFormat: Option[String] = None,
-                       key: Option[FieldRowBoolean] = None,
-                       mandatory: Option[FieldRowBoolean] = None,
+                       key: Option[YesOrNo] = None,
+                       mandatory: Option[YesOrNo] = None,
                        defaultValue: Option[String] = None,
                        physicalNameSourceObject: Option[String] = None,
                        sourceField: Option[String] = None,
@@ -45,7 +45,7 @@ case class FieldEntry(
                        countryTheConceptualEntity: Option[Country] = None,
                        conceptualEntity: Option[String] = None,
                        operationalEntity: Option[String] = None,
-                       tds: Option[FieldRowBoolean] = None
+                       tds: Option[YesOrNo] = None
                      ) extends Row {
 
   def merge(fieldEntry: FieldEntry, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn] = Seq()): FieldEntry = {
@@ -124,13 +124,26 @@ object FieldEntry {
   }
 
 
-  object FieldRowBooleans extends Enumerated {
+  object YesOrNoValues extends Enumerated {
 
-    override type T = FieldRowBoolean
-    sealed abstract class FieldRowBoolean extends SelfNamed(ObjectName(Uppercase))
+    override type T = YesOrNo
+    sealed abstract class YesOrNo extends SelfNamed(ObjectName(Uppercase))
 
-    object Yes extends FieldRowBoolean
-    object No extends FieldRowBoolean
+    object Yes extends YesOrNo
+    object No extends YesOrNo
+
+
+    def toBooleanOption(yesOrNo: String): Option[Boolean] = {
+      withName(yesOrNo).map(toBoolean)
+    }
+
+
+    def toBoolean(yesOrNo: YesOrNo): Boolean = {
+      yesOrNo match {
+        case Yes => true
+        case No => false
+      }
+    }
 
 
     override val values = Seq(Yes, No)

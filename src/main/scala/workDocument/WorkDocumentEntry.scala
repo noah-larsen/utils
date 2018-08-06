@@ -4,8 +4,8 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 import dataDictionary.FieldEntry
-import googleSpreadsheets.DataReaderWriter.{AbstractColumn, AbstractColumns}
-import googleSpreadsheets.{DataReaderWriter, Row, SheetRange}
+import googleSpreadsheets.RowReaderWriter.{AbstractColumn, AbstractColumns}
+import googleSpreadsheets.{RowReaderWriter, Row, SheetRange}
 import utils.enumerated.Enumerated
 import utils.enumerated.SelfNamed
 import utils.enumerated.SelfNamed.NameFormats.Custom
@@ -49,7 +49,7 @@ case class WorkDocumentEntry(
 
 }
 
-object WorkDocumentEntry extends DataReaderWriter[WorkDocumentEntry] {
+object WorkDocumentEntry extends RowReaderWriter[WorkDocumentEntry] {
 
   override def sheetRange: SheetRange = {
     SheetRange("Namings Repository - Work Document - Avro", "P", 4)

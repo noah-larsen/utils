@@ -7,12 +7,12 @@ import dataDictionary.FieldEntry.IngestionStages.IngestionStage
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns
 import dataDictionary.FieldEntry._
 import dataDictionary.ObjectRow.{Countries, StorageTypes, StorageZones}
-import googleSpreadsheets.DataReaderWriter.{AbstractColumn, AbstractColumns}
-import googleSpreadsheets.{DataReaderWriter, SheetRange}
+import googleSpreadsheets.RowReaderWriter.{AbstractColumn, AbstractColumns}
+import googleSpreadsheets.{RowReaderWriter, SheetRange}
 
 import scala.util.Try
 
-case class FieldEntryReaderWriter(ingestionStage: IngestionStage) extends DataReaderWriter[FieldEntry] {
+case class FieldEntryReaderWriter(ingestionStage: IngestionStage) extends RowReaderWriter[FieldEntry] {
 
   override def sheetRange: SheetRange = {
     SheetRange(s"DC-DD-Field-${ingestionStage match{case IngestionStages.Raw => "RAW" case IngestionStages.Master => "Master"}}", "AA", 6)
@@ -32,8 +32,8 @@ case class FieldEntryReaderWriter(ingestionStage: IngestionStage) extends DataRe
       text(row(8)),
       text(row(9)),
       text(row(10)),
-      dropDown(FieldRowBooleans, row(11)),
-      dropDown(FieldRowBooleans, row(12)),
+      dropDown(YesOrNoValues, row(11)),
+      dropDown(YesOrNoValues, row(12)),
       text(row(13)),
       text(row(14)),
       text(row(15)),
@@ -47,7 +47,7 @@ case class FieldEntryReaderWriter(ingestionStage: IngestionStage) extends DataRe
       dropDown(Countries, row(23)),
       text(row(24)),
       text(row(25)),
-      dropDown(FieldRowBooleans, row(26))
+      dropDown(YesOrNoValues, row(26))
     )
   }
 

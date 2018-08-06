@@ -14,6 +14,7 @@ import collection.JavaConverters._
 import scala.io.Source
 
 case class Configuration(
+                          initialDataDictionaryId: String,
                           intermediateDataDictionaryId: String,
                           workDocumentId: String,
                           sourceSystemToDataDictionaryId: Map[String, String],
@@ -29,6 +30,7 @@ object Configuration {
   def apply(source: Source): Try[Configuration] = {
     val config = ConfigFactory.parseString(source.mkString)
     Try(Configuration(
+      config.getString(ConfigParameters.InitialDataDictionaryId.name),
       config.getString(ConfigParameters.IntermediateDataDictionaryId.name),
       config.getString(ConfigParameters.WorkDocumentId.name),
       config.getObject(ConfigParameters.SourceSystemToDataDictionaryId.name).unwrapped().asScala.toMap.asInstanceOf[Map[String, String]],
@@ -44,6 +46,7 @@ object Configuration {
     override type T = ConfigParameter
     sealed abstract class ConfigParameter extends SelfNamed
 
+    object InitialDataDictionaryId extends ConfigParameter
     object IntermediateDataDictionaryId extends ConfigParameter
     object WorkDocumentId extends ConfigParameter
     object SourceSystemToDataDictionaryId extends ConfigParameter
@@ -52,7 +55,7 @@ object Configuration {
     object Country extends ConfigParameter
 
 
-    override val values = Seq(IntermediateDataDictionaryId, WorkDocumentId, SourceSystemToDataDictionaryId, ApplicationId, Language, Country)
+    override val values = Seq(InitialDataDictionaryId, IntermediateDataDictionaryId, WorkDocumentId, SourceSystemToDataDictionaryId, ApplicationId, Language, Country)
 
   }
 

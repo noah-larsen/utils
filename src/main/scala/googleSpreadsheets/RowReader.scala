@@ -1,6 +1,6 @@
 package googleSpreadsheets
 
-trait DataReader[T <: Row] {
+trait RowReader[T <: Row] {
 
   def sheetRange: SheetRange
 

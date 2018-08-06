@@ -1,10 +1,10 @@
 package googleSpreadsheets
 
-import googleSpreadsheets.DataReaderWriter.{AbstractColumn, AbstractColumns}
+import googleSpreadsheets.RowReaderWriter.{AbstractColumn, AbstractColumns}
 import utils.enumerated.Enumerated
 import utils.enumerated.SelfNamed
 
-trait DataReaderWriter[T <: Row] extends DataReader[T] {
+trait RowReaderWriter[T <: Row] extends RowReader[T] {
 
   def toStringSeq(row: T): Seq[String] = {
     columns.order.map(_.string(row))
@@ -20,7 +20,7 @@ trait DataReaderWriter[T <: Row] extends DataReader[T] {
 
 }
 
-object DataReaderWriter {
+object RowReaderWriter {
 
   trait AbstractColumns[U] {
 

@@ -1,6 +1,6 @@
 package us.phoenix
 
-import googleSpreadsheets.{DataReader, Row, SheetRange}
+import googleSpreadsheets.{RowReader, Row, SheetRange}
 
 private[phoenix] case class PODDRow(
                                      tableName: String,
@@ -27,7 +27,7 @@ private[phoenix] case class PODDRow(
 
 }
 
-private[phoenix] object PODDRow extends DataReader[PODDRow] {
+private[phoenix] object PODDRow extends RowReader[PODDRow] {
 
   override def sheetRange: SheetRange = {
     SheetRange("PHX Data Dictionary 20180716.csv", "E", 2)

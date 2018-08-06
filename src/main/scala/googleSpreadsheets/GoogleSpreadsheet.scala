@@ -27,24 +27,29 @@ class GoogleSpreadsheet(sheets: Sheets, spreadsheetId: String) {
   }
 
 
-  def get[T <: Row](dataReader: DataReader[T]): Try[Seq[T]] = {
-    get(dataReader.sheetRange).map(_.map(dataReader.toRow))
+  def get[T <: Row](rowReader: RowReader[T]): Try[Seq[T]] = {
+    get(rowReader.sheetRange).map(_.map(rowReader.toRow))
   }
 
 
-  def update[T <: Row](rows: Seq[T], dataReaderWriter: DataReaderWriter[T], fromRow: Option[Int] = None, toRow: Option[Int] = None, valueInputOption: ValueInputOptions.Value = ValueInputOptions.userEntered): Try[UpdateValuesResponse] = {
+  def get[T](rowParametersReader: RowParametersReader[T]): Try[T] = {
+    get(rowParametersReader.sheetRange).map(rowParametersReader.transform)
+  }
+
+
+  def update[T <: Row](rows: Seq[T], dataReaderWriter: RowReaderWriter[T], fromRow: Option[Int] = None, toRow: Option[Int] = None, valueInputOption: ValueInputOptions.Value = ValueInputOptions.userEntered): Try[UpdateValuesResponse] = {
     val range = Some(dataReaderWriter.sheetRange).map(x => x.copy(fromRow = fromRow.getOrElse(x.fromRow), toRow = toRow.orElse(x.toRow))).map(x => if(x.toRow.isEmpty) get(dataReaderWriter).map(y => x.copy(fromRow = x.fromRow + y.length)) else Try(x)).get.map(_.range)
     range.flatMap(x => Try(sheets.spreadsheets.values.update(spreadsheetId, x, new ValueRange().setValues(rows.map(dataReaderWriter.toStringSeq(_).map(_.asInstanceOf[AnyRef]).asJava).asJava)).setValueInputOption(valueInputOption.toString).execute()))
   }
 
 
-  def append[T <: Row](rows: Seq[T], dataReaderWriter: DataReaderWriter[T], valueInputOption: ValueInputOptions.Value = ValueInputOptions.userEntered): Try[AppendValuesResponse] = {
+  def append[T <: Row](rows: Seq[T], dataReaderWriter: RowReaderWriter[T], valueInputOption: ValueInputOptions.Value = ValueInputOptions.userEntered): Try[AppendValuesResponse] = {
     val range = Some(dataReaderWriter.sheetRange).filter(_.toRow.isEmpty).map(x => get(dataReaderWriter).map(y => x.copy(fromRow = x.fromRow + y.length))).getOrElse(Try(dataReaderWriter.sheetRange)).map(_.range)
     range.flatMap(x => Try(sheets.spreadsheets.values.append(spreadsheetId, x, new ValueRange().setValues(rows.map(dataReaderWriter.toStringSeq(_).map(_.asInstanceOf[AnyRef]).asJava).asJava)).setValueInputOption(valueInputOption.toString).execute()))
   }
 
 
-  def rangesInclusive[T <: Row](dataReader: DataReader[T], condition: T => Boolean): Try[Seq[(Int, Int)]] = {
+  def rangesInclusive[T <: Row](dataReader: RowReader[T], condition: T => Boolean): Try[Seq[(Int, Int)]] = {
 
     def rangesInclusive(indexes: Iterable[Int]): Seq[(Int, Int)] = {
       Some(indexes.toSeq.distinct.sorted).map(x => x.headOption.map(y => x.sliding(2).filter(z => z.last - z.head != 1 && z.lengthCompare(1) != 0).flatten.toSeq.+:(y).:+(x.last).grouped(2).map(z => (z.head, z.last)).toSeq).getOrElse(Seq())).get
@@ -59,7 +64,8 @@ class GoogleSpreadsheet(sheets: Sheets, spreadsheetId: String) {
 
 object GoogleSpreadsheet {
 
-  //todo
+  //todo generalize
+
   def apply(spreadsheetId: String, secretFile: String = "client_secret.json"): Try[GoogleSpreadsheet] = {
     authorize(secretFile).flatMap(sheets).map(new GoogleSpreadsheet(_, spreadsheetId))
   }
@@ -72,7 +78,6 @@ object GoogleSpreadsheet {
 
 
   private val applicationName = "Datahub Automation"
-  //todo
   private val dataStoreDir = new File(sys.props.get("skynet.gdrive.credentials.dir").getOrElse(sys.props.get("user.home").get),
     ".credentials/sheets.googleapis.skynet")
   private val dataStoreFactory = new FileDataStoreFactory(dataStoreDir)
@@ -83,8 +88,6 @@ object GoogleSpreadsheet {
     Proxies.proxy.foreach(x => builder.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(x.hostname, x.port))))
     builder.build()
   }
-  //todo
-//  private val sheetScope = List(SheetsScopes.SPREADSHEETS_READONLY)
   private val sheetScope = List(SheetsScopes.SPREADSHEETS)
 
 

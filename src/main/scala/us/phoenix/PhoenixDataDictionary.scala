@@ -1,7 +1,7 @@
 package us.phoenix
 
 import dataDictionary.FieldEntry.DefaultValues
-import dataDictionary.FieldEntry.FieldRowBooleans.Yes
+import dataDictionary.FieldEntry.YesOrNoValues.Yes
 import dataDictionary.ObjectRow.Countries
 import dataDictionary.types.databases.OracleTypes
 import dataDictionary.{FieldEntriesObject, FieldEntry, PhysicalNameObject, Type}

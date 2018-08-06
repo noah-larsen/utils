@@ -3,8 +3,8 @@ package dataDictionary
 import java.time.LocalDate
 
 import consoleApplication.ConsoleRenamer.Languages.Language
-import dataDictionary.FieldEntry.FieldRowBooleans.FieldRowBoolean
-import dataDictionary.FieldEntry.{DataTypes, FieldGeneratedValues, FieldRowBooleans}
+import dataDictionary.FieldEntry.YesOrNoValues.YesOrNo
+import dataDictionary.FieldEntry.{DataTypes, FieldGeneratedValues, YesOrNoValues}
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
 import dataDictionary.ObjectRow.Countries.Country
 import dataDictionary.ObjectRow.{StorageTypes, StorageZones}
@@ -62,11 +62,11 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
 
 
   def withKey(physicalNameFields: Iterable[String]): FieldEntriesObject = {
-    FieldEntriesObject(fieldEntries.map(x => if(x.physicalNameField.exists(y => physicalNameFields.exists(_.equalsIgnoreCase(y)))) x.copy(key = Some(FieldRowBooleans.Yes), defaultValue = None) else x.copy(key = Some(FieldRowBooleans.No))))
+    FieldEntriesObject(fieldEntries.map(x => if(x.physicalNameField.exists(y => physicalNameFields.exists(_.equalsIgnoreCase(y)))) x.copy(key = Some(YesOrNoValues.Yes), defaultValue = None) else x.copy(key = Some(YesOrNoValues.No))))
   }
 
 
-  def withMandatory(mandatory: FieldRowBoolean): FieldEntriesObject = {
+  def withMandatory(mandatory: YesOrNo): FieldEntriesObject = {
     FieldEntriesObject(fieldEntries.map(_.copy(mandatory = Some(mandatory))))
   }
 
@@ -77,7 +77,7 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
 
 
   def withRawFromTextValues: FieldEntriesObject = {
-    this.withStorageType(HdfsAvro).withStorageZone(RawData).withDataTypeSourceField(DataTypes.string).withDataType(DataTypes.string).withMandatory(FieldRowBooleans.No)
+    this.withStorageType(HdfsAvro).withStorageZone(RawData).withDataTypeSourceField(DataTypes.string).withDataType(DataTypes.string).withMandatory(YesOrNoValues.No)
   }
 
 
@@ -91,7 +91,7 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
   }
 
 
-  def withTrustedDataSource(trustedDataSource: FieldRowBoolean): FieldEntriesObject = {
+  def withTrustedDataSource(trustedDataSource: YesOrNo): FieldEntriesObject = {
     copy(fieldEntries.map(_.copy(tds = Some(trustedDataSource))))
   }
 

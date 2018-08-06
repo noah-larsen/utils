@@ -1,7 +1,7 @@
 package us.alnova
 
 import dataDictionary.FieldEntry.DefaultValues
-import dataDictionary.FieldEntry.FieldRowBooleans.Yes
+import dataDictionary.FieldEntry.YesOrNoValues.Yes
 import dataDictionary.ObjectRow.Countries
 import dataDictionary.types.databases.DB2Types
 import dataDictionary.types.databases.DB2Types.DB2Type

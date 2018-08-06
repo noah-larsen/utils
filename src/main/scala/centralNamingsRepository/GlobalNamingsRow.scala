@@ -1,6 +1,6 @@
 package centralNamingsRepository
 
-import googleSpreadsheets.{DataReader, Row, SheetRange}
+import googleSpreadsheets.{RowReader, Row, SheetRange}
 import renaming.TargetName
 import consoleApplication.ConsoleRenamer.Languages
 import consoleApplication.ConsoleRenamer.Languages.Language
@@ -27,7 +27,7 @@ case class GlobalNamingsRow(
 
 }
 
-object GlobalNamingsRow extends DataReader[GlobalNamingsRow] {
+object GlobalNamingsRow extends RowReader[GlobalNamingsRow] {
 
   override def sheetRange: SheetRange = SheetRange("GLOBAL - Central Repository of Namings", "P", 5)
 

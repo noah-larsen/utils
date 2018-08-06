@@ -5,6 +5,11 @@ import utils.enumerated.SelfNamed.NameFormats._
 
 abstract class SelfNamed(nameFormat: NameFormat = ObjectName()) {
 
+  def this(caseFormat: CaseFormat){
+    this(ObjectName(caseFormat))
+  }
+
+
   def name: String = {
 
     def withCaseFormat(name: String, caseFormat: CaseFormat): String = {
