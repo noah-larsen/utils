@@ -22,8 +22,18 @@ case class ConnectedForests[F, N] private (
   }
 
 
+  override def distance(forestLabel: F, path1: Seq[N], path2: Seq[N]): Option[Int] = {
+    labelToForest(forestLabel).distance(path1, path2)
+  }
+
+
   override def forestLabels: Set[F] = {
     labelToForest.keySet
+  }
+
+
+  override def nonAncestorDescendantNodesSameTree(forestLabel: F, path: Seq[N]): Set[Seq[N]] = {
+    labelToForest(forestLabel).nonAncestorDescendantNodesSameTree(path)
   }
 
 
@@ -44,13 +54,27 @@ case class ConnectedForests[F, N] private (
   }
 
 
-  override def relatedNodesOfPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]] = {
-    subPaths(fromForestPath).map(relatedNodes(fromForestLabel, _, toForestLabel))
+  override def relatedNodesPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]] = {
+    LabeledForest.subPaths(fromForestPath).map(relatedNodes(fromForestLabel, _, toForestLabel))
   }
 
 
   override def roots(forestLabel: F): Set[N] = {
     labelToForest(forestLabel).roots
+  }
+
+
+  override def unrelatedNodeToMinDistanceFromRelatedNonAncestorDescendantSourceNode(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Map[Seq[N], Int] = {
+    nonAncestorDescendantNodesSameTree(fromForestLabel, fromForestPath).flatMap(x => relatedNodes(fromForestLabel, x, toForestLabel).filter(!relatedNodes(fromForestLabel,
+      fromForestPath, toForestLabel).contains(_)).map((_, distance(fromForestLabel, fromForestPath, x)))).groupBy(_._1).mapValues(_.collect{case (_, Some(x)) => x})
+      .collect{case (x, y) if y.nonEmpty => (x, y.min)}
+  }
+
+
+  override def unrelatedNodeToMinDistanceFromNonAncestorDescendantRelatedTargetNode(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Map[Seq[N], Int] = {
+    val relatedNodes_ = relatedNodes(fromForestLabel, fromForestPath, toForestLabel)
+    relatedNodes_.flatMap(x => nonAncestorDescendantNodesSameTree(fromForestLabel, x).filter(!relatedNodes_.contains(_)).map(y => (y, distance(toForestLabel, x, y).get)))
+      .groupBy(_._1).mapValues(_.map(_._2).min)
   }
 
 

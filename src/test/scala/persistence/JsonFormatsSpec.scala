@@ -31,7 +31,7 @@ class JsonFormatsSpec extends FunSpec with DevelopingConnectedForestsTestData {
     it("can convert and reconstruct a developing connected forest"){
       val connectedForestsAndRelatedNodesToFinishedProportionJsonFormat = ConnectedForestsAndRelatedNodesToFinishedProportionJsonFormat(IntJsonFormat, IntJsonFormat)
       assert(DevelopingConnectedForests(connectedForestsAndRelatedNodesToFinishedProportionJsonFormat.fromJson(connectedForestsAndRelatedNodesToFinishedProportionJsonFormat
-        .toJson(developingConnectedForests.connectedForestsAndRelatedNodesToFinishedProportion))) == developingConnectedForests)
+        .toJson(dcf.connectedForestsAndRelatedNodesToFinishedProportion))) == dcf)
       //todo test with finished proportions
     }
   }

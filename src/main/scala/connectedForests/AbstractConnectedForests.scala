@@ -8,7 +8,13 @@ trait AbstractConnectedForests[F, N] {
   def children(forestLabel: F, path: Seq[N]): Set[N]
 
 
+  def distance(forestLabel: F, path1: Seq[N], path2: Seq[N]): Option[Int]
+
+
   def forestLabels: Set[F]
+
+
+  def nonAncestorDescendantNodesSameTree(forestLabel: F, path: Seq[N]): Set[Seq[N]]
 
 
   def paths(forestLabel: F): Set[Seq[N]]
@@ -20,10 +26,16 @@ trait AbstractConnectedForests[F, N] {
   def relatedNodes(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Set[Seq[N]]
 
 
-  def relatedNodesOfPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]]
+  def relatedNodesPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]]
 
 
   def roots(forestLabel: F): Set[N]
+
+
+  def unrelatedNodeToMinDistanceFromRelatedNonAncestorDescendantSourceNode(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Map[Seq[N], Int]
+
+
+  def unrelatedNodeToMinDistanceFromNonAncestorDescendantRelatedTargetNode(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Map[Seq[N], Int]
 
 
   def withForest(label: F): Self
@@ -48,10 +60,5 @@ trait AbstractConnectedForests[F, N] {
 
 
   def withoutSubtree(forestLabel: F, path: Seq[N]): Self
-
-
-  def subPaths(path: Seq[N]): Seq[Seq[N]] = {
-    path.inits.toSeq.reverse.tail
-  }
 
 }

@@ -19,6 +19,12 @@ case class LabeledForest[N] private(
   }
 
 
+  def distance(path1: Seq[N], path2: Seq[N]): Option[Int] = {
+    def lowestCommonAncestor(path1: Seq[N], path2: Seq[N]): Seq[N] = path1.zip(path2).takeWhile(x => x._1 == x._2).map(_._1)
+    Some(lowestCommonAncestor(path1, path2).length).filter(_ > 0).map(x => path1.length - x + path2.length - x)
+  }
+
+
   def id(path: Seq[N]): Long = {
     path.tail.foldLeft(labelToRootId(path.head))((x, y) => idToNode(x).labelToChildId(y))
   }
@@ -26,6 +32,11 @@ case class LabeledForest[N] private(
 
   def idsSubtree(path: Seq[N]): Set[Long] = {
     idsSubtree(id(path))
+  }
+
+
+  def nonAncestorDescendantNodesSameTree(path: Seq[N]): Set[Seq[N]] = {
+    paths -- pathsSubtree(path) -- LabeledForest.subPaths(path)
   }
 
 
@@ -162,6 +173,11 @@ object LabeledForest {
 
   def apply[N](pathToId: Map[Seq[N], Long]): LabeledForest[N] = {
     pathToId.foldLeft(LabeledForest[N]())((x, y) => x.withPath(y._1, pathToId))
+  }
+
+
+  def subPaths[N](path: Seq[N]): Seq[Seq[N]] = {
+    path.inits.toSeq.reverse.tail
   }
 
 

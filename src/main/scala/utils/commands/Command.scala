@@ -2,7 +2,7 @@ package utils.commands
 
 
 abstract class Command(
-                        parameters: Seq[AbstractParameter] = Seq(),
+                        parameters: Seq[Parameter] = Seq(),
                         specifiedLetterName: Option[Char] = None
                       ) extends AbstractCommand(parameters) {
 

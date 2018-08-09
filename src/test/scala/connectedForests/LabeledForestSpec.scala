@@ -15,6 +15,23 @@ class LabeledForestSpec extends FunSpec with LabeledForestTestData {
     }
 
 
+    describe("distance"){
+      val rootToPaths = paths.groupBy(_.head)
+      it("should return 0 for any node to itself"){
+        paths.foreach(x => assert(labeledForest.distance(x, x).contains(0)))
+      }
+      it("should return None for any node to a node with a different root"){
+        paths.foreach(x => rootToPaths.filter(_._1 != x.head).values.flatten.foreach(y => assert(labeledForest.distance(x, y).isEmpty)))
+      }
+      it("should return Some(x) for any node to a node with the same root"){
+        paths.foreach(x => rootToPaths.filter(_._1 == x.head).values.flatten.foreach(y => assert(labeledForest.distance(x, y).isDefined)))
+      }
+      it("should return the number of nodes in the path - 1 for any leaf to its root"){
+        pathsToLeaves.foreach(x => assert(labeledForest.distance(x, Seq(x.head)).contains(x.length - 1)))
+      }
+    }
+
+
     describe("id"){
       it("should return an id uniquely identifying the node if the node exists, and throw an exception otherwise"){
         pathTo__parentLabel_childrenLabels.foreach{path__parentLabel_childrenLabels =>

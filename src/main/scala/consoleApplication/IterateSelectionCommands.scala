@@ -1,0 +1,5 @@
+package consoleApplication
+
+object IterateSelectionCommands {
+
+}

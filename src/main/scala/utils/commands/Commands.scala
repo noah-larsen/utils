@@ -1,6 +1,6 @@
 package utils.commands
 
-import utils.commands.AbstractParameter.{ListParameter, Parameter}
+import utils.commands.Parameter.{ListParameter, OptionalParameter, ValueParameter}
 import utils.commands.Commands.{CommandException, IncorrectNumberParametersException, InvalidParametersException, UnknownCommandException}
 import utils.enumerated.Enumerated
 
@@ -51,15 +51,30 @@ trait Commands extends Enumerated {
 
     def validate: Try[CommandInvocation[T]] = {
       Unit match {
-        case _ if !(parameters.length - command.defaultParameters.length to parameters.collectFirst{case _: ListParameter[_] => Int.MaxValue}.getOrElse(parameters.length))
+        case _ if !(parameters.length - command.nUnrequiredParameters to parameters.collectFirst{case _: ListParameter[_] => Int.MaxValue}.getOrElse(parameters.length))
           .contains(arguments.length) => Failure(IncorrectNumberParametersException)
-          //todo list isValid
         case _ if parameterToArguments.exists(x => x._1 match {
+          case y: ValueParameter[_] => y.parse(x._2.head).isFailure
+          case y: OptionalParameter[_] => y.parse(x._2.head).isFailure
           case y: ListParameter[_] => y.parse(x._2).isFailure
-          case y: Parameter[_] => y.parse(x._2.head).isFailure
         }) => Failure(InvalidParametersException)
         case _ => Try(this)
       }
+    }
+
+
+    def value[U](valueParameter: ValueParameter[U]): U = {
+      (parameters.indexOf(valueParameter), valueParameter.default) match {
+        case (x, Some(y)) if !arguments.indices.contains(x) => y
+        case (x, _) => valueParameter.parse(arguments(x)).get
+      }
+    }
+
+
+    def value[U](optionalParameter: OptionalParameter[U]): Option[U] = {
+      Some(parameters.indexOf(optionalParameter))
+        .filter(arguments.indices.contains)
+        .map(x => optionalParameter.parse(arguments(x)).get)
     }
 
 
@@ -68,23 +83,16 @@ trait Commands extends Enumerated {
     }
 
 
-    def value[U](parameter: Parameter[U]): U = {
-      (parameters.indexOf(parameter), parameter.default) match {
-        case (x, Some(y)) if !arguments.indices.contains(x) => y
-        case (x, _) => parameter.parse(arguments(x)).get
-      }
-    }
-
-
-    private def parameterToArguments: Map[AbstractParameter, Seq[String]] = {
+    private def parameterToArguments: Map[Parameter, Seq[String]] = {
       parameters.lastOption.map{
+        case x: ValueParameter[_] => parameters.zip(arguments).map(x => (x._1, Seq(x._2))).toMap
+        case x: OptionalParameter[_] => parameters.zip(arguments).map(x => (x._1, Seq(x._2))).toMap
         case x: ListParameter[_] => parameters.init.zip(arguments).map(x => (x._1, Seq(x._2))).toMap + (x -> arguments.slice(parameters.length - 1, arguments.length))
-        case x: Parameter[_] => parameters.zip(arguments).map(x => (x._1, Seq(x._2))).toMap
       }.getOrElse(Map())
     }
 
 
-    private def parameters: Seq[AbstractParameter] = {
+    private def parameters: Seq[Parameter] = {
       command.parameters
     }
 

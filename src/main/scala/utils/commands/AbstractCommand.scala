@@ -1,46 +1,55 @@
 package utils.commands
 
-import utils.commands.AbstractParameter.{ListParameter, Parameter}
+import utils.commands.Parameter.{ListParameter, OptionalParameter, ValueParameter}
 import utils.enumerated.SelfNamed
 import utils.enumerated.SelfNamed.NameFormats.{CaseFormats, ObjectNameWithSpacesBetweenWords}
 
-abstract class AbstractCommand(parameters_ : Seq[AbstractParameter]) extends SelfNamed(ObjectNameWithSpacesBetweenWords(CaseFormats.Lowercase)) {
+abstract class AbstractCommand(parameters_ : Seq[Parameter]) extends SelfNamed(ObjectNameWithSpacesBetweenWords(CaseFormats.Lowercase)) {
 
   def usage: String
 
 
-  def defaultParameters: Seq[Parameter[_]] = {
-    parameters_.collect{case x: Parameter[_] if x.default.isDefined => x}
+  def parameters: Seq[Parameter] = {
+    requiredParameters ++ unrequiredParameters ++ listParameter.map(Seq(_)).getOrElse(Nil)
   }
 
 
-  def listParameter: Option[ListParameter[_]] = {
-    parameters_.collectFirst{case x: ListParameter[_] => x}
-  }
-
-
-  def nonDefaultParameters: Seq[Parameter[_]] = {
-    parameters_.collect{case x: Parameter[_] if x.default.isEmpty => x}
-  }
-
-
-  def parameters: Seq[AbstractParameter] = {
-    nonDefaultParameters ++ defaultParameters ++ listParameter.filter(_ => defaultParameters.isEmpty).map(Seq(_)).getOrElse(Nil)
+  def nUnrequiredParameters: Int = {
+    unrequiredParameters.length
   }
 
 
   protected def usage(nameSymbol: Char): String = {
+    val nameSymbolNameSeparator = " - "
     val descriptionParametersSeparator = ": "
     val parametersSeparator = " "
     val listParameterSuffix = " ..."
-    val defaultParameterPrefix = "["
+    val unrequiredParameterPrefix = "["
     val defaultParameterNameDefaultValueSeparator = " = "
-    val defaultParameterSuffix = "]"
-    s"$nameSymbol - $name${parameters.headOption.map(_ => descriptionParametersSeparator + parameters.map{
-      case x: Parameter[_] if x.default.isDefined => defaultParameterPrefix + x.name + defaultParameterNameDefaultValueSeparator + x.default.get + defaultParameterSuffix
-      case x: Parameter[_] => x.name
+    val unrequiredParameterSuffix = "]"
+    nameSymbol + nameSymbolNameSeparator + name + parameters.headOption.map(_ => descriptionParametersSeparator + parameters.map {
+      case x: ValueParameter[_] => x.default.map(unrequiredParameterPrefix + x.name + defaultParameterNameDefaultValueSeparator + _ + unrequiredParameterSuffix).getOrElse(x.name)
+      case x: OptionalParameter[_] => unrequiredParameterPrefix + x.name + unrequiredParameterSuffix
       case x: ListParameter[_] => x.name + listParameterSuffix
-    }.mkString(parametersSeparator)).getOrElse(new String)}"
+    }.mkString(parametersSeparator)).getOrElse(new String)
+  }
+
+
+  private def requiredParameters: Seq[ValueParameter[_]] = {
+    parameters_.collect{case x: ValueParameter[_] if x.default.isEmpty => x}
+  }
+
+
+  private def unrequiredParameters: Seq[Parameter] = {
+    parameters_.collect{
+      case x: ValueParameter[_] if x.default.isDefined => x
+      case x: OptionalParameter[_] => x
+    }
+  }
+
+
+  private def listParameter: Option[ListParameter[_]] = {
+    parameters_.collectFirst{case x: ListParameter[_] => x}.filter(_ => unrequiredParameters.isEmpty)
   }
 
 }

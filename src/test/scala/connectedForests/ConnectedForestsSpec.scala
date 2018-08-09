@@ -67,6 +67,11 @@ class ConnectedForestsSpec extends FunSpec with ConnectedForestsTestData {
     }
 
 
+    describe("sortedDistanceToNonAncestralOrDescendentNodeAndRelatedNodes"){
+      //todo
+    }
+
+
     describe("withForest"){
       it("should ensure the connected forests contains a forest with that label"){
         assert(connectedForests.withForest(nonExistentForestLabel).forestLabels.contains(nonExistentForestLabel))

@@ -45,8 +45,18 @@ case class DevelopingConnectedForests[F, N] private (
   }
 
 
+  override def distance(forestLabel: F, path1: Seq[N], path2: Seq[N]): Option[Int] = {
+    connectedForests.distance(forestLabel, path1, path2)
+  }
+
+
   override def forestLabels: Set[F] = {
     connectedForests.forestLabels
+  }
+
+
+  override def nonAncestorDescendantNodesSameTree(forestLabel: F, path: Seq[N]): Set[Seq[N]] = {
+    connectedForests.nonAncestorDescendantNodesSameTree(forestLabel, path)
   }
 
 
@@ -65,13 +75,23 @@ case class DevelopingConnectedForests[F, N] private (
   }
 
 
-  override def relatedNodesOfPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]] = {
-    connectedForests.relatedNodesOfPath(fromForestLabel, fromForestPath, toForestLabel)
+  override def relatedNodesPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]] = {
+    connectedForests.relatedNodesPath(fromForestLabel, fromForestPath, toForestLabel)
   }
 
 
   override def roots(forestLabel: F): Set[N] = {
     connectedForests.roots(forestLabel)
+  }
+
+
+  override def unrelatedNodeToMinDistanceFromRelatedNonAncestorDescendantSourceNode(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Map[Seq[N], Int] = {
+    connectedForests.unrelatedNodeToMinDistanceFromRelatedNonAncestorDescendantSourceNode(fromForestLabel, fromForestPath, toForestLabel)
+  }
+
+
+  override def unrelatedNodeToMinDistanceFromNonAncestorDescendantRelatedTargetNode(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Map[Seq[N], Int] = {
+    connectedForests.unrelatedNodeToMinDistanceFromNonAncestorDescendantRelatedTargetNode(fromForestLabel, fromForestPath, toForestLabel)
   }
 
 

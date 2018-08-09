@@ -61,11 +61,12 @@ object Driver extends App {
             unfinishedSubroot)
         case RelatedNodes =>
           val indent = "\t"
-          println(dcfs.subPaths(unfinishedSubroot).zip(dcfs.relatedNodesOfPath(fromForest, unfinishedSubroot, toForest)).filter(_._2.nonEmpty).map(x =>
+          println(LabeledForest.subPaths(unfinishedSubroot).zip(dcfs.relatedNodesPath(fromForest, unfinishedSubroot, toForest)).filter(_._2.nonEmpty).map(x =>
             display(x._1) + System.lineSeparator() + x._2.map(indent + display(_)).mkString(System.lineSeparator())).mkString(System.lineSeparator()) + System.lineSeparator())
           process(dcfs_continue, unfinishedSubroot)
         case Next =>
-          (dcfs.withFinishedProportion(fromForest, unfinishedSubroot, toForest, finishedProportion(commandInvocation.value(FinishedValueForThisNode1To5))), continue)
+          (commandInvocation.value(FinishedValue1To5).map(x => dcfs.withFinishedProportion(fromForest, unfinishedSubroot, toForest, finishedProportion(x))).getOrElse(dcfs),
+            continue)
         case BackToMainMenu => (dcfs, false)
       }
     }

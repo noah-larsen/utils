@@ -16,12 +16,14 @@ class DevelopingConnectedForestsSpec extends FunSpec with DevelopingConnectedFor
     describe("unfinishedSubroots") {
 
       it("should return an empty iterable if all nodes are finished") {
-        assert(developingConnectedForests.unfinishedSubroots(forest1Label, forest2Label, 0).isEmpty)
+        val dcfAllNodesF1ToF2MinimallyFinished = dcf.paths(forest1Label).foldLeft(dcf)((x, y) => x.withFinishedProportion(forest1Label, y, forest2Label, Double
+          .MinPositiveValue))
+        assert(dcfAllNodesF1ToF2MinimallyFinished.unfinishedSubroots(forest1Label, forest2Label, 0).isEmpty)
       }
 
 
       it("should return the root paths of fromForest if all nodes are unfinished") {
-        assert(developingConnectedForests.unfinishedSubroots(forest1Label, forest2Label, 1) == developingConnectedForests.roots(forest1Label).map(Seq(_)))
+        assert(dcf.unfinishedSubroots(forest1Label, forest2Label, 1).toSet == dcf.roots(forest1Label).map(Seq(_)))
       }
 
     }
@@ -39,7 +41,7 @@ object DevelopingConnectedForestsSpec {
 
   trait DevelopingConnectedForestsTestData extends ConnectedForestsTestData {
 
-    val developingConnectedForests = DevelopingConnectedForests(connectedForests)
+    val dcf = DevelopingConnectedForests(connectedForests)
 
   }
 
