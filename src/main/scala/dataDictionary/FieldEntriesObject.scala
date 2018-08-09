@@ -35,12 +35,12 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
   }
 
 
-  def toMasterFromTextExtraction(fieldNameToDateFormat: Map[String, String]): FieldEntriesObject = {
+  def toMasterIfFromTextExtraction(sourceFieldToDateFormat: Map[String, String]): FieldEntriesObject = {
     FieldEntriesObject(fieldEntries.filter(!_.isFreeField.contains(true)).map{fieldEntry =>
       val logicalFormat = fieldEntry.logicalFormat.flatMap(Type(_, LogicalFormats).asInstanceOf[Option[Type[LogicalFormat]]])
       val format = logicalFormat.map{
         case Type(LogicalFormats.Decimal, Some(x), y) => FieldEntry.decimalFormat(x, y)
-        case x if Seq(LogicalFormats.Date, LogicalFormats.Time, LogicalFormats.Timestamp).contains(x.typeType) => fieldEntry.physicalNameField.map(fieldNameToDateFormat).getOrElse(new String)
+        case x if Seq(LogicalFormats.Date, LogicalFormats.Time, LogicalFormats.Timestamp).contains(x.typeType) => fieldEntry.sourceField.map(sourceFieldToDateFormat).getOrElse(new String)
         case _ => new String
       }
       fieldEntry.copy(

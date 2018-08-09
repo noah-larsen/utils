@@ -10,7 +10,7 @@ case class PhysicalNameObject(
                                objectName: String
                              ) {
 
-  def string: String = {
+  def asString: String = {
     Seq(sourceType.code, systemCodeUUAA, sourceSystem, objectName).map(_.toString.toLowerCase).mkString(PhysicalNameObject.physicalNameObjectSeparator)
   }
 
@@ -36,7 +36,7 @@ object PhysicalNameObject {
   }
 
 
-  def dataName(physicalNameObject: String, lowercaseSourceSystems: Set[String]): Option[String] = {
+  def objectName(physicalNameObject: String, lowercaseSourceSystems: Set[String]): Option[String] = {
     sourceSystemDataName(physicalNameObject, lowercaseSourceSystems)._2
   }
 

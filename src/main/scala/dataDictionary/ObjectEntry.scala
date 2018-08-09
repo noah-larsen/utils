@@ -58,6 +58,10 @@ case class ObjectEntry(
                       registrationDate: Option[LocalDate]
                     ) extends Row {
 
+  def withRegistrationDate: ObjectEntry = {
+    if(registrationDate.isDefined) this else copy(registrationDate = Some(LocalDate.now()))
+  }
+
 }
 
 object ObjectEntry {
@@ -65,7 +69,7 @@ object ObjectEntry {
   def apply(obj: Object_, ss: SourceSystem, ingestionStage: IngestionStage): ObjectEntry = {
     //todo error handling what if object type not set?
     //todo everything involving other target storage super types
-    val physicalNameObject = PhysicalNameObject(ObjectTypes.toSourceType(obj.objectType.get), obj.systemCodeUUAA, ss.sourceSystem, obj.objectName).string
+    val physicalNameObject = PhysicalNameObject(ObjectTypes.toSourceType(obj.objectType.get), obj.systemCodeUUAA, ss.sourceSystem, obj.objectName).asString
     ObjectEntry(
       countryTheDataSource = obj.countryTheDataSource,
       physicalNameObject = physicalNameObject,

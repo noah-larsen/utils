@@ -9,6 +9,8 @@ import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns
 import dataDictionary.enumerations.Countries.Country
 import dataDictionary.enumerations.StorageTypes.StorageType
 import dataDictionary.enumerations.StorageZones.StorageZone
+import dataDictionary.types.LogicalFormats
+import dataDictionary.types.LogicalFormats.LogicalFormat
 import googleSpreadsheets.Row
 
 case class FieldEntry(
@@ -91,6 +93,11 @@ case class FieldEntry(
     val physicalNameSeparator = "_"
     val sourceOriginIndex = 2
     physicalNameObject.flatMap(x => Some(x.split(physicalNameSeparator)).filter(_.length > sourceOriginIndex + 1).map(_(sourceOriginIndex)))
+  }
+
+
+  def isDateOrTime: Option[Boolean] = {
+    logicalFormat.flatMap(Type(_, LogicalFormats).asInstanceOf[Option[Type[LogicalFormat]]].map(x => Seq(LogicalFormats.Date, LogicalFormats.Time, LogicalFormats.Timestamp).contains(x.typeType)))
   }
 
 }

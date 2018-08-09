@@ -20,7 +20,7 @@ case class WorkDocument(private val spreadsheet: GoogleSpreadsheet) {
 
 
   def entriesObject(physicalNameObject: PhysicalNameObject): Try[Option[WorkDocumentEntriesObject]] = {
-    entriesObjects.map(_.find(_.table.equalsIgnoreCase(physicalNameObject.string)))
+    entriesObjects.map(_.find(_.table.equalsIgnoreCase(physicalNameObject.asString)))
   }
 
 

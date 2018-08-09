@@ -4,7 +4,7 @@ import java.time.LocalDate
 
 import centralNamingsRepository.CentralNamingsRepository
 import dataDictionary.enumerations.IngestionStages
-import dataDictionary.{DataDictionary, FieldEntriesObject}
+import dataDictionary.{DataDictionary, FieldEntriesObject, ObjectAndFieldEntries, PhysicalNameObject}
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
 import exceptions.DataHubException
 import workDocument.WorkDocumentEntry.{Statuses, ValidatedValues}
@@ -30,26 +30,23 @@ case class WorkDocumentEntriesObject(entries: Seq[WorkDocumentEntry]) {
   }
 
 
-  def toFieldEntriesObject(preserveRegistrationDates: Boolean): FieldEntriesObject = {
-    FieldEntriesObject(entries.map(_.toFieldEntry(preserveRegistrationDates)))
-  }
-
-
-  def merge(fieldEntriesObject: FieldEntriesObject, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn], preserveRegistrationDatesThis: Boolean, preserveRegistrationDatesThat: Boolean): FieldEntriesObject = {
-    toFieldEntriesObject(preserveRegistrationDatesThis).merge(Some(fieldEntriesObject).filter(_ => preserveRegistrationDatesThat).getOrElse(fieldEntriesObject.withoutRegistrationDates), columnsArgumentHasPrecedence)
-  }
-
-
-  def merge(intermediateDataDictionary: DataDictionary, preserveRegistrationDatesThis: Boolean, preserveRegistrationDatesThat: Boolean, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn] = Seq()): Try[FieldEntriesObject] = {
-    intermediateDataDictionary.fieldEntriesObject(IngestionStages.Raw, table).flatMap {
-      case Some(fieldEntriesObject) => Try(merge(fieldEntriesObject, columnsArgumentHasPrecedence, preserveRegistrationDatesThis, preserveRegistrationDatesThat))
-      case None => Failure(DataHubException("The object does not have corresponding mergeable entries in the data dictionary."))
-    }
+  def mergeIfFromTextExtraction(intermediateDataDictionary: DataDictionary, preserveRegistrationDatesThis: Boolean, preserveRegistrationDatesThat: Boolean, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn] = Seq()): Try[ObjectAndFieldEntries] = {
+    intermediateDataDictionary.objectAndFieldEntries(table).flatMap(x => Try(merge(x.rawFieldEntriesObject, columnsArgumentHasPrecedence, preserveRegistrationDatesThis, preserveRegistrationDatesThat)).map(x.updateFieldEntriesIfFromTextExtraction))
   }
 
 
   def withRegistrationDates: WorkDocumentEntriesObject = {
     copy(entries.map(x => if(x.registrationDate.isEmpty) x.copy(registrationDate = Some(LocalDate.now())) else x))
+  }
+
+
+  private def merge(rawFieldEntriesObject: FieldEntriesObject, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn], preserveRegistrationDatesThis: Boolean, preserveRegistrationDatesThat: Boolean): FieldEntriesObject = {
+    toRawFieldEntriesObject(preserveRegistrationDatesThis).merge(Some(rawFieldEntriesObject).filter(_ => preserveRegistrationDatesThat).getOrElse(rawFieldEntriesObject.withoutRegistrationDates), columnsArgumentHasPrecedence)
+  }
+
+
+  private def toRawFieldEntriesObject(preserveRegistrationDates: Boolean): FieldEntriesObject = {
+    FieldEntriesObject(entries.map(_.toFieldEntry(preserveRegistrationDates)))
   }
 
 }

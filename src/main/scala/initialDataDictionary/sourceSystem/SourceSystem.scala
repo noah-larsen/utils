@@ -73,8 +73,8 @@ object SourceSystem {
 
 
     override val values = Seq(
-      AdditionalOperationalSourceSystems, DefaultCountryOfTheConceptualEntity, DefaultCountryOfTheDataSource, DefaultDataSuperType, DefaultExtractionFileType, DefaultExtractionFileDelimeter, DefaultFrequency, DefaultIsCore, DefaultIsIngestedFromFixedWidth,
-      DefaultIsTDS, DefaultLoadingType, DefaultMailbox, DefaultObjectType, DefaultPartitions, DefaultRawToMasterSchemasPath, DefaultStagingToRawSchemasPath, DefaultSystemCodeUUAA, DefaultTargetStorageSuperType, SourceSystem
+      AdditionalOperationalSourceSystems, DefaultCountryOfTheConceptualEntity, DefaultCountryOfTheDataSource, DefaultDataSuperType, DefaultDataSource, DefaultExtractionFileType, DefaultExtractionFileDelimeter, DefaultFrequency, DefaultIsCore,
+      DefaultIsIngestedFromFixedWidth, DefaultIsTDS, DefaultLoadingType, DefaultMailbox, DefaultObjectType, DefaultPartitions, DefaultRawToMasterSchemasPath, DefaultStagingToRawSchemasPath, DefaultSystemCodeUUAA, DefaultTargetStorageSuperType, SourceSystem
     )
 
   }
