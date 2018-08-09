@@ -1,44 +1,38 @@
 package googleSpreadsheets
 
-import googleSpreadsheets.RowReaderWriter.{AbstractColumn, AbstractColumns}
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
 import utils.enumerated.Enumerated
-import utils.enumerated.SelfNamed
+
+import scala.util.Try
 
 trait RowReaderWriter[T <: Row] extends RowReader[T] {
 
   def toStringSeq(row: T): Seq[String] = {
-    columns.order.map(_.string(row))
+    columns.map(_.string(row))
   }
 
 
-  protected def columns: AbstractColumns[T]
+  protected def columns: Seq[Column[T]]
+
+
+  protected def date(value: String, possibleFormats: Seq[String]): Try[LocalDate] = {
+    possibleFormats.map(x => Try(LocalDate.parse(value, DateTimeFormatter.ofPattern(x)))).maxBy(_.isSuccess)
+  }
 
 
   protected def dropDown(enumerated: Enumerated, value: String): Option[enumerated.T] = {
     Some(value).filter(_ != new String).flatMap(x => enumerated.withName(x))
   }
 
-}
 
-object RowReaderWriter {
-
-  trait AbstractColumns[U] {
-
-    type Column <: AbstractColumn[U]
-
-
-    def order: Seq[Column]
-
-
-    protected def enumeratedTypeOptionToString(x: Option[SelfNamed]): String = x.map(_.name).getOrElse(new String)
-
-  }
-
-
-  trait AbstractColumn[V] {
-
-    def string: V => String
-
+  protected def list(value: String, delimiter: String): Seq[String] = {
+    value.split(delimiter).toSeq match {
+      case x if x == Seq(new String) => Seq()
+      case x => x
+    }
   }
 
 }
+

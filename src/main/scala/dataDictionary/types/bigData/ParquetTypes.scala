@@ -1,16 +1,15 @@
 package dataDictionary.types.bigData
 
 import dataDictionary.Type
-import dataDictionary.Type.{TypeType, TypesType}
-import dataDictionary.types.LogicalFormats
+import dataDictionary.types.{LogicalFormats, SuperType}
 import dataDictionary.types.LogicalFormats.{LogicalFormat, Timestamp}
 import utils.enumerated.SelfNamed.NameFormats.{CaseFormats, ObjectName}
 
-object ParquetTypes extends TypesTypeBigData {
+object ParquetTypes extends BigDataSuperTypes {
 
   override type T = ParquetType
 
-  sealed abstract class ParquetType extends TypeType(ObjectName(CaseFormats.Lowercase)){
+  sealed abstract class ParquetType extends SuperType(ObjectName(CaseFormats.Lowercase)){
 
     override protected def withLogicalFormat[T <: ParquetType.this.type](type_ : Type[T]): Option[Type[LogicalFormats.LogicalFormat]] = {
       type_ match {

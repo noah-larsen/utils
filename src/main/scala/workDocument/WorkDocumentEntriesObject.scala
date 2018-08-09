@@ -3,7 +3,7 @@ package workDocument
 import java.time.LocalDate
 
 import centralNamingsRepository.CentralNamingsRepository
-import dataDictionary.FieldEntry.IngestionStages
+import dataDictionary.enumerations.IngestionStages
 import dataDictionary.{DataDictionary, FieldEntriesObject}
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
 import exceptions.DataHubException
@@ -40,8 +40,8 @@ case class WorkDocumentEntriesObject(entries: Seq[WorkDocumentEntry]) {
   }
 
 
-  def merge(workingDataDictionary: DataDictionary, preserveRegistrationDatesThis: Boolean, preserveRegistrationDatesThat: Boolean, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn] = Seq()): Try[FieldEntriesObject] = {
-    workingDataDictionary.fieldEntriesObject(IngestionStages.Raw, table).flatMap {
+  def merge(intermediateDataDictionary: DataDictionary, preserveRegistrationDatesThis: Boolean, preserveRegistrationDatesThat: Boolean, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn] = Seq()): Try[FieldEntriesObject] = {
+    intermediateDataDictionary.fieldEntriesObject(IngestionStages.Raw, table).flatMap {
       case Some(fieldEntriesObject) => Try(merge(fieldEntriesObject, columnsArgumentHasPrecedence, preserveRegistrationDatesThis, preserveRegistrationDatesThat))
       case None => Failure(DataHubException("The object does not have corresponding mergeable entries in the data dictionary."))
     }

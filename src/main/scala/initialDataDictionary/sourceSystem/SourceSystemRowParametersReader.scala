@@ -1,9 +1,8 @@
 package initialDataDictionary.sourceSystem
 
-import dataDictionary.FieldEntry.YesOrNoValues
-import dataDictionary.FieldEntry.YesOrNoValues.Yes
-import dataDictionary.ObjectRow.{Countries, FileTypes, Frequencies, LoadingTypes}
-import dataDictionary.PhysicalNameObject.SourceTypes
+import dataDictionary.enumerations.YesOrNoValues
+import dataDictionary.enumerations.YesOrNoValues.Yes
+import dataDictionary.enumerations.{Countries, FileTypes, Frequencies, LoadingTypes}
 import googleSpreadsheets.RowParametersReader.{RowParameter, RowParameters}
 import googleSpreadsheets.{RowParametersReader, SheetRange}
 import initialDataDictionary.enumerations.{DataSuperTypes, ObjectTypes, TargetStorageSuperTypes}
@@ -25,6 +24,7 @@ object SourceSystemRowParametersReader extends RowParametersReader[SourceSystem]
       additionalOperationalSourceSystems = parameterToValues(AdditionalOperationalSourceSystems),
       defaultCountryTheConceptualEntity = Countries.withName(parameterToValue(DefaultCountryOfTheConceptualEntity)),
       defaultCountryTheDataSource = Countries.withName(parameterToValue(DefaultCountryOfTheDataSource)),
+      defaultDataSource = parameterToValue(DefaultDataSource),
       defaultDataSuperType = DataSuperTypes.withName(parameterToValue(DefaultDataSuperType)),
       defaultExtractionFileType = FileTypes.withName(parameterToValue(DefaultExtractionFileType)),
       defaultExtractionFileDelimeter = parameterToValue(DefaultExtractionFileDelimeter),
@@ -34,11 +34,10 @@ object SourceSystemRowParametersReader extends RowParametersReader[SourceSystem]
       defaultIsTDS = YesOrNoValues.withName(parameterToValue(DefaultIsTDS)).map(_ == Yes),
       defaultLoadingType = LoadingTypes.withName(parameterToValue(DefaultLoadingType)),
       defaultMailbox = parameterToValue(DefaultMailbox),
-      defaultMasterSchemaPath = parameterToValue(DefaultMasterSchemaPath),
       defaultObjectType = ObjectTypes.withName(parameterToValue(DefaultObjectType)),
       defaultPartitions = parameterToValues(DefaultPartitions),
-      defaultRawSchemaPath = parameterToValue(DefaultRawSchemaPath),
-      defaultStagingSchemaPath = parameterToValue(DefaultStagingSchemaPath),
+      defaultRawToMasterSchemasPath = parameterToValue(DefaultRawToMasterSchemasPath),
+      defaultStagingToRawSchemasPath = parameterToValue(DefaultStagingToRawSchemasPath),
       defaultSystemCodeUUAA = parameterToValue(DefaultSystemCodeUUAA),
       defaultTargetStorageSuperType = TargetStorageSuperTypes.withName(parameterToValue(DefaultTargetStorageSuperType)),
       sourceSystem = parameterToValue(SourceSystemRowParameters.SourceSystem)

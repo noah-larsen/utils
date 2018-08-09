@@ -1,12 +1,10 @@
 package consoleApplication
 
-import java.io.File
-
 import com.typesafe.config.ConfigFactory
-import dataDictionary.ObjectRow.Countries
-import dataDictionary.ObjectRow.Countries.Country
 import consoleApplication.ConsoleRenamer.Languages
 import consoleApplication.ConsoleRenamer.Languages.Language
+import dataDictionary.enumerations.Countries
+import dataDictionary.enumerations.Countries.Country
 import utils.enumerated.{Enumerated, SelfNamed}
 
 import scala.util.Try

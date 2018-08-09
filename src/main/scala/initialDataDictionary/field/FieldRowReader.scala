@@ -1,14 +1,13 @@
 package initialDataDictionary.field
 
-import dataDictionary.FieldEntry.YesOrNoValues
-import dataDictionary.ObjectRow.Countries
-import dataDictionary.ObjectRow.Countries.Country
+import dataDictionary.enumerations.YesOrNoValues
+import dataDictionary.enumerations.Countries
 import googleSpreadsheets.{CheckboxValues, RowReader, SheetRange}
-import initialDataDictionary.`object`.Object
+import initialDataDictionary.`object`.Object_
 import initialDataDictionary.enumerations.TokenizationTypes
 import initialDataDictionary.sourceSystem.SourceSystem
 
-case class FieldRowReader(sourceSystem: SourceSystem, objectNameToObject: Map[String, Object]) extends RowReader[Field] {
+case class FieldRowReader(sourceSystem: SourceSystem, objectNameToObject: Map[String, Object_]) extends RowReader[Field] {
 
   override def sheetRange: SheetRange = {
     SheetRange("Fields", "R", 4)

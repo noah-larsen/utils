@@ -3,19 +3,18 @@ package dataDictionary
 import java.time.LocalDate
 
 import consoleApplication.ConsoleRenamer.Languages.Language
-import dataDictionary.FieldEntry.YesOrNoValues.YesOrNo
-import dataDictionary.FieldEntry.{DataTypes, FieldGeneratedValues, YesOrNoValues}
+import dataDictionary.enumerations.YesOrNoValues.YesOrNo
+import dataDictionary.enumerations.{DataTypes, FieldGeneratedValues, YesOrNoValues}
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
-import dataDictionary.ObjectRow.Countries.Country
-import dataDictionary.ObjectRow.{StorageTypes, StorageZones}
-import dataDictionary.ObjectRow.StorageTypes.{HdfsAvro, StorageType}
-import dataDictionary.ObjectRow.StorageZones.{RawData, StorageZone}
-import dataDictionary.types.LogicalFormats
+import dataDictionary.enumerations.Countries.Country
+import dataDictionary.enumerations.IngestionStages.{IngestionStage, Raw}
+import dataDictionary.enumerations.StorageTypes.{HdfsAvro, StorageType}
+import dataDictionary.enumerations.StorageZones.{RawData, StorageZone}
+import dataDictionary.enumerations.{StorageTypes, StorageZones}
+import dataDictionary.types.{LogicalFormats, SuperTypes}
 import dataDictionary.types.LogicalFormats.LogicalFormat
 import dataDictionary.types.bigData.ParquetTypes
-import renaming.TargetName
-
-import scala.util.Try
+import initialDataDictionary.ObjectAndFields
 
 case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
 
@@ -36,18 +35,27 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
   }
 
 
-  def toMaster: FieldEntriesObject = {
-    FieldEntriesObject(fieldEntries.filter(!_.isFreeField.contains(true)).map(fieldEntry => fieldEntry.copy(
-      storageType = fieldEntry.storageType.filter(_ == StorageTypes.HdfsAvro).map(_ => StorageTypes.HdfsParquet),
-      storageZone = Some(StorageZones.MasterData),
-      dataType = fieldEntry.logicalFormat.flatMap(Type(_, LogicalFormats).asInstanceOf[Option[Type[LogicalFormat]]].map(ParquetTypes.fromLogicalFormat(_).string)),
-      physicalNameSourceObject = physicalNameObject,
-      sourceField = fieldEntry.physicalNameField,
-      dataTypeSourceField = fieldEntry.dataType,
-      formatSourceField = fieldEntry.format,
-      fieldPositionInTheObject = Some(None),
-      generatedField = None
-    )))
+  def toMasterFromTextExtraction(fieldNameToDateFormat: Map[String, String]): FieldEntriesObject = {
+    FieldEntriesObject(fieldEntries.filter(!_.isFreeField.contains(true)).map{fieldEntry =>
+      val logicalFormat = fieldEntry.logicalFormat.flatMap(Type(_, LogicalFormats).asInstanceOf[Option[Type[LogicalFormat]]])
+      val format = logicalFormat.map{
+        case Type(LogicalFormats.Decimal, Some(x), y) => FieldEntry.decimalFormat(x, y)
+        case x if Seq(LogicalFormats.Date, LogicalFormats.Time, LogicalFormats.Timestamp).contains(x.typeType) => fieldEntry.physicalNameField.map(fieldNameToDateFormat).getOrElse(new String)
+        case _ => new String
+      }
+      fieldEntry.copy(
+        storageType = fieldEntry.storageType.filter(_ == StorageTypes.HdfsAvro).map(_ => StorageTypes.HdfsParquet),
+        storageZone = Some(StorageZones.MasterData),
+        dataType = logicalFormat.map(ParquetTypes.fromLogicalFormat(_).string),
+        format = format,
+        physicalNameSourceObject = physicalNameObject,
+        sourceField = fieldEntry.physicalNameField,
+        dataTypeSourceField = fieldEntry.dataType,
+        formatSourceField = fieldEntry.format,
+        fieldPositionInTheObject = Some(None),
+        generatedField = None
+      )
+    })
   }
 
 
@@ -113,6 +121,52 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
 
   private def withStorageZone(storageZone: StorageZone): FieldEntriesObject = {
     copy(fieldEntries.map(_.copy(storageZone = Some(storageZone))))
+  }
+
+}
+
+object FieldEntriesObject {
+
+  def rawFEOFromTextExtraction(objectAndFields: ObjectAndFields): FieldEntriesObject = {
+    objectAndFields.fields match {
+      case x if x.isEmpty => FieldEntriesObject(Seq())
+      case fields =>
+        val obj = objectAndFields.obj
+        val objectEntry = ObjectEntry(obj, objectAndFields.sourceSystem, Raw)
+        val fieldToLength = Some(fields).filter(_.forall(_.length.isDefined)).map(x => Some(x.zip(x.map(_.length.get).init.+:(0))).map(y => y.tail.scanLeft((y.head, 1))((z, w) => (w, z._2 + w._2))).get.map(y => (y._1._1, y._2)).toMap)
+        //todo physicalNameField assignment assumes no renamings
+        FieldEntriesObject(objectAndFields.fields.map(field =>
+          FieldEntry(
+            country = obj.countryTheDataSource,
+            physicalNameObject = Some(objectEntry.physicalNameObject),
+            storageType = objectEntry.storageType,
+            storageZone = objectEntry.storageZone,
+            physicalNameField = Some(field.fieldName),
+            logicalNameField = Some(field.logicalName),
+            simpleFieldDescription = Some(field.description),
+            catalog = Some(field.catalog),
+            dataType = Some(DataTypes.string),
+            format = Some(new String),
+            logicalFormat = obj.dataSuperType.flatMap(x => Type(field.dataType,SuperTypes.from(x)).map(_.string)),
+            key = Some(YesOrNoValues.from(field.isKey)),
+            mandatory = Some(YesOrNoValues.from(field.isMandatoryNonKey)),
+            defaultValue = Some(field.defaultValue),
+            physicalNameSourceObject = Some(field.objectName),
+            sourceField = Some(field.fieldName),
+            dataTypeSourceField = Some(DataTypes.string),
+            formatSourceField = Some(new String),
+            tags = Some(Seq(field.objectName)),
+            fieldPositionInTheObject = Some(fieldToLength.map(_(field))),
+            generatedField = None,
+            tokenizationType = Some(field.tokenizationType.map(_.name).getOrElse(new String)),
+            registrationDate = None,
+            countryTheConceptualEntity = field.countryTheConceptualEntity,
+            conceptualEntity = Some(field.conceptualEntity),
+            operationalEntity = Some(field.operationalEntity),
+            tds = field.isTDS.map(YesOrNoValues.from)
+          )
+        ))
+    }
   }
 
 }

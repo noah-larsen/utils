@@ -1,18 +1,17 @@
 package dataDictionary
 
-import dataDictionary.PhysicalNameObject.SourceTypes.SourceType
-import utils.enumerated.Enumerated
-import utils.enumerated.SelfNamed
+import dataDictionary.enumerations.SourceTypes
+import dataDictionary.enumerations.SourceTypes.SourceType
 
 case class PhysicalNameObject(
                                sourceType: SourceType,
-                               applicationId: String,
+                               systemCodeUUAA: String,
                                sourceSystem: String,
-                               dataName: String
+                               objectName: String
                              ) {
 
   def string: String = {
-    Seq(sourceType.code, applicationId, sourceSystem, dataName).map(_.toString.toLowerCase).mkString(PhysicalNameObject.physicalNameObjectSeparator)
+    Seq(sourceType.code, systemCodeUUAA, sourceSystem, objectName).map(_.toString.toLowerCase).mkString(PhysicalNameObject.physicalNameObjectSeparator)
   }
 
 }
@@ -39,24 +38,6 @@ object PhysicalNameObject {
 
   def dataName(physicalNameObject: String, lowercaseSourceSystems: Set[String]): Option[String] = {
     sourceSystemDataName(physicalNameObject, lowercaseSourceSystems)._2
-  }
-
-
-  object SourceTypes extends Enumerated {
-
-    override type T = SourceType
-
-    sealed abstract case class SourceType(code: Char) extends SelfNamed {
-      override def name: String = code.toString
-    }
-
-
-    object File extends SourceType('f')
-    object Table extends SourceType('t')
-
-
-    override val values = Seq(File, Table)
-
   }
 
 

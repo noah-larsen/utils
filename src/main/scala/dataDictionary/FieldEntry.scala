@@ -1,51 +1,44 @@
 package dataDictionary
 
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
-import dataDictionary.FieldEntry.FieldGeneratedValues.FieldGeneratedValue
-import dataDictionary.FieldEntry.YesOrNoValues.YesOrNo
+import dataDictionary.enumerations.FieldGeneratedValues.FieldGeneratedValue
+import dataDictionary.enumerations.YesOrNoValues.YesOrNo
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns._
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns
-import dataDictionary.ObjectRow.Countries.Country
-import dataDictionary.ObjectRow.StorageTypes.StorageType
-import dataDictionary.ObjectRow.StorageZones.StorageZone
-import googleSpreadsheets.{RowReaderWriter, Row, SheetRange}
-import utils.enumerated.Enumerated
-import utils.enumerated.SelfNamed
-import utils.enumerated.SelfNamed.NameFormats.CaseFormats.Uppercase
-import utils.enumerated.SelfNamed.NameFormats.ObjectName
-
-import scala.util.Try
+import dataDictionary.enumerations.Countries.Country
+import dataDictionary.enumerations.StorageTypes.StorageType
+import dataDictionary.enumerations.StorageZones.StorageZone
+import googleSpreadsheets.Row
 
 case class FieldEntry(
-                       country: Option[Country] = None,
-                       physicalNameObject: Option[String] = None,
-                       storageType: Option[StorageType] = None,
-                       storageZone: Option[StorageZone] = None,
-                       physicalNameField: Option[String] = None,
-                       logicalNameField: Option[String] = None,
-                       simpleFieldDescription: Option[String] = None,
-                       catalog: Option[String] = None,
-                       dataType: Option[String] = None,
-                       format: Option[String] = None,
-                       logicalFormat: Option[String] = None,
-                       key: Option[YesOrNo] = None,
-                       mandatory: Option[YesOrNo] = None,
-                       defaultValue: Option[String] = None,
-                       physicalNameSourceObject: Option[String] = None,
-                       sourceField: Option[String] = None,
-                       dataTypeSourceField: Option[String] = None,
-                       formatSourceField: Option[String] = None,
-                       tags: Option[Seq[String]] = None,
-                       fieldPositionInTheObject: Option[Option[Int]] = None,
-                       generatedField: Option[FieldGeneratedValue] = None,
-                       tokenizationType: Option[String] = None,
-                       registrationDate: Option[LocalDate] = None,
-                       countryTheConceptualEntity: Option[Country] = None,
-                       conceptualEntity: Option[String] = None,
-                       operationalEntity: Option[String] = None,
-                       tds: Option[YesOrNo] = None
+                       country: Option[Country],
+                       physicalNameObject: Option[String],
+                       storageType: Option[StorageType],
+                       storageZone: Option[StorageZone],
+                       physicalNameField: Option[String],
+                       logicalNameField: Option[String],
+                       simpleFieldDescription: Option[String],
+                       catalog: Option[String],
+                       dataType: Option[String],
+                       format: Option[String],
+                       logicalFormat: Option[String],
+                       key: Option[YesOrNo],
+                       mandatory: Option[YesOrNo],
+                       defaultValue: Option[String],
+                       physicalNameSourceObject: Option[String],
+                       sourceField: Option[String],
+                       dataTypeSourceField: Option[String],
+                       formatSourceField: Option[String],
+                       tags: Option[Seq[String]],
+                       fieldPositionInTheObject: Option[Option[Int]],
+                       generatedField: Option[FieldGeneratedValue],
+                       tokenizationType: Option[String],
+                       registrationDate: Option[LocalDate],
+                       countryTheConceptualEntity: Option[Country],
+                       conceptualEntity: Option[String],
+                       operationalEntity: Option[String],
+                       tds: Option[YesOrNo]
                      ) extends Row {
 
   def merge(fieldEntry: FieldEntry, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn] = Seq()): FieldEntry = {
@@ -104,60 +97,11 @@ case class FieldEntry(
 
 object FieldEntry {
 
-  object IngestionStages {
-    sealed trait IngestionStage
-    object Raw extends IngestionStage
-    object Master extends IngestionStage
-  }
-
-
-  object FieldGeneratedValues extends Enumerated {
-
-    override type T = FieldGeneratedValue
-    sealed abstract class FieldGeneratedValue extends SelfNamed(ObjectName(Uppercase))
-
-    object Yes extends FieldGeneratedValue
-
-
-    override val values = Seq(Yes)
-
-  }
-
-
-  object YesOrNoValues extends Enumerated {
-
-    override type T = YesOrNo
-    sealed abstract class YesOrNo extends SelfNamed(ObjectName(Uppercase))
-
-    object Yes extends YesOrNo
-    object No extends YesOrNo
-
-
-    def toBooleanOption(yesOrNo: String): Option[Boolean] = {
-      withName(yesOrNo).map(toBoolean)
-    }
-
-
-    def toBoolean(yesOrNo: YesOrNo): Boolean = {
-      yesOrNo match {
-        case Yes => true
-        case No => false
-      }
-    }
-
-
-    override val values = Seq(Yes, No)
-
-  }
-
-
-  object DataTypes {
-    val string = "STRING"
-  }
-
-
-  object DefaultValues {
-    val null_ = "NULL"
+  def decimalFormat(precision: Int, scale: Option[Int]): String = {
+    val prefix = "("
+    val suffix = ")"
+    val precisionScaleSeparator = ","
+    prefix + precision + scale.map(precisionScaleSeparator + _).getOrElse(new String) + suffix
   }
 
 }

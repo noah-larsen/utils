@@ -3,19 +3,14 @@ package consoleApplication
 import java.io.File
 
 import centralNamingsRepository.CentralNamingsRepository
-import com.google.api.client.json.GenericJson
-import com.typesafe.config.ConfigFactory
-import dataDictionary.{DataDictionary, FieldEntriesObject, PhysicalNameObject}
-import dataDictionary.FieldEntry.IngestionStages
-import dataDictionary.ObjectRow.Countries
-import dataDictionary.PhysicalNameObject.SourceTypes
+import dataDictionary.{DataDictionary, PhysicalNameObject}
+import dataDictionary.enumerations.IngestionStages
 import exceptions.DataHubException
 import org.rogach.scallop.{ScallopConf, ScallopOption}
-import consoleApplication.ConsoleRenamer.Languages
 import consoleApplication.ConsoleRenamer.Languages.Language
-import renaming.NameSearch.Fields
+import dataDictionary.enumerations.{Countries, SourceTypes}
 import renaming.nameComparator.{CombinationNameComparator, SearchNameComparator, StringNameComparator}
-import renaming.{TargetName, ApprovedRenamings, NameSearch, Renaming}
+import renaming.{ApprovedRenamings, NameSearch, Renaming, TargetName}
 import us.USSourceSystems
 import workDocument.{WorkDocument, WorkDocumentEntriesObject}
 
@@ -100,8 +95,10 @@ object Driver extends App {
 
       def saveWithRegistrationDates(renaming: Renaming): Try[Renaming] = {
         //todo specific exception message
-        val withRegistrationDates = intermediateDataDictionary.fieldEntriesObject(IngestionStages.Raw, renaming.physicalNameObject.get).map(_.map(_ => renaming).getOrElse(Renaming(renaming.withRegistrationDates)))
-        withRegistrationDates.flatMap(x => intermediateDataDictionary.write(x, x.toMaster)).map(_ => withRegistrationDates.get)
+        //todo master updating needs to be reinvisioned/redone
+//        val withRegistrationDates = intermediateDataDictionary.fieldEntriesObject(IngestionStages.Raw, renaming.physicalNameObject.get).map(_.map(_ => renaming).getOrElse(Renaming(renaming.withRegistrationDates)))
+//        withRegistrationDates.flatMap(x => intermediateDataDictionary.write(x, x.toMaster)).map(_ => withRegistrationDates.get)
+        ???
       }
 
 

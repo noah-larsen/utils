@@ -1,12 +1,8 @@
 package initialDataDictionary.field
 
-import dataDictionary.ObjectRow.Countries.Country
+import dataDictionary.enumerations.Countries.Country
 import googleSpreadsheets.{GoogleSpreadsheet, Row}
-import initialDataDictionary.`object`.{Object, ObjectRowReader}
 import initialDataDictionary.enumerations.TokenizationTypes.TokenizationType
-import initialDataDictionary.sourceSystem.SourceSystem
-
-import scala.util.Try
 
 case class Field(
                   objectName: String,
@@ -28,13 +24,5 @@ case class Field(
                   tokenizationType: Option[TokenizationType],
                   defaultValue: String
                 ) extends Row {
-
-}
-
-object Field {
-
-  def apply(googleSpreadsheetId: String, sourceSystem: SourceSystem, objectNameToObject: Map[String, Object]): Try[Seq[Field]] = {
-    GoogleSpreadsheet(googleSpreadsheetId).flatMap(_.get(FieldRowReader(sourceSystem, objectNameToObject)))
-  }
 
 }

@@ -1,15 +1,14 @@
 package dataDictionary.types.databases
 
 import dataDictionary.Type
-import dataDictionary.Type.{TypeType, TypesType}
-import dataDictionary.types.LogicalFormats
+import dataDictionary.types.{LogicalFormats, SuperType, SuperTypes}
 import dataDictionary.types.LogicalFormats._
 
-object OracleTypes extends TypesType {
+object OracleTypes extends SuperTypes {
 
   override type T = OracleType
 
-  sealed trait OracleType extends TypeType {
+  sealed trait OracleType extends SuperType {
 
     override protected def withLogicalFormat[T <: this.type](type_ : Type[T]): Option[Type[LogicalFormat]] = {
       type_ match {

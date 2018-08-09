@@ -1,6 +1,5 @@
 package initialDataDictionary.enumerations
 
-import initialDataDictionary.enumerations.DataSuperTypes.DataSuperType
 import utils.enumerated.{Enumerated, SelfNamed}
 
 object TargetStorageSuperTypes extends Enumerated {

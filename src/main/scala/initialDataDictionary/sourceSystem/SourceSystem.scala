@@ -1,10 +1,9 @@
 package initialDataDictionary.sourceSystem
 
-import dataDictionary.ObjectRow.Countries.Country
-import dataDictionary.ObjectRow.FileTypes.FileType
-import dataDictionary.ObjectRow.Frequencies.Frequency
-import dataDictionary.ObjectRow.LoadingTypes.LoadingType
-import dataDictionary.PhysicalNameObject.SourceTypes.SourceType
+import dataDictionary.enumerations.Countries.Country
+import dataDictionary.enumerations.FileTypes.FileType
+import dataDictionary.enumerations.Frequencies.Frequency
+import dataDictionary.enumerations.LoadingTypes.LoadingType
 import googleSpreadsheets.RowParametersReader.{RowParameter, RowParameters}
 import googleSpreadsheets.{GoogleSpreadsheet, RowParametersReader, SheetRange}
 import initialDataDictionary.enumerations.DataSuperTypes.DataSuperType
@@ -18,6 +17,7 @@ case class SourceSystem(
                          additionalOperationalSourceSystems: Seq[String],
                          defaultCountryTheConceptualEntity: Option[Country],
                          defaultCountryTheDataSource: Option[Country],
+                         defaultDataSource: String,
                          defaultDataSuperType: Option[DataSuperType],
                          defaultExtractionFileType: Option[FileType],
                          defaultExtractionFileDelimeter: String,
@@ -27,11 +27,10 @@ case class SourceSystem(
                          defaultIsTDS: Option[Boolean],
                          defaultLoadingType: Option[LoadingType],
                          defaultMailbox: String,
-                         defaultMasterSchemaPath: String,
                          defaultObjectType: Option[ObjectType],
                          defaultPartitions: Seq[String],
-                         defaultRawSchemaPath: String,
-                         defaultStagingSchemaPath: String,
+                         defaultRawToMasterSchemasPath: String,
+                         defaultStagingToRawSchemasPath: String,
                          defaultSystemCodeUUAA: String,
                          defaultTargetStorageSuperType: Option[TargetStorageSuperType],
                          sourceSystem: String
@@ -54,6 +53,7 @@ object SourceSystem {
     object AdditionalOperationalSourceSystems extends SourceSystemRowParameter(true)
     object DefaultCountryOfTheConceptualEntity extends SourceSystemRowParameter
     object DefaultCountryOfTheDataSource extends SourceSystemRowParameter
+    object DefaultDataSource extends SourceSystemRowParameter
     object DefaultDataSuperType extends SourceSystemRowParameter
     object DefaultExtractionFileType extends SourceSystemRowParameter
     object DefaultExtractionFileDelimeter extends SourceSystemRowParameter
@@ -63,11 +63,10 @@ object SourceSystem {
     object DefaultIsTDS extends SourceSystemRowParameter(nameFormat = Custom("Default Is TDS"))
     object DefaultLoadingType extends SourceSystemRowParameter
     object DefaultMailbox extends SourceSystemRowParameter
-    object DefaultMasterSchemaPath extends SourceSystemRowParameter
     object DefaultObjectType extends SourceSystemRowParameter
     object DefaultPartitions extends SourceSystemRowParameter(true)
-    object DefaultRawSchemaPath extends SourceSystemRowParameter
-    object DefaultStagingSchemaPath extends SourceSystemRowParameter
+    object DefaultRawToMasterSchemasPath extends SourceSystemRowParameter
+    object DefaultStagingToRawSchemasPath extends SourceSystemRowParameter
     object DefaultSystemCodeUUAA extends SourceSystemRowParameter(nameFormat = Custom("Default System Code UUAA"))
     object DefaultTargetStorageSuperType extends SourceSystemRowParameter
     object SourceSystem extends SourceSystemRowParameter
@@ -75,7 +74,7 @@ object SourceSystem {
 
     override val values = Seq(
       AdditionalOperationalSourceSystems, DefaultCountryOfTheConceptualEntity, DefaultCountryOfTheDataSource, DefaultDataSuperType, DefaultExtractionFileType, DefaultExtractionFileDelimeter, DefaultFrequency, DefaultIsCore, DefaultIsIngestedFromFixedWidth,
-      DefaultIsTDS, DefaultLoadingType, DefaultMailbox, DefaultMasterSchemaPath, DefaultObjectType, DefaultPartitions, DefaultRawSchemaPath, DefaultStagingSchemaPath, DefaultSystemCodeUUAA, DefaultTargetStorageSuperType, SourceSystem
+      DefaultIsTDS, DefaultLoadingType, DefaultMailbox, DefaultObjectType, DefaultPartitions, DefaultRawToMasterSchemasPath, DefaultStagingToRawSchemasPath, DefaultSystemCodeUUAA, DefaultTargetStorageSuperType, SourceSystem
     )
 
   }

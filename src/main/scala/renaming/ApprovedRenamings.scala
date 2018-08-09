@@ -1,7 +1,7 @@
 package renaming
 
 import dataDictionary.DataDictionary
-import dataDictionary.FieldEntry.IngestionStages
+import dataDictionary.enumerations.IngestionStages
 
 import scala.util.Try
 

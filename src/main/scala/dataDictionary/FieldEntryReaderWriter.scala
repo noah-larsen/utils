@@ -3,11 +3,11 @@ package dataDictionary
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-import dataDictionary.FieldEntry.IngestionStages.IngestionStage
+import dataDictionary.enumerations.IngestionStages.IngestionStage
 import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns
-import dataDictionary.FieldEntry._
-import dataDictionary.ObjectRow.{Countries, StorageTypes, StorageZones}
-import googleSpreadsheets.RowReaderWriter.{AbstractColumn, AbstractColumns}
+import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
+import dataDictionary.enumerations._
+import googleSpreadsheets.{Column, Columns}
 import googleSpreadsheets.{RowReaderWriter, SheetRange}
 
 import scala.util.Try
@@ -19,40 +19,40 @@ case class FieldEntryReaderWriter(ingestionStage: IngestionStage) extends RowRea
   }
 
 
-  override protected def toRow(row: Int => String): FieldEntry = {
+  override protected def toRow(r: Int => String): FieldEntry = {
     FieldEntry(
-      dropDown(Countries, row(0)),
-      text(row(1)),
-      dropDown(StorageTypes, row(2)),
-      dropDown(StorageZones, row(3)),
-      text(row(4)),
-      text(row(5)),
-      text(row(6)),
-      text(row(7)),
-      text(row(8)),
-      text(row(9)),
-      text(row(10)),
-      dropDown(YesOrNoValues, row(11)),
-      dropDown(YesOrNoValues, row(12)),
-      text(row(13)),
-      text(row(14)),
-      text(row(15)),
-      text(row(16)),
-      text(row(17)),
-      Some(row(18).split(FieldEntryReaderWriter.tagsSeparator).toSeq).filter(_.exists(x => x.trim != new String)),
-      Some(Try(Some(row(19).toInt)).getOrElse(None)).filter(_.isDefined),
-      dropDown(FieldGeneratedValues, row(20)),
-      text(row(21)),
-      Some(row(22)).filter(_ != new String).map(x => Seq(FieldEntryReaderWriter.registrationDateFormat, FieldEntryReaderWriter.googleSpreadsheetModifiedDateFormat).map(y => Try(LocalDate.parse(x, DateTimeFormatter.ofPattern(y)))).maxBy(_.isSuccess).get),
-      dropDown(Countries, row(23)),
-      text(row(24)),
-      text(row(25)),
-      dropDown(YesOrNoValues, row(26))
+      dropDown(Countries, r(0)),
+      text(r(1)),
+      dropDown(StorageTypes, r(2)),
+      dropDown(StorageZones, r(3)),
+      text(r(4)),
+      text(r(5)),
+      text(r(6)),
+      text(r(7)),
+      text(r(8)),
+      text(r(9)),
+      text(r(10)),
+      dropDown(YesOrNoValues, r(11)),
+      dropDown(YesOrNoValues, r(12)),
+      text(r(13)),
+      text(r(14)),
+      text(r(15)),
+      text(r(16)),
+      text(r(17)),
+      Some(list(r(18), Constants.listSeparator)),
+      Some(Try(Some(r(19).toInt)).getOrElse(None)).filter(_.isDefined),
+      dropDown(FieldGeneratedValues, r(20)),
+      text(r(21)),
+      Some(r(22)).filter(_ != new String).map(x => date(x, Seq(Constants.registrationDateFormat, googleSpreadsheets.googleSpreadsheetModifiedDateFormat)).get),
+      dropDown(Countries, r(23)),
+      text(r(24)),
+      text(r(25)),
+      dropDown(YesOrNoValues, r(26))
     )
   }
 
 
-  override protected def columns: AbstractColumns[FieldEntry] = FieldEntryColumns
+  override protected def columns: Seq[FieldEntryColumn] = FieldEntryColumns.values
 
 
   private def text(value: String): Option[String] = {
@@ -63,43 +63,44 @@ case class FieldEntryReaderWriter(ingestionStage: IngestionStage) extends RowRea
 
 object FieldEntryReaderWriter {
 
-  object FieldEntryColumns extends AbstractColumns[FieldEntry] {
+  object FieldEntryColumns extends Columns {
 
-    override type Column = FieldEntryColumn
+    override type RowType = FieldEntry
+    override type ColumnType = FieldEntryColumn
 
-    sealed class FieldEntryColumn(val string: FieldEntry => String) extends AbstractColumn[FieldEntry]
-
-
-    case object Country extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.country))
-    case object PhysicalNameObject extends FieldEntryColumn(x => stringOptionToString(x.physicalNameObject))
-    case object StorageType extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.storageType))
-    case object StorageZone extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.storageZone))
-    case object PhysicalNameField extends FieldEntryColumn(x => stringOptionToString(x.physicalNameField))
-    case object LogicalNameField extends FieldEntryColumn(x => stringOptionToString(x.logicalNameField))
-    case object SimpleFieldDescription extends FieldEntryColumn(x => stringOptionToString(x.simpleFieldDescription))
-    case object Catalog extends FieldEntryColumn(x => stringOptionToString(x.catalog))
-    case object DataType extends FieldEntryColumn(x => stringOptionToString(x.dataType))
-    case object Format extends FieldEntryColumn(x => stringOptionToString(x.format))
-    case object LogicalFormat extends FieldEntryColumn(x => stringOptionToString(x.logicalFormat))
-    case object Key extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.key))
-    case object Mandatory extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.mandatory))
-    case object DefaultValue extends FieldEntryColumn(x => stringOptionToString(x.defaultValue))
-    case object PhysicalNameSourceObject extends FieldEntryColumn(x => stringOptionToString(x.physicalNameSourceObject))
-    case object SourceField extends FieldEntryColumn(x => stringOptionToString(x.sourceField))
-    case object DataTypeSourceField extends FieldEntryColumn(x => stringOptionToString(x.dataTypeSourceField))
-    case object FormatSourceField extends FieldEntryColumn(x => stringOptionToString(x.formatSourceField))
-    case object Tags extends FieldEntryColumn(_.tags.map(_.mkString(tagsSeparator)).getOrElse(new String))
-    case object FieldPositionInTheObject extends FieldEntryColumn(_.fieldPositionInTheObject.flatten.map(_.toString).getOrElse(new String))
-    case object ExcludeInclude extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.generatedField))
-    case object TokenizationType extends FieldEntryColumn(x => stringOptionToString(x.tokenizationType))
-    case object RegistrationDate extends FieldEntryColumn(_.registrationDate.map(_.format(DateTimeFormatter.ofPattern(registrationDateFormat))).getOrElse(new String))
-    case object CountryTheConceptualEntity extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.countryTheConceptualEntity))
-    case object ConceptualEntity extends FieldEntryColumn(x => stringOptionToString(x.conceptualEntity))
-    case object OperationalEntity extends FieldEntryColumn(x => stringOptionToString(x.operationalEntity))
-    case object Tds extends FieldEntryColumn(x => enumeratedTypeOptionToString(x.tds))
+    sealed abstract class FieldEntryColumn(val string: FieldEntry => String) extends Column[FieldEntry]
 
 
-    val order = Seq(Country, PhysicalNameObject, StorageType, StorageZone, PhysicalNameField, LogicalNameField, SimpleFieldDescription, Catalog, DataType, Format, LogicalFormat, Key, Mandatory, DefaultValue, PhysicalNameSourceObject, SourceField,
+    object Country extends FieldEntryColumn(x => selfNamedOptionToString(x.country))
+    object PhysicalNameObject extends FieldEntryColumn(x => stringOptionToString(x.physicalNameObject))
+    object StorageType extends FieldEntryColumn(x => selfNamedOptionToString(x.storageType))
+    object StorageZone extends FieldEntryColumn(x => selfNamedOptionToString(x.storageZone))
+    object PhysicalNameField extends FieldEntryColumn(x => stringOptionToString(x.physicalNameField))
+    object LogicalNameField extends FieldEntryColumn(x => stringOptionToString(x.logicalNameField))
+    object SimpleFieldDescription extends FieldEntryColumn(x => stringOptionToString(x.simpleFieldDescription))
+    object Catalog extends FieldEntryColumn(x => stringOptionToString(x.catalog))
+    object DataType extends FieldEntryColumn(x => stringOptionToString(x.dataType))
+    object Format extends FieldEntryColumn(x => stringOptionToString(x.format))
+    object LogicalFormat extends FieldEntryColumn(x => stringOptionToString(x.logicalFormat))
+    object Key extends FieldEntryColumn(x => selfNamedOptionToString(x.key))
+    object Mandatory extends FieldEntryColumn(x => selfNamedOptionToString(x.mandatory))
+    object DefaultValue extends FieldEntryColumn(x => stringOptionToString(x.defaultValue))
+    object PhysicalNameSourceObject extends FieldEntryColumn(x => stringOptionToString(x.physicalNameSourceObject))
+    object SourceField extends FieldEntryColumn(x => stringOptionToString(x.sourceField))
+    object DataTypeSourceField extends FieldEntryColumn(x => stringOptionToString(x.dataTypeSourceField))
+    object FormatSourceField extends FieldEntryColumn(x => stringOptionToString(x.formatSourceField))
+    object Tags extends FieldEntryColumn(_.tags.map(_.mkString(Constants.listSeparator)).getOrElse(new String))
+    object FieldPositionInTheObject extends FieldEntryColumn(_.fieldPositionInTheObject.flatten.map(_.toString).getOrElse(new String))
+    object ExcludeInclude extends FieldEntryColumn(x => selfNamedOptionToString(x.generatedField))
+    object TokenizationType extends FieldEntryColumn(x => stringOptionToString(x.tokenizationType))
+    object RegistrationDate extends FieldEntryColumn(_.registrationDate.map(_.format(DateTimeFormatter.ofPattern(Constants.registrationDateFormat))).getOrElse(new String))
+    object CountryTheConceptualEntity extends FieldEntryColumn(x => selfNamedOptionToString(x.countryTheConceptualEntity))
+    object ConceptualEntity extends FieldEntryColumn(x => stringOptionToString(x.conceptualEntity))
+    object OperationalEntity extends FieldEntryColumn(x => stringOptionToString(x.operationalEntity))
+    object Tds extends FieldEntryColumn(x => selfNamedOptionToString(x.tds))
+
+
+    val values = Seq(Country, PhysicalNameObject, StorageType, StorageZone, PhysicalNameField, LogicalNameField, SimpleFieldDescription, Catalog, DataType, Format, LogicalFormat, Key, Mandatory, DefaultValue, PhysicalNameSourceObject, SourceField,
       DataTypeSourceField, FormatSourceField, Tags, FieldPositionInTheObject, ExcludeInclude, TokenizationType, RegistrationDate, CountryTheConceptualEntity, ConceptualEntity, OperationalEntity, Tds
     )
 
@@ -109,11 +110,5 @@ object FieldEntryReaderWriter {
     }
 
   }
-
-
-  private val tagsSeparator = ";"
-  private val registrationDateFormat = "dd-MM-yyyy"
-  //todo possibly generalize this as it may probably be needed in many other places
-  private val googleSpreadsheetModifiedDateFormat = "d/M/yyyy"
 
 }
