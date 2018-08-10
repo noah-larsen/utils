@@ -26,8 +26,8 @@ case class ObjectRowReader(sourceSystem: SourceSystem) extends RowReader[Object_
       logicalName = r(5),
       description = r(6),
       loadingType = LoadingTypes.withName(r(7)),
-      frequency = Frequencies.withName(r(8)),
-      mailbox = r(9),
+      frequency = withDefaultIfEmpty(r(8), Frequencies.withName(_), sourceSystem.defaultFrequency),
+      mailbox = withDefaultIfEmpty(r(9), sourceSystem.defaultMailbox),
       sourceOperational = withDefaultIfEmpty(r(10), sourceSystem.sourceSystem),
       extractionFileType = withDefaultIfEmpty(r(11), FileTypes.withName(_), sourceSystem.defaultExtractionFileType),
       extractionFileDelimeter = withDefaultIfEmpty(r(12), sourceSystem.defaultExtractionFileDelimeter),
@@ -51,7 +51,7 @@ case class ObjectRowReader(sourceSystem: SourceSystem) extends RowReader[Object_
       rawPath = r(30),
       masterPath = r(31),
       targetStorageSuperType = withDefaultIfEmpty(r(32), TargetStorageSuperTypes.withName(_), sourceSystem.defaultTargetStorageSuperType),
-      partitions = r(33).split(Regex.quote(partitionsSeparator)),
+      partitions = withDefaultIfEmpty(r(33), _.split(Regex.quote(partitionsSeparator)), sourceSystem.defaultPartitions),
       stagingToRawSchemasPath = withDefaultIfEmpty(r(34), sourceSystem.defaultStagingToRawSchemasPath),
       rawToMasterSchemasPath = withDefaultIfEmpty(r(35), sourceSystem.defaultRawToMasterSchemasPath)
     )

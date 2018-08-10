@@ -13,9 +13,9 @@ case class InitialDataDictionary(
                                   fields: Seq[Field]
                                 ) {
 
-  def objectNameToObjectAndFields: Map[String, ObjectAndFields] = {
-    val objectNameToFields = fields.groupBy(_.objectName).filterKeys(_.nonEmpty)
-    objects.collect{case x if x.objectName.nonEmpty => (x.objectName, ObjectAndFields(x, objectNameToFields.getOrElse(x.objectName, Seq()), sourceSystem))}.toMap
+  def lcObjectNameToObjectAndFields: Map[String, ObjectAndFields] = {
+    val objectNameToFields = fields.groupBy(_.objectName.toLowerCase).filterKeys(_.nonEmpty)
+    objects.collect{case x if x.objectName.nonEmpty => (x.objectName.toLowerCase, ObjectAndFields(x, objectNameToFields.getOrElse(x.objectName.toLowerCase, Seq()), sourceSystem))}.toMap
   }
 
 }

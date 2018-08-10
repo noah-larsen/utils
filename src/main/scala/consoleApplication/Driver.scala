@@ -20,16 +20,18 @@ import scala.util.{Failure, Success, Try}
 
 object Driver extends App {
 
+  class Conf(arguments: Seq[String]) extends ScallopConf(arguments) {
+    val test: ScallopOption[Boolean] = toggle(default = Some(false), hidden = true)
+    verify()
+  }
+
+
+  val conf = new Conf(args)
+  implicit val isTest: Boolean = conf.test()
+
+
   Try {
 
-    class Conf(arguments: Seq[String]) extends ScallopConf(arguments) {
-      val test: ScallopOption[Boolean] = toggle(default = Some(false), hidden = true)
-      verify()
-    }
-
-
-    val conf = new Conf(args)
-    val isTest = conf.test()
 
 
     val configPathname = "config.json"
@@ -38,13 +40,15 @@ object Driver extends App {
 
 
     implicit val language: Language = configuration.language
-    val lcSourceSystemToInitialDataDictionary = configuration.sourceSystemToInitialDataDictionaryId.map(x => (x._1.toLowerCase, InitialDataDictionary(x._2).get))
-    val lcSourceSystemToDataDictionary = configuration.sourceSystemToDataDictionaryId.map(x => (x._1.toLowerCase, DataDictionary(x._2).get))
+    //todo error handling
+    val lcSourceSystemToInitialDataDictionary = configuration.lcSourceSystemToInitialDataDictionaryId.filter(_._2.trim.nonEmpty).map(x => (x._1.toLowerCase, InitialDataDictionary(x._2).get))
+    val lcSourceSystemToDataDictionary = configuration.lcSourceSystemToDataDictionaryId.filter(_._2.trim.nonEmpty).map(x => (x._1.toLowerCase, DataDictionary(x._2).get))
     val applicationId = configuration.applicationId
     val country = configuration.country
     val sourceType = SourceTypes.Table
 
 
+    //todo make spreadsheet id apart of config
     val centralNamingsRepository = CentralNamingsRepository().get
     val intermediateDataDictionary = DataDictionary(configuration.intermediateDataDictionaryId).get
     val workDocument = WorkDocument(configuration.workDocumentId).get
@@ -56,25 +60,25 @@ object Driver extends App {
     def main(): Unit = {
       val commandInvocation = MainCommands.promptUntilParsed(leadWithNewline = false)
       commandInvocation.command match {
-        case MainCommands.CreateFromInitialDataDictionary =>
+        case MainCommands.CreateFromInitial =>
           Try {
-            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.CreateFromInitialDataDictionary.sourceSystem(commandInvocation.arguments), MainCommands.CreateFromInitialDataDictionary.objectName(commandInvocation.arguments))
-            val objectAndFieldEntries = ObjectAndFieldEntries(lcSourceSystemToInitialDataDictionary.getOrElse(physicalNameObject.sourceSystem.toLowerCase, throw DataHubException("Source not found")).objectNameToObjectAndFields.getOrElse(physicalNameObject
-              .objectName, throw DataHubException("Object not found")))
+            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.CreateFromInitial.sourceSystem(commandInvocation.arguments), MainCommands.CreateFromInitial.objectName(commandInvocation.arguments))
+            val objectAndFieldEntries = ObjectAndFieldEntries(lcSourceSystemToInitialDataDictionary.getOrElse(physicalNameObject.sourceSystem.toLowerCase, throw DataHubException("Source not found")).lcObjectNameToObjectAndFields.getOrElse(physicalNameObject
+              .objectName.toLowerCase, throw DataHubException("Object not found")))
             table(consoleRenamer(physicalNameObject, objectAndFieldEntries), objectAndFieldEntries)
-          }.recover{case e: Exception => println(e.getMessage)}
+          }.recover(displayError)
           main()
-        case MainCommands.LoadFromIntermediateDataDictionary =>
+        case MainCommands.LoadFromIntermediate =>
           Try {
-            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.LoadFromIntermediateDataDictionary.sourceSystem(commandInvocation.arguments), MainCommands.LoadFromIntermediateDataDictionary.objectName(commandInvocation
+            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.LoadFromIntermediate.sourceSystem(commandInvocation.arguments), MainCommands.LoadFromIntermediate.objectName(commandInvocation
               .arguments))
             val objectAndFieldEntries = intermediateDataDictionary.objectAndFieldEntries(physicalNameObject.asString).get
             table(consoleRenamer(physicalNameObject, objectAndFieldEntries), objectAndFieldEntries)
-          }.recover{case e: Exception => println(e.getMessage)}
+          }.recover(displayError)
           main()
-        case MainCommands.WriteOnceToDataDictionary =>
+        case MainCommands.WriteOnceToFinal =>
           Try {
-            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.LoadFromIntermediateDataDictionary.sourceSystem(commandInvocation.arguments), MainCommands.LoadFromIntermediateDataDictionary.objectName(commandInvocation
+            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.LoadFromIntermediate.sourceSystem(commandInvocation.arguments), MainCommands.LoadFromIntermediate.objectName(commandInvocation
               .arguments))
             workDocument.entriesObject(physicalNameObject).get.getOrElse(throw DataHubException("Object does not exist in work document")) match {
               case x if x.lowercaseSourceOrigin.isEmpty => throw DataHubException("Entries of approved object lack a consistent source origin.")
@@ -87,7 +91,7 @@ object Driver extends App {
                   .flatMap(y => lcSourceSystemToDataDictionary(x.lowercaseSourceOrigin.get).write(y.withRegistrationDates).map(_ => println("Wrote to data dictionary")))
                   .get
             }
-          }.recover{case e: Exception => println(e.getMessage)}
+          }.recover(displayError)
           main()
         case MainCommands.Quit =>
       }
@@ -95,7 +99,7 @@ object Driver extends App {
 
 
     def consoleRenamer(physicalNameObject: PhysicalNameObject, objectAndFieldEntries: ObjectAndFieldEntries): ConsoleRenamer = {
-      val dataDictionary = DataDictionary(configuration.sourceSystemToDataDictionaryId(physicalNameObject.sourceSystem)).get //todo handle key not found exception properly
+      val dataDictionary = DataDictionary(configuration.lcSourceSystemToDataDictionaryId(physicalNameObject.sourceSystem.toLowerCase)).get //todo handle key not found exception properly
       val approvedRenamings = ApprovedRenamings(dataDictionary).get
       val unapprovedRenamings = ApprovedRenamings(intermediateDataDictionary).get
       val targetNames = (centralNamingsRepository.targetNames ++ intermediateDataDictionary.targetNames(isApproved = false).get).groupBy(_.name).values.flatMap(x => if(x.exists(_.isApproved)) x.filter(_.isApproved) else x).toSeq
@@ -124,10 +128,10 @@ object Driver extends App {
         case TableCommands.ViewRenamings => table(consoleRenamer.viewRenamings(), objectAndFieldEntries)
         case TableCommands.Save =>
           val withRegistrationDates = saveWithRegistrationDates(consoleRenamer.renaming)
-          withRegistrationDates.failed.foreach(x => println(x.getMessage))
+          withRegistrationDates.recover(displayError)
           Some(withRegistrationDates.getOrElse(objectAndFieldEntries)).foreach(x => table(consoleRenamer.copy(renaming = Renaming(x.rawFieldEntriesObject)), x))
         case TableCommands.WriteOnceToWorkDocument =>
-          workDocument.writeOnce(WorkDocumentEntriesObject(consoleRenamer.renaming, centralNamingsRepository, preserveRegistrationDates = false).withRegistrationDates).recover{case e: Exception => println(e.getMessage)}
+          workDocument.writeOnce(WorkDocumentEntriesObject(consoleRenamer.renaming, centralNamingsRepository, preserveRegistrationDates = false).withRegistrationDates).recover(displayError)
           table(consoleRenamer, objectAndFieldEntries)
         case TableCommands.GoBackWithoutSaving =>
       }
@@ -135,6 +139,14 @@ object Driver extends App {
     }
 
 
-  }.recover{case e: Exception => println(e.getMessage)}
+    def displayError(implicit isTest: Boolean): PartialFunction[Throwable, Unit] = {
+      PartialFunction {
+        case e: DataHubException => println(e.getMessage)
+        case e: Exception if isTest => e.printStackTrace()
+        case e: Exception => println(e.getMessage)
+      }
+    }
+
+  }.recover{case e: Exception => if(isTest) e.printStackTrace() else println(e.getMessage)}
 
 }

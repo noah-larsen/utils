@@ -112,13 +112,13 @@ case class ObjectEntryReaderWriter(ingestionStage: IngestionStage) extends RowRe
     object SourceFileDelimeter extends ObjectColumn(_.sourceFileDelimeter)
     object TargetFileType extends ObjectColumn(x => selfNamedOptionToString(x.targetFileType))
     object TargetFileDelimeter extends ObjectColumn(_.targetFileDelimeter)
-    object Tags extends ObjectColumn(_.tags.mkString(Constants.listSeparator))
     object RegistrationDate extends ObjectColumn(_.registrationDate.map(_.format(DateTimeFormatter.ofPattern(Constants.registrationDateFormat))).getOrElse(new String))
+    object Tags extends ObjectColumn(_.tags.mkString(Constants.listSeparator))
 
 
     override val values = Seq(CountryTheDataSource, PhysicalNameObject, LogicalNameObject, DescriptionObject, InformationGroupLevel1, InformationGroupLevel2, InformationGroupLevel3, Core, Perimeter, InformationLevel, DataSource, TechnicalResponsible,
       StorageType, StorageZone, ObjectType, PhysicalPath, Schema, SystemCodeUuaa, Partitions, Frequency, TimeRequirement, LoadingType, CurrentDepth, RequiredDepth, EstimatedVolumeRecords, SourceOperational, SourceSystem, PhysicalNameSourceObject,
-      MailboxSourceTable, SourcePath, SchemaPath, SourceFileType, SourceFileDelimeter, TargetFileType, TargetFileDelimeter, Tags, RegistrationDate
+      MailboxSourceTable, SourcePath, SchemaPath, SourceFileType, SourceFileDelimeter, TargetFileType, TargetFileDelimeter, RegistrationDate, Tags
     )
 
   }

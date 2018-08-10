@@ -16,8 +16,8 @@ case class Configuration(
                           country: Country,
                           language: Language,
                           intermediateDataDictionaryId: String,
-                          sourceSystemToDataDictionaryId: Map[String, String],
-                          sourceSystemToInitialDataDictionaryId: Map[String, String],
+                          lcSourceSystemToDataDictionaryId: Map[String, String],
+                          lcSourceSystemToInitialDataDictionaryId: Map[String, String],
                           workDocumentId: String,
                         ) {
 
@@ -32,8 +32,8 @@ object Configuration {
       Countries.withName(config.getString(ConfigParameters.Country.name)).get, //todo error handling
       Languages.withName(config.getString(ConfigParameters.Language.name)).get, //todo error handling
       config.getString(ConfigParameters.IntermediateDataDictionaryId.name),
-      config.getObject(ConfigParameters.SourceSystemToDataDictionaryId.name).unwrapped().asScala.toMap.asInstanceOf[Map[String, String]],
-      config.getObject(ConfigParameters.SourceSystemToInitialDataDictionaryId.name).unwrapped().asScala.toMap.asInstanceOf[Map[String, String]],
+      config.getObject(ConfigParameters.SourceSystemToDataDictionaryId.name).unwrapped().asScala.toMap.asInstanceOf[Map[String, String]].map(x => (x._1.toLowerCase, x._2)),
+      config.getObject(ConfigParameters.SourceSystemToInitialDataDictionaryId.name).unwrapped().asScala.toMap.asInstanceOf[Map[String, String]].map(x => (x._1.toLowerCase, x._2)),
       config.getString(ConfigParameters.WorkDocumentId.name)
     ))
   }
