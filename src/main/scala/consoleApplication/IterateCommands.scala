@@ -12,12 +12,15 @@ object IterateCommands extends Commands {
 
   object MakeNewRelatedNode extends IterateCommand(Seq(NodeAlongPath))
   object RelatedNodes extends IterateCommand
-  object Next extends IterateCommand(Seq(FinishedValue1To5))
+  object Descendants extends IterateCommand(Seq(MaxDepth))
+  object Next extends IterateCommand
+  object Finish extends IterateCommand(Seq(FinishedValue1To5))
   object BackToMainMenu extends IterateCommand
 
 
   object NodeAlongPath extends ListParameter
-  object FinishedValue1To5 extends OptionalParameter(x => Try(x.toInt).filter(finishedValues.contains))
+  object FinishedValue1To5 extends ValueParameter(x => Try(x.toInt).filter(finishedValues.contains))
+  object MaxDepth extends ValueParameter(x => Try(x.toInt).filter(_ > 0), Some(1))
 
 
   override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[IterateCommands.type], classOf[IterateCommand])

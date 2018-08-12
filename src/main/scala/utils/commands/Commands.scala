@@ -13,13 +13,25 @@ trait Commands extends Enumerated {
   override type T = CommandType
 
 
-  def promptUntilParsed[T](translatedOneBasedIndexCommandItems: Seq[T] = Seq(), showUsage: Boolean = true, leadWithNewline: Boolean = true): CommandInvocation[T] = {
+  def promptUntilParsed[T](translatedOneBasedIndexCommandItems: Seq[T] = Seq(), listParameterToRuntimeValidationF: Map[ListParameter[_], Seq[String] => Try[Unit]] = Map(),
+                           showUsage: Boolean = true, leadWithNewline: Boolean = true)(implicit clearScreenUponSuccess: Boolean = true): CommandInvocation[T] = {
+
+    def clearScreen(): Unit ={
+      val nBlankLines = 100
+      println(System.lineSeparator() * nBlankLines)
+    }
+
+
     if(showUsage) println((if(leadWithNewline) System.lineSeparator() else new String) + usage)
     def readLineUntilNonEmpty: String = StdIn.readLine() match {case x if Option(x).forall(_.trim.isEmpty) => readLineUntilNonEmpty case x => x}
-    parse(readLineUntilNonEmpty, translatedOneBasedIndexCommandItems).recover{case e: CommandException =>
+    parse(readLineUntilNonEmpty, translatedOneBasedIndexCommandItems, listParameterToRuntimeValidationF).recover{case e: CommandException =>
       println(e.message.trim + System.lineSeparator())
-      promptUntilParsed(translatedOneBasedIndexCommandItems, showUsage = false)
-    }.get
+      promptUntilParsed(translatedOneBasedIndexCommandItems, listParameterToRuntimeValidationF, showUsage = false)
+    }.get match {
+      case x =>
+        if(clearScreenUponSuccess) clearScreen()
+        x
+    }
   }
 
 
@@ -49,14 +61,14 @@ trait Commands extends Enumerated {
                                                   oneBasedIndexCommandSelection: Option[T] = None
                                                 ){
 
-    def validate: Try[CommandInvocation[T]] = {
+    def validate(listParameterToRuntimeValidationF: Map[ListParameter[_], Seq[String] => Try[Unit]] = Map()): Try[CommandInvocation[T]] = {
       Unit match {
         case _ if !(parameters.length - command.nUnrequiredParameters to parameters.collectFirst{case _: ListParameter[_] => Int.MaxValue}.getOrElse(parameters.length))
           .contains(arguments.length) => Failure(IncorrectNumberParametersException)
         case _ if parameterToArguments.exists(x => x._1 match {
           case y: ValueParameter[_] => y.parse(x._2.head).isFailure
           case y: OptionalParameter[_] => y.parse(x._2.head).isFailure
-          case y: ListParameter[_] => y.parse(x._2).isFailure
+          case y: ListParameter[_] => y.parse(x._2).isFailure || listParameterToRuntimeValidationF.get(y).exists(_(x._2).isFailure)
         }) => Failure(InvalidParametersException)
         case _ => Try(this)
       }
@@ -99,13 +111,15 @@ trait Commands extends Enumerated {
   }
 
 
-  private def parse[T](line: String, translatedOneBasedIndexCommandItems: Seq[T] = Seq()): Try[CommandInvocation[T]] = {
+  private def parse[T](line: String, translatedOneBasedIndexCommandItems: Seq[T] = Seq(),
+                       listParameterToRuntimeValidationF: Map[ListParameter[_], Seq[String] => Try[Unit]] = Map()): Try[CommandInvocation[T]] = {
     val whitespaceRe = "\\s+"
     val tokens = line.split(whitespaceRe)
     letterCommands
-      .find(_.letterName.toString == tokens.head).map(CommandInvocation[T](_, tokens.tail).validate)
+      .find(_.letterName.toString == tokens.head).map(CommandInvocation[T](_, tokens.tail).validate(listParameterToRuntimeValidationF))
       .orElse(oneBasedIndexCommand.map((_, Try(tokens.head.toInt))).filter(_._2.isSuccess).map(x => (x._1, x._2.get)).filter(x => x._2 > 0 && x._2 <=
-        translatedOneBasedIndexCommandItems.length).map(x => CommandInvocation(x._1, tokens.tail, Some(translatedOneBasedIndexCommandItems(x._2 - 1))).validate))
+        translatedOneBasedIndexCommandItems.length).map(x => CommandInvocation(x._1, tokens.tail, Some(translatedOneBasedIndexCommandItems(x._2 - 1))).validate(
+        listParameterToRuntimeValidationF)))
       .getOrElse(Failure[CommandInvocation[T]](UnknownCommandException))
   }
 
