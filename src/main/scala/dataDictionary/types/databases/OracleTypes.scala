@@ -12,7 +12,7 @@ object OracleTypes extends SuperTypes {
 
     override protected def withLogicalFormat[T <: this.type](type_ : Type[T]): Option[Type[LogicalFormat]] = {
       type_ match {
-        case Type(x, None, None) if x == Date => None //todo
+        case Type(x, None, None) if x == Date => Some(Type(LogicalFormats.Timestamp))
         case Type(x, Some(y), None) if x == Float => Some(Type(LogicalFormats.Float, Some(y)))
         case Type(x, Some(y), None) if x == Number && Set(4, 6).contains(y) => Some(Type(NumericShort, Some(y)))
         case Type(x, Some(y), None) if x == Number && Set(9, 11).contains(y) => Some(Type(NumericLarge, Some(y)))

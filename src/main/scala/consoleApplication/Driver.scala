@@ -48,7 +48,7 @@ object Driver extends App {
     val sourceType = SourceTypes.Table
 
 
-    //todo make spreadsheet id apart of config
+    //todo make spreadsheet id a part of config
     val centralNamingsRepository = CentralNamingsRepository().get
     val intermediateDataDictionary = DataDictionary(configuration.intermediateDataDictionaryId).get
     val workDocument = WorkDocument(configuration.workDocumentId).get
@@ -63,8 +63,8 @@ object Driver extends App {
         case MainCommands.CreateFromInitial =>
           Try {
             val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.CreateFromInitial.sourceSystem(commandInvocation.arguments), MainCommands.CreateFromInitial.objectName(commandInvocation.arguments))
-            val objectAndFieldEntries = ObjectAndFieldEntries(lcSourceSystemToInitialDataDictionary.getOrElse(physicalNameObject.sourceSystem.toLowerCase, throw DataHubException("Source not found")).lcObjectNameToObjectAndFields.getOrElse(physicalNameObject
-              .objectName.toLowerCase, throw DataHubException("Object not found")))
+            val objectAndFieldEntries = ObjectAndFieldEntries(lcSourceSystemToInitialDataDictionary.getOrElse(physicalNameObject.sourceSystem.toLowerCase, throw DataHubException("Source not found")).lcObjectNameToObjectAndFields.map(_.getOrElse(
+              physicalNameObject.objectName.toLowerCase, throw DataHubException("Object not found"))).get)
             table(consoleRenamer(physicalNameObject, objectAndFieldEntries), objectAndFieldEntries)
           }.recover(displayError)
           main()
@@ -87,7 +87,7 @@ object Driver extends App {
               case x if lcSourceSystemToDataDictionary(x.lowercaseSourceOrigin.get).fieldEntries(IngestionStages.Raw).get.exists(_.physicalNameObject.contains(x.table)) => throw DataHubException("Object already exists in data dictionary")
               case x =>
                 x.mergeIfFromTextExtraction(intermediateDataDictionary, preserveRegistrationDatesThis = false, preserveRegistrationDatesThat = false)
-                  .recoverWith { case e: DataHubException => Failure(e.copy(s"Could not merge with work data dictionary entries. ${e.message}")) }
+                  .recoverWith { case e: DataHubException => Failure(DataHubException(s"Could not merge with work data dictionary entries. ${e.getMessage}")) }
                   .flatMap(y => lcSourceSystemToDataDictionary(x.lowercaseSourceOrigin.get).write(y.withRegistrationDates).map(_ => println("Wrote to data dictionary")))
                   .get
             }

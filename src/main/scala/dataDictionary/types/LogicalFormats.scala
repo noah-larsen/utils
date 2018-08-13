@@ -1,6 +1,7 @@
 package dataDictionary.types
 
 import dataDictionary.Type
+import initialDataDictionary.enumerations.DataSuperTypes.DataSuperType
 import utils.enumerated.SelfNamed.NameFormats.ObjectNameWithSpacesBetweenWords
 
 object LogicalFormats extends SuperTypes {

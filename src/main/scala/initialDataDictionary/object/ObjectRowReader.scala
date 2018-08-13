@@ -2,7 +2,7 @@ package initialDataDictionary.`object`
 
 import dataDictionary.enumerations.YesOrNoValues
 import dataDictionary.enumerations.{Countries, FileTypes, Frequencies, LoadingTypes}
-import googleSpreadsheets.{CheckboxValues, RowReader, SheetRange}
+import googleSpreadsheets.{CheckboxValues, RowReader, RowReaderWriter, SheetRange}
 import initialDataDictionary.enumerations.{DataSuperTypes, ObjectTypes, TargetStorageSuperTypes}
 import initialDataDictionary.sourceSystem.SourceSystem
 import utils.enumerated.{Enumerated, SelfNamed}
@@ -56,6 +56,9 @@ case class ObjectRowReader(sourceSystem: SourceSystem) extends RowReader[Object_
       rawToMasterSchemasPath = withDefaultIfEmpty(r(35), sourceSystem.defaultRawToMasterSchemasPath)
     )
   }
+
+
+
 
 
   private val informationGroupLevelsSeparator = "//"

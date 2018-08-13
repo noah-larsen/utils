@@ -19,6 +19,7 @@ case class SourceSystem(
                          defaultCountryTheDataSource: Option[Country],
                          defaultDataSource: String,
                          defaultDataSuperType: Option[DataSuperType],
+                         defaultDateFormat: String,
                          defaultExtractionFileType: Option[FileType],
                          defaultExtractionFileDelimeter: String,
                          defaultFrequency: Option[Frequency],
@@ -33,6 +34,7 @@ case class SourceSystem(
                          defaultStagingToRawSchemasPath: String,
                          defaultSystemCodeUUAA: String,
                          defaultTargetStorageSuperType: Option[TargetStorageSuperType],
+                         defaultTimestampFormat: String,
                          sourceSystem: String
                        ) {
 
@@ -42,6 +44,11 @@ object SourceSystem {
 
   def apply(googleSpreadsheetId: String): Try[SourceSystem] = {
     GoogleSpreadsheet(googleSpreadsheetId).flatMap(_.get(SourceSystemRowParametersReader))
+  }
+
+
+  def empty: SourceSystem = {
+    SourceSystem(Seq(), None, None, new String, None, new String, None, new String, None, None, None, None, None, new String, None, Seq(), new String, new String, new String, None, new String, new String)
   }
 
 
@@ -55,6 +62,7 @@ object SourceSystem {
     object DefaultCountryOfTheDataSource extends SourceSystemRowParameter
     object DefaultDataSource extends SourceSystemRowParameter
     object DefaultDataSuperType extends SourceSystemRowParameter
+    object DefaultDateFormat extends SourceSystemRowParameter
     object DefaultExtractionFileType extends SourceSystemRowParameter
     object DefaultExtractionFileDelimeter extends SourceSystemRowParameter
     object DefaultFrequency extends SourceSystemRowParameter
@@ -69,12 +77,14 @@ object SourceSystem {
     object DefaultStagingToRawSchemasPath extends SourceSystemRowParameter
     object DefaultSystemCodeUUAA extends SourceSystemRowParameter(nameFormat = Custom("Default System Code UUAA"))
     object DefaultTargetStorageSuperType extends SourceSystemRowParameter
+    object DefaultTimestampFormat extends SourceSystemRowParameter
     object SourceSystem extends SourceSystemRowParameter
 
 
     override val values = Seq(
-      AdditionalOperationalSourceSystems, DefaultCountryOfTheConceptualEntity, DefaultCountryOfTheDataSource, DefaultDataSuperType, DefaultDataSource, DefaultExtractionFileType, DefaultExtractionFileDelimeter, DefaultFrequency, DefaultIsCore,
-      DefaultIsIngestedFromFixedWidth, DefaultIsTDS, DefaultLoadingType, DefaultMailbox, DefaultObjectType, DefaultPartitions, DefaultRawToMasterSchemasPath, DefaultStagingToRawSchemasPath, DefaultSystemCodeUUAA, DefaultTargetStorageSuperType, SourceSystem
+      AdditionalOperationalSourceSystems, DefaultCountryOfTheConceptualEntity, DefaultCountryOfTheDataSource, DefaultDataSuperType, DefaultDataSource, DefaultDateFormat, DefaultExtractionFileType, DefaultExtractionFileDelimeter, DefaultFrequency, DefaultIsCore,
+      DefaultIsIngestedFromFixedWidth, DefaultIsTDS, DefaultLoadingType, DefaultMailbox, DefaultObjectType, DefaultPartitions, DefaultRawToMasterSchemasPath, DefaultStagingToRawSchemasPath, DefaultSystemCodeUUAA, DefaultTargetStorageSuperType,
+      DefaultTimestampFormat, SourceSystem
     )
 
   }

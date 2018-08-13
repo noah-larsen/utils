@@ -16,6 +16,7 @@ object SourceSystemRowParametersReader extends RowParametersReader[SourceSystem]
     SheetRange("Source System", maxColumn)
   }
 
+
   override protected def rowParameters: RowParametersReader.RowParameters = SourceSystemRowParameters
 
 
@@ -26,6 +27,7 @@ object SourceSystemRowParametersReader extends RowParametersReader[SourceSystem]
       defaultCountryTheDataSource = Countries.withName(parameterToValue(DefaultCountryOfTheDataSource)),
       defaultDataSource = parameterToValue(DefaultDataSource),
       defaultDataSuperType = DataSuperTypes.withName(parameterToValue(DefaultDataSuperType)),
+      defaultDateFormat = parameterToValue(DefaultDateFormat),
       defaultExtractionFileType = FileTypes.withName(parameterToValue(DefaultExtractionFileType)),
       defaultExtractionFileDelimeter = parameterToValue(DefaultExtractionFileDelimeter),
       defaultFrequency = Frequencies.withName(parameterToValue(DefaultFrequency)),
@@ -40,6 +42,7 @@ object SourceSystemRowParametersReader extends RowParametersReader[SourceSystem]
       defaultStagingToRawSchemasPath = parameterToValue(DefaultStagingToRawSchemasPath),
       defaultSystemCodeUUAA = parameterToValue(DefaultSystemCodeUUAA),
       defaultTargetStorageSuperType = TargetStorageSuperTypes.withName(parameterToValue(DefaultTargetStorageSuperType)),
+      defaultTimestampFormat = parameterToValue(DefaultTimestampFormat),
       sourceSystem = parameterToValue(SourceSystemRowParameters.SourceSystem)
     )
   }

@@ -22,7 +22,7 @@ object DB2Types extends SuperTypes {
         case Type(x, Some(y), None) if x == Float => Some(Type(LogicalFormats.Float))
         case Type(x, None, None) if x == Integer => Some(Type(NumericLarge))
         case Type(x, None, None) if x == SmallInt => Some(Type(NumericShort))
-        case Type(x, None, None) if x == Time => Some(Type(LogicalFormats.Time))
+        case Type(x, None, None) if x == Time => Some(Type(Alphanumeric, Some(maxLengthStringTimeValue)))
         case Type(x, None, None) if x == Timestamp => Some(Type(LogicalFormats.Timestamp))
         case _ => None
       }
@@ -42,5 +42,8 @@ object DB2Types extends SuperTypes {
 
 
   override val values = Seq(BigInt, Char, Date, Decimal, Float, Integer, SmallInt, Time, Timestamp)
+
+
+  private val maxLengthStringTimeValue = 100
 
 }

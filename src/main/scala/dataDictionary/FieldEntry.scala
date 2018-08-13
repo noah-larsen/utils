@@ -96,8 +96,8 @@ case class FieldEntry(
   }
 
 
-  def isDateOrTime: Option[Boolean] = {
-    logicalFormat.flatMap(Type(_, LogicalFormats).asInstanceOf[Option[Type[LogicalFormat]]].map(x => Seq(LogicalFormats.Date, LogicalFormats.Time, LogicalFormats.Timestamp).contains(x.typeType)))
+  def isDateOrTimestamp: Option[Boolean] = {
+    logicalFormat.flatMap(Type(_, LogicalFormats).asInstanceOf[Option[Type[LogicalFormat]]].map(x => Seq(LogicalFormats.Date, LogicalFormats.Timestamp).contains(x.typeType)))
   }
 
 }

@@ -147,7 +147,7 @@ object FieldEntriesObject {
             catalog = Some(field.catalog),
             dataType = Some(DataTypes.string),
             format = Some(new String),
-            logicalFormat = obj.dataSuperType.flatMap(x => Type(field.dataType,SuperTypes.from(x)).map(_.string)),
+            logicalFormat = obj.dataSuperType.flatMap(Type.logicalFormat(field.dataType, _).map(_.string)),
             key = Some(YesOrNoValues.from(field.isKey)),
             mandatory = Some(YesOrNoValues.from(field.isMandatoryNonKey)),
             defaultValue = Some(field.defaultValue),

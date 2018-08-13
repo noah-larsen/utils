@@ -3,6 +3,7 @@ package dataDictionary
 import dataDictionary.Type.Arguments
 import dataDictionary.types.LogicalFormats.LogicalFormat
 import dataDictionary.types.{SuperType, SuperTypes}
+import initialDataDictionary.enumerations.DataSuperTypes.DataSuperType
 import utils.enumerated.SelfNamed.NameFormats.{NameFormat, ObjectName}
 import utils.enumerated.{Enumerated, SelfNamed}
 
@@ -40,6 +41,11 @@ object Type {
           .map(y => (Option(y.head), Some(Unit).filter(_ => y.length > 1).map(_ => y(1))))
           .flatMap(y => typeTypes.withName(type_.substring(0, x)).map(Type[SuperType](_, y._1, y._2)))
     }
+  }
+
+
+  def logicalFormat(dataType: String, dataSuperType: DataSuperType): Option[Type[LogicalFormat]] = {
+    Type(dataType, SuperTypes.from(dataSuperType)).flatMap(_.logicalFormat)
   }
 
 
