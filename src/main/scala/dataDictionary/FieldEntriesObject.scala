@@ -40,7 +40,7 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
       val logicalFormat = fieldEntry.logicalFormat.flatMap(Type(_, LogicalFormats).asInstanceOf[Option[Type[LogicalFormat]]])
       val format = logicalFormat.map{
         case Type(LogicalFormats.Decimal, Some(x), y) => FieldEntry.decimalFormat(x, y)
-        case x if Seq(LogicalFormats.Date, LogicalFormats.Time, LogicalFormats.Timestamp).contains(x.typeType) => fieldEntry.sourceField.map(sourceFieldToDateFormat).getOrElse(new String)
+        case x if Seq(LogicalFormats.Date, LogicalFormats.Timestamp).contains(x.typeType) => fieldEntry.sourceField.map(sourceFieldToDateFormat).getOrElse(new String)
         case _ => new String
       }
       fieldEntry.copy(

@@ -1,8 +1,8 @@
 package initialDataDictionary
 
 import googleSpreadsheets.{GoogleSpreadsheet, RowParametersReader, SheetRange}
-import initialDataDictionary.`object`.{ObjectRowReader, Object_}
-import initialDataDictionary.field.{Field, FieldRowReader}
+import initialDataDictionary.`object`.{ObjectRowReaderWriter, Object_}
+import initialDataDictionary.field.{Field, FieldRowReaderWriter}
 import initialDataDictionary.sourceSystem.{SourceSystem, SourceSystemRowParametersReader}
 
 import scala.util.Try
@@ -19,16 +19,17 @@ case class InitialDataDictionary(private val spreadsheet: GoogleSpreadsheet) {
   def appendNewObjectsAndFields(objectsAndFields: Seq[ObjectAndFields]): Try[Unit] = Try {
     val data_ = data.get
     val lcObjectNames = (data_.objects.map(_.objectName) ++ data_.fields.map(_.objectName)).map(_.toLowerCase).toSet
-    objectsAndFields.filter(x => !lcObjectNames.contains(x.obj.objectName.toLowerCase))
-//    spreadsheet.append(objectsAndFields.map(_.obj), )
-    ???
+    val newObjectsAndFields = objectsAndFields.filter(x => !lcObjectNames.contains(x.obj.objectName.toLowerCase))
+    //todo better error handling
+    spreadsheet.append(newObjectsAndFields.map(_.obj), ObjectRowReaderWriter(newObjectsAndFields))
+    spreadsheet.append(newObjectsAndFields.flatMap(_.fields), FieldRowReaderWriter(newObjectsAndFields))
   }
 
 
   private def data: Try[Data] = Try {
     val sourceSystem = spreadsheet.get(SourceSystemRowParametersReader).get
-    val objects = spreadsheet.get(ObjectRowReader(sourceSystem)).map(_.filter(_.objectName.nonEmpty)).get
-    val fields = spreadsheet.get(FieldRowReader(sourceSystem, objects.map(x => (x.objectName, x)).toMap)).get
+    val objects = spreadsheet.get(ObjectRowReaderWriter(sourceSystem)).map(_.filter(_.objectName.nonEmpty)).get
+    val fields = spreadsheet.get(FieldRowReaderWriter(sourceSystem, objects.map(x => (x.objectName.toLowerCase, x)).toMap)).get
     Data(sourceSystem, objects, fields)
   }
 

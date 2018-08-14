@@ -108,7 +108,13 @@ object FieldEntry {
     val prefix = "("
     val suffix = ")"
     val precisionScaleSeparator = ","
-    prefix + precision + scale.map(precisionScaleSeparator + _).getOrElse(new String) + suffix
+    asPlainTextSpreadsheetFormula(prefix + precision + scale.map(precisionScaleSeparator + _).getOrElse(new String) + suffix)
+  }
+
+
+  //todo move
+  private def asPlainTextSpreadsheetFormula(value: String): String = {
+    "\"" match {case dq => s"=t($dq$value$dq)"}
   }
 
 }

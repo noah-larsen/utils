@@ -20,9 +20,9 @@ import scala.util.{Failure, Try}
 
 object PhoenixOwnerDataDictionary {
 
-  def updateInitialDateDictionary(lcSourceSystemToInitialDataDictionary: Map[String, InitialDataDictionary]): Try[Unit] = Try {
-    val initialDataDictionary = lcSourceSystemToInitialDataDictionary.getOrElse(phoenixSourceSystem, throw InitialDataDictionaryNotFoundException(phoenixSourceSystem))
-    ???
+  def updateInitialDataDictionary(lcSourceSystemToInitialDataDictionary: Map[String, InitialDataDictionary]): Try[Unit] = Try {
+    val phoenixInitialDataDictionary = lcSourceSystemToInitialDataDictionary.getOrElse(phoenixSourceSystem, throw InitialDataDictionaryNotFoundException(phoenixSourceSystem))
+    objectsAndFields.flatMap(phoenixInitialDataDictionary.appendNewObjectsAndFields)
   }
 
 

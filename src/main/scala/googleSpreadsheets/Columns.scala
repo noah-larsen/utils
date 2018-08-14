@@ -9,6 +9,11 @@ trait Columns extends Enumerated {
   override type T = ColumnType
 
 
-  protected def selfNamedOptionToString(x: Option[SelfNamed]): String = x.map(_.name).getOrElse(new String)
+  protected def anyValOptionToString(x: Option[AnyVal]): String = {
+    x.map(_.toString).getOrElse(new String)
+  }
+  protected def selfNamedOptionToString(x: Option[SelfNamed]): String = {
+    x.map(_.name).getOrElse(new String)
+  }
 
 }

@@ -126,7 +126,7 @@ object Driver extends App {
       commandInvocation.command match {
         case TableCommands.RenameFields => table(consoleRenamer.iterate, objectAndFieldEntries)
         case TableCommands.ViewRenamings => table(consoleRenamer.viewRenamings(), objectAndFieldEntries)
-        case TableCommands.Save =>
+        case TableCommands.SaveToIntermediate =>
           val withRegistrationDates = saveWithRegistrationDates(consoleRenamer.renaming)
           withRegistrationDates.recover(displayError)
           Some(withRegistrationDates.getOrElse(objectAndFieldEntries)).foreach(x => table(consoleRenamer.copy(renaming = Renaming(x.rawFieldEntriesObject)), x))
