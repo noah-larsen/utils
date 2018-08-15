@@ -1,19 +1,24 @@
 package consoleApplication
 
-import com.typesafe.config.ConfigFactory
+import com.typesafe.config.ConfigException.Missing
+import com.typesafe.config.{Config, ConfigFactory}
+import consoleApplication.Configuration.ConfigParameters.GeneratedFields
 import consoleApplication.ConsoleRenamer.Languages
 import consoleApplication.ConsoleRenamer.Languages.Language
 import dataDictionary.enumerations.Countries
 import dataDictionary.enumerations.Countries.Country
+import dataDictionary.field.GeneratedField
+import utils.RichConfig
 import utils.enumerated.{Enumerated, SelfNamed}
 
 import scala.util.Try
-import collection.JavaConverters._
+import collection.convert.ImplicitConversionsToScala._
 import scala.io.Source
 
 case class Configuration(
                           applicationId: String,
                           country: Country,
+                          generatedFields: Seq[GeneratedField],
                           language: Language,
                           intermediateDataDictionaryId: String,
                           lcSourceSystemToDataDictionaryId: Map[String, String],
@@ -23,18 +28,19 @@ case class Configuration(
 
 }
 
-object Configuration {
+object Configuration extends RichConfig {
 
   def apply(source: Source): Try[Configuration] = {
     val config = ConfigFactory.parseString(source.mkString)
     Try(Configuration(
-      config.getString(ConfigParameters.ApplicationId.name),
-      Countries.withName(config.getString(ConfigParameters.Country.name)).get, //todo error handling
-      Languages.withName(config.getString(ConfigParameters.Language.name)).get, //todo error handling
-      config.getString(ConfigParameters.IntermediateDataDictionaryId.name),
-      config.getObject(ConfigParameters.SourceSystemToDataDictionaryId.name).unwrapped().asScala.toMap.asInstanceOf[Map[String, String]].map(x => (x._1.toLowerCase, x._2)),
-      config.getObject(ConfigParameters.SourceSystemToInitialDataDictionaryId.name).unwrapped().asScala.toMap.asInstanceOf[Map[String, String]].map(x => (x._1.toLowerCase, x._2)),
-      config.getString(ConfigParameters.WorkDocumentId.name)
+      applicationId = config.getString(ConfigParameters.ApplicationId.name),
+      country = Countries.withName(config.getString(ConfigParameters.Country.name)).get, //todo error handling
+      generatedFields = config.get(GeneratedFields.name, _.getConfigList).map(x => x.map(GeneratedField(_).get)).getOrElse(Seq()),
+      language = Languages.withName(config.getString(ConfigParameters.Language.name)).get, //todo error handling
+      intermediateDataDictionaryId = config.getString(ConfigParameters.IntermediateDataDictionaryId.name),
+      lcSourceSystemToDataDictionaryId = config.getObject(ConfigParameters.SourceSystemToDataDictionaryId.name).unwrapped().toMap.asInstanceOf[Map[String, String]].map(x => (x._1.toLowerCase, x._2)),
+      lcSourceSystemToInitialDataDictionaryId = config.getObject(ConfigParameters.SourceSystemToInitialDataDictionaryId.name).unwrapped().toMap.asInstanceOf[Map[String, String]].map(x => (x._1.toLowerCase, x._2)),
+      workDocumentId = config.getString(ConfigParameters.WorkDocumentId.name)
     ))
   }
 
@@ -46,6 +52,7 @@ object Configuration {
 
     object ApplicationId extends ConfigParameter
     object Country extends ConfigParameter
+    object GeneratedFields extends ConfigParameter
     object Language extends ConfigParameter
     object IntermediateDataDictionaryId extends ConfigParameter
     object SourceSystemToDataDictionaryId extends ConfigParameter
@@ -53,7 +60,7 @@ object Configuration {
     object WorkDocumentId extends ConfigParameter
 
 
-    override val values = Seq(ApplicationId, Country, Language, IntermediateDataDictionaryId, SourceSystemToDataDictionaryId, SourceSystemToInitialDataDictionaryId, WorkDocumentId)
+    override val values = Seq(ApplicationId, Country, GeneratedFields, Language, IntermediateDataDictionaryId, SourceSystemToDataDictionaryId, SourceSystemToInitialDataDictionaryId, WorkDocumentId)
 
   }
 

@@ -1,17 +1,17 @@
-package dataDictionary
+package dataDictionary.`object`
 
-import java.nio.file.Path
 import java.time.LocalDate
 
-import dataDictionary.enumerations.IngestionStages.{IngestionStage, Master, Raw}
-import dataDictionary.enumerations.{CoreValues, StorageTypes, StorageZones}
 import dataDictionary.enumerations.CoreValues.CoreValue
 import dataDictionary.enumerations.Countries.Country
 import dataDictionary.enumerations.FileTypes.{Avro, FileType, Parquet}
 import dataDictionary.enumerations.Frequencies.Frequency
+import dataDictionary.enumerations.IngestionStages.{IngestionStage, Master, Raw}
 import dataDictionary.enumerations.LoadingTypes.LoadingType
 import dataDictionary.enumerations.StorageTypes.StorageType
-import dataDictionary.enumerations.StorageZones.{RawData, StorageZone}
+import dataDictionary.enumerations.StorageZones.StorageZone
+import dataDictionary.enumerations.{CoreValues, StorageTypes, StorageZones}
+import dataDictionary.{PhysicalNameObject, `object`}
 import googleSpreadsheets.Row
 import initialDataDictionary.`object`.Object_
 import initialDataDictionary.enumerations.ObjectTypes
@@ -70,7 +70,7 @@ object ObjectEntry {
     //todo error handling what if object type not set?
     //todo everything involving other target storage super types
     val physicalNameObject = PhysicalNameObject(ObjectTypes.toSourceType(obj.objectType.get), obj.systemCodeUUAA, ss.sourceSystem, obj.objectName).asString
-    ObjectEntry(
+    `object`.ObjectEntry(
       countryTheDataSource = obj.countryTheDataSource,
       physicalNameObject = physicalNameObject,
       logicalNameObject = obj.logicalName,

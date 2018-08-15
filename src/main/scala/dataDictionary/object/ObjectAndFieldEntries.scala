@@ -1,10 +1,7 @@
-package dataDictionary
+package dataDictionary.`object`
 
-import java.time.LocalDate
-
-import dataDictionary.enumerations.{DataTypes, YesOrNoValues}
 import dataDictionary.enumerations.IngestionStages.{Master, Raw}
-import dataDictionary.types.SuperTypes
+import dataDictionary.field.{FieldEntriesObject, GeneratedField}
 import initialDataDictionary.ObjectAndFields
 
 case class ObjectAndFieldEntries(
@@ -29,8 +26,8 @@ case class ObjectAndFieldEntries(
 
 object ObjectAndFieldEntries {
 
-  def apply(objectAndFields: ObjectAndFields): ObjectAndFieldEntries = {
-    val rawFieldEntriesObject = FieldEntriesObject.rawFEOFromTextExtraction(objectAndFields)
+  def fromTextExtraction(objectAndFields: ObjectAndFields, generatedFields: Seq[GeneratedField]): ObjectAndFieldEntries = {
+    val rawFieldEntriesObject = FieldEntriesObject.rawFEOFromTextExtraction(objectAndFields, generatedFields)
     ObjectAndFieldEntries(ObjectEntry(objectAndFields.obj, objectAndFields.sourceSystem, Raw), ObjectEntry(objectAndFields.obj, objectAndFields.sourceSystem, Master), rawFieldEntriesObject, rawFieldEntriesObject.toMasterIfFromTextExtraction(objectAndFields.fields
       .map(x => (x.fieldName, x.dateFormat)).toMap))
   }

@@ -1,14 +1,13 @@
-package dataDictionary
+package dataDictionary.field
 
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+import dataDictionary.Constants
 import dataDictionary.enumerations.IngestionStages.IngestionStage
-import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns
-import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
 import dataDictionary.enumerations._
-import googleSpreadsheets.{Column, Columns}
-import googleSpreadsheets.{RowReaderWriter, SheetRange}
+import dataDictionary.field.FieldEntryReaderWriter.FieldEntryColumns
+import dataDictionary.field.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
+import googleSpreadsheets.{Column, Columns, RowReaderWriter, SheetRange}
 
 import scala.util.Try
 
@@ -52,7 +51,9 @@ case class FieldEntryReaderWriter(ingestionStage: IngestionStage) extends RowRea
   }
 
 
-  override protected def columns: Seq[FieldEntryColumn] = FieldEntryColumns.values
+  override protected def columns: Seq[FieldEntryColumn] = {
+    FieldEntryColumns.values
+  }
 
 
   private def text(value: String): Option[String] = {

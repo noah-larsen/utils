@@ -3,7 +3,7 @@ package workDocument
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-import dataDictionary.FieldEntry
+import dataDictionary.field.FieldEntry
 import googleSpreadsheets.{Column, Columns}
 import googleSpreadsheets.{Row, RowReaderWriter, SheetRange}
 import utils.enumerated.Enumerated

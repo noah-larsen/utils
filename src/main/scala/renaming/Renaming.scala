@@ -1,6 +1,6 @@
 package renaming
 
-import dataDictionary.{FieldEntriesObject, FieldEntry}
+import dataDictionary.field.{FieldEntriesObject, FieldEntry}
 
 class Renaming(fieldEntries: Seq[FieldEntry]) extends FieldEntriesObject(fieldEntries) {
 

@@ -1,17 +1,10 @@
-package dataDictionary
+package dataDictionary.`object`
 
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-import dataDictionary.enumerations.CoreValues.CoreValue
-import dataDictionary.enumerations.Countries.Country
-import dataDictionary.enumerations.FileTypes.FileType
-import dataDictionary.enumerations.Frequencies.Frequency
-import dataDictionary.enumerations._
+import dataDictionary.Constants
 import dataDictionary.enumerations.IngestionStages.{IngestionStage, Master, Raw}
-import dataDictionary.enumerations.LoadingTypes.LoadingType
-import dataDictionary.enumerations.StorageTypes.StorageType
-import dataDictionary.enumerations.StorageZones.StorageZone
+import dataDictionary.enumerations._
 import googleSpreadsheets.{Column, Columns, RowReaderWriter, SheetRange}
 
 case class ObjectEntryReaderWriter(ingestionStage: IngestionStage) extends RowReaderWriter[ObjectEntry] {

@@ -1,7 +1,7 @@
 package renaming
 
 import consoleApplication.ConsoleRenamer.Languages.Language
-import dataDictionary.FieldEntry
+import dataDictionary.field.FieldEntry
 
 case class SourceName(
                   name: String,

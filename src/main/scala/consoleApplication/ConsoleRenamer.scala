@@ -1,9 +1,9 @@
 package consoleApplication
 
-import dataDictionary.FieldEntry
 import consoleApplication.ConsoleRenamer.Languages.Language
+import dataDictionary.field.FieldEntry
 import renaming.nameComparator.NameComparator
-import renaming.{TargetName, NameSearch, Renaming, SourceName}
+import renaming.{NameSearch, Renaming, SourceName, TargetName}
 import utils.commands._
 import utils.commands.Commands.CommandException
 import utils.enumerated.{Enumerated, SelfNamed}

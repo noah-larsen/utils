@@ -4,6 +4,8 @@ import com.google.api.client.json.GenericJson
 import consoleApplication.ConsoleRenamer.Languages.Language
 import dataDictionary.enumerations.IngestionStages.{IngestionStage, Master, Raw}
 import dataDictionary.enumerations.IngestionStages
+import dataDictionary.field.{FieldEntriesObject, FieldEntry, FieldEntryReaderWriter}
+import dataDictionary.`object`.{ObjectAndFieldEntries, ObjectEntry, ObjectEntryReaderWriter}
 import exceptions.DataHubException
 import googleSpreadsheets._
 import renaming.TargetName

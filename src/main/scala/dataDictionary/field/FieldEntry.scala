@@ -1,14 +1,15 @@
-package dataDictionary
+package dataDictionary.field
 
 import java.time.LocalDate
 
-import dataDictionary.enumerations.FieldGeneratedValues.FieldGeneratedValue
-import dataDictionary.enumerations.YesOrNoValues.YesOrNo
-import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns._
-import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns
+import dataDictionary.Type
 import dataDictionary.enumerations.Countries.Country
+import dataDictionary.enumerations.FieldGeneratedValues.FieldGeneratedValue
 import dataDictionary.enumerations.StorageTypes.StorageType
 import dataDictionary.enumerations.StorageZones.StorageZone
+import dataDictionary.enumerations.YesOrNoValues.YesOrNo
+import dataDictionary.field.FieldEntryReaderWriter.FieldEntryColumns
+import dataDictionary.field.FieldEntryReaderWriter.FieldEntryColumns._
 import dataDictionary.types.LogicalFormats
 import dataDictionary.types.LogicalFormats.LogicalFormat
 import googleSpreadsheets.Row
@@ -97,7 +98,7 @@ case class FieldEntry(
 
 
   def isDateOrTimestamp: Option[Boolean] = {
-    logicalFormat.flatMap(Type(_, LogicalFormats).asInstanceOf[Option[Type[LogicalFormat]]].map(x => Seq(LogicalFormats.Date, LogicalFormats.Timestamp).contains(x.typeType)))
+    logicalFormat.flatMap(Type(_, LogicalFormats).flatMap(_.logicalFormat).map(x => Seq(LogicalFormats.Date, LogicalFormats.Timestamp).contains(x.typeType)))
   }
 
 }
@@ -108,13 +109,7 @@ object FieldEntry {
     val prefix = "("
     val suffix = ")"
     val precisionScaleSeparator = ","
-    asPlainTextSpreadsheetFormula(prefix + precision + scale.map(precisionScaleSeparator + _).getOrElse(new String) + suffix)
-  }
-
-
-  //todo move
-  private def asPlainTextSpreadsheetFormula(value: String): String = {
-    "\"" match {case dq => s"=t($dq$value$dq)"}
+    googleSpreadsheets.asPlainTextSpreadsheetFormula(prefix + precision + scale.map(precisionScaleSeparator + _).getOrElse(new String) + suffix)
   }
 
 }

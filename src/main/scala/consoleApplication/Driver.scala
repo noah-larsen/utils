@@ -3,11 +3,12 @@ package consoleApplication
 import java.io.File
 
 import centralNamingsRepository.CentralNamingsRepository
-import dataDictionary.{DataDictionary, ObjectAndFieldEntries, PhysicalNameObject}
+import dataDictionary.{DataDictionary, PhysicalNameObject}
 import dataDictionary.enumerations.IngestionStages
 import exceptions.DataHubException
 import org.rogach.scallop.{ScallopConf, ScallopOption}
 import consoleApplication.ConsoleRenamer.Languages.Language
+import dataDictionary.`object`.ObjectAndFieldEntries
 import dataDictionary.enumerations.{Countries, SourceTypes}
 import initialDataDictionary.InitialDataDictionary
 import renaming.nameComparator.{CombinationNameComparator, SearchNameComparator, StringNameComparator}
@@ -41,11 +42,12 @@ object Driver extends App {
 
     implicit val language: Language = configuration.language
     //todo error handling
-    val lcSourceSystemToInitialDataDictionary = configuration.lcSourceSystemToInitialDataDictionaryId.filter(_._2.trim.nonEmpty).map(x => (x._1.toLowerCase, InitialDataDictionary(x._2).get))
-    val lcSourceSystemToDataDictionary = configuration.lcSourceSystemToDataDictionaryId.filter(_._2.trim.nonEmpty).map(x => (x._1.toLowerCase, DataDictionary(x._2).get))
     val applicationId = configuration.applicationId
     val country = configuration.country
-    val sourceType = SourceTypes.Table
+    val generatedFields = configuration.generatedFields
+    val lcSourceSystemToInitialDataDictionary = configuration.lcSourceSystemToInitialDataDictionaryId.filter(_._2.trim.nonEmpty).map(x => (x._1.toLowerCase, InitialDataDictionary(x._2).get))
+    val lcSourceSystemToDataDictionary = configuration.lcSourceSystemToDataDictionaryId.filter(_._2.trim.nonEmpty).map(x => (x._1.toLowerCase, DataDictionary(x._2).get))
+    val sourceType = SourceTypes.Table //todo
 
 
     //todo make spreadsheet id a part of config
@@ -63,8 +65,8 @@ object Driver extends App {
         case MainCommands.CreateFromInitial =>
           Try {
             val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.CreateFromInitial.sourceSystem(commandInvocation.arguments), MainCommands.CreateFromInitial.objectName(commandInvocation.arguments))
-            val objectAndFieldEntries = ObjectAndFieldEntries(lcSourceSystemToInitialDataDictionary.getOrElse(physicalNameObject.sourceSystem.toLowerCase, throw DataHubException("Source not found")).lcObjectNameToObjectAndFields.map(_.getOrElse(
-              physicalNameObject.objectName.toLowerCase, throw DataHubException("Object not found"))).get)
+            val objectAndFieldEntries = ObjectAndFieldEntries.fromTextExtraction(lcSourceSystemToInitialDataDictionary.getOrElse(physicalNameObject.sourceSystem.toLowerCase, throw DataHubException("Source not found")).lcObjectNameToObjectAndFields.map(_.getOrElse(
+              physicalNameObject.objectName.toLowerCase, throw DataHubException("Object not found"))).get, generatedFields)
             table(consoleRenamer(physicalNameObject, objectAndFieldEntries), objectAndFieldEntries)
           }.recover(displayError)
           main()

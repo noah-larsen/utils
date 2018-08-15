@@ -20,7 +20,7 @@ case class Type[T <: SuperType](
   }
 
 
-  def string: String = {
+  def asString: String = {
     typeType.name + arg1.map(Arguments.prefix + _ + arg2.map(Arguments.separator + _).getOrElse(new String) + Arguments.suffix).getOrElse(new String)
   }
 

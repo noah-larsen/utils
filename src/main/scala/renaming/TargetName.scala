@@ -3,7 +3,7 @@ package renaming
 import centralNamingsRepository.GlobalNamingsRow
 import consoleApplication.ConsoleRenamer.Languages
 import consoleApplication.ConsoleRenamer.Languages.Language
-import dataDictionary.FieldEntry
+import dataDictionary.field.FieldEntry
 
 case class TargetName(
                        name: String,

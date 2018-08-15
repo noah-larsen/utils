@@ -3,9 +3,11 @@ package workDocument
 import java.time.LocalDate
 
 import centralNamingsRepository.CentralNamingsRepository
+import dataDictionary.`object`.ObjectAndFieldEntries
 import dataDictionary.enumerations.IngestionStages
-import dataDictionary.{DataDictionary, FieldEntriesObject, ObjectAndFieldEntries, PhysicalNameObject}
-import dataDictionary.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
+import dataDictionary.field.FieldEntriesObject
+import dataDictionary.{DataDictionary, PhysicalNameObject}
+import dataDictionary.field.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
 import exceptions.DataHubException
 import workDocument.WorkDocumentEntry.{Statuses, ValidatedValues}
 

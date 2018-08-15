@@ -3,7 +3,7 @@ package us.phoenix
 import dataDictionary.enumerations._
 import dataDictionary.enumerations.YesOrNoValues.Yes
 import dataDictionary.types.databases.OracleTypes
-import dataDictionary.{FieldEntriesObject, FieldEntry, PhysicalNameObject, Type}
+import dataDictionary.{PhysicalNameObject, Type}
 import exceptions.{DataHubException, InitialDataDictionaryNotFoundException}
 import googleSpreadsheets.CheckboxValues.False
 import googleSpreadsheets.{CheckboxValues, GoogleSpreadsheet}

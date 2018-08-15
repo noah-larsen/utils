@@ -3,9 +3,10 @@ package us.alnova
 import dataDictionary.enumerations.DefaultValues
 import dataDictionary.enumerations.YesOrNoValues.Yes
 import dataDictionary.enumerations.Countries
+import dataDictionary.field.FieldEntriesObject
 import dataDictionary.types.databases.DB2Types
 import dataDictionary.types.databases.DB2Types.DB2Type
-import dataDictionary.{FieldEntriesObject, FieldEntry, PhysicalNameObject, Type}
+import dataDictionary.{PhysicalNameObject, Type}
 import exceptions.DataHubException
 import googleSpreadsheets._
 import utils.enumerated.Enumerated

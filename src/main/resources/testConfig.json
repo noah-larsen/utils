@@ -1,6 +1,18 @@
 {
   "ApplicationId": "wdco",
   "Country": "United States",
+  "GeneratedFields": [
+    {
+      "Name": "business_day_id",
+      "LogicalName": "",
+      "Description": "",
+      "LogicalFormat": "decimal(8)",
+      "DefaultValue": "0",
+      "IsTrustedDataSource": true,
+      "GeneratedIfAlreadyDefinedWithSameLogicalFormat": false,
+      "PlaceAtBeginning": true
+    }
+  ],
   "Language": "english",
   "IntermediateDataDictionaryId": "1MaI7K82DFCHV43aoUZicUzwQy0ObgYaCMaiGSy5rci8",
   "SourceSystemToDataDictionaryId": {
