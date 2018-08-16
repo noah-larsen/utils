@@ -4,8 +4,8 @@
   "GeneratedFields": [
     {
       "Name": "datio_process_id",
-      "LogicalName": "",
-      "Description": "",
+      "LogicalName": "Datio Process Id",
+      "Description": "ETL Id of the Datio Process",
       "Catalog": "",
       "DateFormat": "",
       "LogicalFormat": "decimal(8)",
@@ -20,8 +20,8 @@
     },
     {
       "Name": "datio_process_date",
-      "LogicalName": "",
-      "Description": "",
+      "LogicalName": "Datio Process Date",
+      "Description": "Date/Time information was processed in Datio",
       "Catalog": "",
       "DateFormat": "yyyy-MM-DD HH:mm:ss.SSS",
       "LogicalFormat": "timestamp",

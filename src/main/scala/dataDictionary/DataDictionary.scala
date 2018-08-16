@@ -14,6 +14,12 @@ import scala.util.{Failure, Try}
 
 case class DataDictionary(private val spreadsheet: GoogleSpreadsheet) {
 
+  def containsEntriesFor(physicalNameObject: PhysicalNameObject): Try[Boolean] = {
+    Try(objectEntry(Raw, physicalNameObject.asString).get.isDefined || objectEntry(Master, physicalNameObject.asString).get.isDefined || fieldEntriesObject(Raw, physicalNameObject.asString).get.isDefined || fieldEntriesObject(Master, physicalNameObject
+      .asString).get.isDefined)
+  }
+
+
   def fieldEntries(ingestionStage: IngestionStage): Try[Seq[FieldEntry]] = {
     spreadsheet.get(FieldEntryReaderWriter(ingestionStage))
   }

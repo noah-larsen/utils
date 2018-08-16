@@ -107,7 +107,7 @@ object ObjectEntry {
       targetFileType = Some(ingestionStage match {case Raw => Avro case Master => Parquet}).filter(_ => obj.targetStorageSuperType.contains(HdfsAvroParquet)),
       targetFileDelimeter = noTargetFileDelimeterValue,
       registrationDate = None,
-      tags = Seq(obj.objectName)
+      tags = Seq(alias(ss.sourceSystem, obj.objectName))
     )
   }
 
@@ -116,5 +116,11 @@ object ObjectEntry {
 
 
   private val noTargetFileDelimeterValue = "N/A"
+
+
+  private def alias(sourceSystem: String, sourceObjectName: String): String = {
+    val sourceSystemObjectNameSeparator = "_"
+    sourceSystem.toLowerCase + sourceSystemObjectNameSeparator + sourceObjectName.toLowerCase
+  }
 
 }

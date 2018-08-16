@@ -10,8 +10,8 @@ trait Commands {
   type CommandType <: Command
 
 
-  def promptUntilParsed[T](translatedOneBasedIndexCommandItems: Seq[T] = Seq(), showUsage: Boolean = true, leadWithNewline: Boolean = true): CommandInvocation[T] = {
-    if(showUsage) println((if(leadWithNewline) System.lineSeparator() else new String) + usage)
+  def promptUntilParsed[T](translatedOneBasedIndexCommandItems: Seq[T] = Seq(), showUsage: Boolean = true, leadWithNewLine: Boolean = true): CommandInvocation[T] = {
+    if(showUsage) println((if(leadWithNewLine) System.lineSeparator() else new String) + usage)
     def readLineUntilNonEmpty: String = StdIn.readLine() match {case x if x.trim.isEmpty => readLineUntilNonEmpty case x => x}
     parse(readLineUntilNonEmpty, translatedOneBasedIndexCommandItems).recover{case e: CommandException =>
       println(e.message.trim + System.lineSeparator())

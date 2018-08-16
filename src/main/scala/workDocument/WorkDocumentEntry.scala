@@ -3,6 +3,8 @@ package workDocument
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+import dataDictionary.Type
+import dataDictionary.enumerations.{DataTypes, YesOrNoValues}
 import dataDictionary.field.FieldEntry
 import googleSpreadsheets.{Column, Columns}
 import googleSpreadsheets.{Row, RowReaderWriter, SheetRange}
@@ -39,14 +41,35 @@ case class WorkDocumentEntry(
   def toFieldEntry(preserveRegistrationDate: Boolean): FieldEntry = {
     //todo
     def toStringOption(x: String): Option[String] = Some(x).filter(_.trim != new String)
-//    FieldEntry(
-//      registrationDate = registrationDate.filter(_ => preserveRegistrationDate),
-//      physicalNameObject = toStringOption(table),
-//      sourceField = toStringOption(sourceField),
-//      simpleFieldDescription = toStringOption(fieldDescription),
-//      physicalNameField = toStringOption(globalNamingField)
-//    )
-    ???
+    FieldEntry(
+      country = None,
+      physicalNameObject = toStringOption(table),
+      storageType = None,
+      storageZone = None,
+      physicalNameField = toStringOption(globalNamingField),
+      logicalNameField = None,
+      simpleFieldDescription = toStringOption(fieldDescription),
+      catalog = None,
+      dataType = None,
+      format = None,
+      logicalFormat = toStringOption(logicFormat),
+      key = None,
+      mandatory = None,
+      defaultValue = None,
+      physicalNameSourceObject = None,
+      sourceField = toStringOption(sourceField),
+      dataTypeSourceField = None,
+      formatSourceField = None,
+      tags = None,
+      fieldPositionInTheObject = None,
+      generatedField = None,
+      tokenizationType = None,
+      registrationDate = None,
+      countryTheConceptualEntity = None,
+      conceptualEntity = None,
+      operationalEntity = None,
+      tds = None
+    )
   }
 
 }
