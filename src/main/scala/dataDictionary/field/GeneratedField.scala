@@ -26,7 +26,6 @@ case class GeneratedField(
                            conceptualEntity: String,
                            operationalEntity: String,
                            isTrustedDataSource: Boolean,
-                           generatedIfAlreadyDefinedWithSameLogicalFormat: Boolean,
                            generatedAtBeginning: Boolean
                          ) {
 
@@ -36,20 +35,20 @@ object GeneratedField extends RichConfig {
 
   def apply(generateFieldParameterNameToValue: Config): Try[GeneratedField] = Try {
     //todo better error handling
+    //todo including also error handling when tokenizationType and countryTheConceptualEntity are invalid, right now it may just end up as None
     GeneratedField(
       name = generateFieldParameterNameToValue.getString(Name.name),
       logicalName = generateFieldParameterNameToValue.getString(LogicalName.name),
       description = generateFieldParameterNameToValue.getString(Description.name),
-      catalog = generateFieldParameterNameToValue.get(Catalog.name).getOrElse(new String),
-      dateFormat = generateFieldParameterNameToValue.get(DateFormat.name).getOrElse(new String),
+      catalog = generateFieldParameterNameToValue.getString(Catalog.name),
+      dateFormat = generateFieldParameterNameToValue.getString(DateFormat.name),
       logicalFormat = Type(generateFieldParameterNameToValue.getString(LogicalFormat.name), LogicalFormats).flatMap(_.logicalFormat).get,
       defaultValue = generateFieldParameterNameToValue.getString(DefaultValue.name),
-      tokenizationType = generateFieldParameterNameToValue.get(TokenizationType.name).flatMap(TokenizationTypes.withName(_)),
-      countryTheConceptualEntity = generateFieldParameterNameToValue.get(CountryTheConceptualEntity.name).flatMap(Countries.withName(_)),
-      conceptualEntity = generateFieldParameterNameToValue.get(ConceptualEntity.name).getOrElse(new String),
-      operationalEntity = generateFieldParameterNameToValue.get(OperationalEntity.name).getOrElse(new String),
+      tokenizationType = TokenizationTypes.withName(generateFieldParameterNameToValue.getString(TokenizationType.name)),
+      countryTheConceptualEntity = Countries.withName(generateFieldParameterNameToValue.getString(CountryTheConceptualEntity.name)),
+      conceptualEntity = generateFieldParameterNameToValue.getString(ConceptualEntity.name),
+      operationalEntity = generateFieldParameterNameToValue.getString(OperationalEntity.name),
       isTrustedDataSource = generateFieldParameterNameToValue.getBoolean(IsTrustedDataSource.name),
-      generatedIfAlreadyDefinedWithSameLogicalFormat = generateFieldParameterNameToValue.getBoolean(GeneratedIfAlreadyDefinedWithSameLogicalFormat.name),
       generatedAtBeginning = generateFieldParameterNameToValue.getBoolean(PlaceAtBeginning.name)
     )
   }

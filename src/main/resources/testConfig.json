@@ -3,14 +3,36 @@
   "Country": "United States",
   "GeneratedFields": [
     {
-      "Name": "business_day_id",
+      "Name": "datio_process_id",
       "LogicalName": "",
       "Description": "",
+      "Catalog": "",
+      "DateFormat": "",
       "LogicalFormat": "decimal(8)",
       "DefaultValue": "0",
+      "TokenizationType": "",
+      "CountryTheConceptualEntity": "United States",
+      "ConceptualEntity": "",
+      "OperationalEntity": "",
       "IsTrustedDataSource": true,
       "GeneratedIfAlreadyDefinedWithSameLogicalFormat": false,
-      "PlaceAtBeginning": true
+      "PlaceAtBeginning": false
+    },
+    {
+      "Name": "datio_process_date",
+      "LogicalName": "",
+      "Description": "",
+      "Catalog": "",
+      "DateFormat": "yyyy-MM-DD HH:mm:ss.SSS",
+      "LogicalFormat": "timestamp",
+      "DefaultValue": "0",
+      "TokenizationType": "",
+      "CountryTheConceptualEntity": "United States",
+      "ConceptualEntity": "",
+      "OperationalEntity": "",
+      "IsTrustedDataSource": true,
+      "GeneratedIfAlreadyDefinedWithSameLogicalFormat": false,
+      "PlaceAtBeginning": false
     }
   ],
   "Language": "english",

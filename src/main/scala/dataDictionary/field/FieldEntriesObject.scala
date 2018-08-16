@@ -37,12 +37,13 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
   }
 
 
-  def toMasterIfFromTextExtraction(sourceFieldToDateFormat: Map[String, String]): FieldEntriesObject = {
-    FieldEntriesObject(fieldEntries.filter(!_.isFreeField.contains(true)).map{fieldEntry =>
+  def toMasterIfFromTextExtraction(lcSourceFieldToDateFormat: Map[String, String], lcGeneratedFieldNameToDateFormat: Map[String, String]): FieldEntriesObject = {
+    FieldEntriesObject(fieldEntries.filter(!_.isFreeField.contains(true)).map{ fieldEntry =>
       val logicalFormat = fieldEntry.logicalFormat.flatMap(Type(_, LogicalFormats).flatMap(_.logicalFormat))
       val format = logicalFormat.map{
         case Type(LogicalFormats.Decimal, Some(x), y) => FieldEntry.decimalFormat(x, y)
-        case x if Seq(LogicalFormats.Date, LogicalFormats.Timestamp).contains(x.typeType) => fieldEntry.sourceField.map(sourceFieldToDateFormat).getOrElse(new String)
+        case _ if fieldEntry.isDateOrTimestamp.contains(true) && fieldEntry.generatedField.contains(FieldGeneratedValues.Yes) => fieldEntry.physicalNameField.flatMap(x => lcGeneratedFieldNameToDateFormat.get(x.toLowerCase)).getOrElse(new String)
+        case _ if fieldEntry.isDateOrTimestamp.contains(true) => fieldEntry.sourceField.flatMap(x => lcSourceFieldToDateFormat.get(x.toLowerCase)).getOrElse(new String)
         case _ => new String
       }
       fieldEntry.copy(
@@ -58,7 +59,6 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
         generatedField = None
       )
     })
-    ??? //todo have to in some way get date formats for generated fields as well here
   }
 
 
@@ -125,7 +125,7 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
 
 object FieldEntriesObject {
 
-  def rawFEOFromTextExtraction(objectAndFields: ObjectAndFields, fieldsToGenerate: Seq[GeneratedField]): FieldEntriesObject = {
+  def rawFEOFromTextExtraction(objectAndFields: ObjectAndFields, generatedFields: Seq[GeneratedField]): FieldEntriesObject = {
 
     def rawFieldEntryFromTextExtractedField(field: Field, rawObjectEntry: ObjectEntry, dataSuperType: Option[DataSuperType], fieldToLength: Option[Map[Field, Int]]): FieldEntry = {
       //todo physicalNameField assignment assumes no renamings
@@ -198,7 +198,6 @@ object FieldEntriesObject {
     val rawObjectEntry = ObjectEntry(obj, objectAndFields.sourceSystem, Raw)
     val fieldToLength = Some(objectAndFields.fields).filter(_.forall(_.length.isDefined)).map(x => Some(x.zip(x.map(_.length.get).init.+:(0))).map(y => y.tail.scanLeft((y.head, 1))((z, w) => (w, z._2 + w._2))).get.map(y => (y._1._1, y._2)).toMap)
     val nonGeneratedFieldEntries = objectAndFields.fields.map(rawFieldEntryFromTextExtractedField(_, rawObjectEntry, obj.dataSuperType, fieldToLength))
-    val generatedFields = fieldsToGenerate.filter(x => x.generatedIfAlreadyDefinedWithSameLogicalFormat || !nonGeneratedFieldEntries.exists(y => y.sourceField.exists(_.equalsIgnoreCase(x.name)) && y.logicalFormat.exists(_.equalsIgnoreCase(x.logicalFormat.asString))))
     val (generatedFieldsAtBeginning, generatedFieldsAtEnd) = generatedFields.partition(_.generatedAtBeginning)
     FieldEntriesObject(generatedFieldsAtBeginning.map(rawFieldEntryFromGeneratedTextExtractedField(_, rawObjectEntry)) ++ nonGeneratedFieldEntries ++ generatedFieldsAtEnd.map(rawFieldEntryFromGeneratedTextExtractedField(_, rawObjectEntry)))
 

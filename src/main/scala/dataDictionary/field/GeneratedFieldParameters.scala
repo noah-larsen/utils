@@ -21,11 +21,9 @@ object GeneratedFieldParameters extends Enumerated {
   object ConceptualEntity extends GeneratedFieldParameter
   object OperationalEntity extends GeneratedFieldParameter
   object IsTrustedDataSource extends GeneratedFieldParameter
-  object GeneratedIfAlreadyDefinedWithSameLogicalFormat extends GeneratedFieldParameter
   object PlaceAtBeginning extends GeneratedFieldParameter
 
 
-  override val values = Seq(Name, LogicalName, Description, Catalog, DateFormat, LogicalFormat, DefaultValue, TokenizationType, CountryTheConceptualEntity, ConceptualEntity, OperationalEntity, IsTrustedDataSource, GeneratedIfAlreadyDefinedWithSameLogicalFormat,
-    PlaceAtBeginning)
+  override val values = Seq(Name, LogicalName, Description, Catalog, DateFormat, LogicalFormat, DefaultValue, TokenizationType, CountryTheConceptualEntity, ConceptualEntity, OperationalEntity, IsTrustedDataSource, PlaceAtBeginning)
 
 }
