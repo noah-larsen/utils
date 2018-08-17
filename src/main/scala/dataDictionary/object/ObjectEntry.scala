@@ -69,7 +69,7 @@ object ObjectEntry {
   def apply(obj: Object_, ss: SourceSystem, ingestionStage: IngestionStage): ObjectEntry = {
     //todo error handling what if object type not set?
     //todo everything involving other target storage super types
-    val physicalNameObject = PhysicalNameObject(ObjectTypes.toSourceType(obj.objectType.get), obj.systemCodeUUAA, ss.sourceSystem, obj.objectName).asString
+    val physicalNameObject = PhysicalNameObject(ObjectTypes.toSourceType(obj.objectType.get), obj.systemCodeUUAA, ss.sourceSystem, obj.objectName).asLcString
     `object`.ObjectEntry(
       countryTheDataSource = obj.countryTheDataSource,
       physicalNameObject = physicalNameObject,
@@ -98,7 +98,7 @@ object ObjectEntry {
       estimatedVolumeRecords = obj.estimatedVolumeRecords,
       sourceOperational = obj.sourceOperational,
       sourceSystem = ss.sourceSystem,
-      physicalNameSourceObject = ingestionStage match {case Raw => obj.objectName case Master => physicalNameObject},
+      physicalNameSourceObject = ingestionStage match {case Raw => obj.objectName.toLowerCase case Master => physicalNameObject},
       mailboxSourceTable = obj.mailbox,
       sourcePath = ingestionStage match {case Raw => obj.stagingPath case Master => obj.rawPath},
       schemaPath = ingestionStage match {case Raw => obj.stagingToRawSchemasPath case Master => obj.rawToMasterSchemasPath},

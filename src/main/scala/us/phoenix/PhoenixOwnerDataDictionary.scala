@@ -4,7 +4,7 @@ import dataDictionary.enumerations._
 import dataDictionary.enumerations.YesOrNoValues.Yes
 import dataDictionary.types.databases.OracleTypes
 import dataDictionary.{PhysicalNameObject, Type}
-import exceptions.{DataHubException, InitialDataDictionaryNotFoundException}
+import exceptions.{DataHubException, InitialDataDictionaryNotFound}
 import googleSpreadsheets.CheckboxValues.False
 import googleSpreadsheets.{CheckboxValues, GoogleSpreadsheet}
 import initialDataDictionary.{InitialDataDictionary, ObjectAndFields}
@@ -21,7 +21,7 @@ import scala.util.{Failure, Try}
 object PhoenixOwnerDataDictionary {
 
   def updateInitialDataDictionary(lcSourceSystemToInitialDataDictionary: Map[String, InitialDataDictionary]): Try[Unit] = Try {
-    val phoenixInitialDataDictionary = lcSourceSystemToInitialDataDictionary.getOrElse(phoenixSourceSystem, throw InitialDataDictionaryNotFoundException(phoenixSourceSystem))
+    val phoenixInitialDataDictionary = lcSourceSystemToInitialDataDictionary.getOrElse(phoenixSourceSystem, throw InitialDataDictionaryNotFound(phoenixSourceSystem))
     objectsAndFields.flatMap(phoenixInitialDataDictionary.appendNewObjectsAndFields)
   }
 

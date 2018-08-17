@@ -11,9 +11,10 @@ object TableCommands extends Commands {
   object ViewRenamings extends TableCommand
   object SaveToIntermediate extends TableCommand
   object WriteOnceToWorkDocument extends TableCommand
+  object UpdateFromInitial extends TableCommand
   object GoBackWithoutSaving extends TableCommand(Some('b'))
 
 
-  override protected def letterCommands = Seq(RenameFields, ViewRenamings, SaveToIntermediate, WriteOnceToWorkDocument, GoBackWithoutSaving)
+  override protected def letterCommands = Seq(RenameFields, ViewRenamings, SaveToIntermediate, WriteOnceToWorkDocument, UpdateFromInitial, GoBackWithoutSaving)
 
 }

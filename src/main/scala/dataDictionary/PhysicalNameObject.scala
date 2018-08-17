@@ -10,8 +10,23 @@ case class PhysicalNameObject(
                                objectName: String
                              ) {
 
+  def asLcString: String = {
+    asString.toLowerCase
+  }
+
+
   def asString: String = {
     Seq(sourceType.code, systemCodeUUAA, sourceSystem, objectName).map(_.toString.toLowerCase).mkString(PhysicalNameObject.physicalNameObjectSeparator)
+  }
+
+
+  def lcObjectName: String = {
+    objectName.toLowerCase
+  }
+
+
+  def lcSourceSystem: String = {
+    sourceSystem.toLowerCase
   }
 
 }

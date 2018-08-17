@@ -7,6 +7,7 @@ import dataDictionary.enumerations.Countries.Country
 import dataDictionary.enumerations.FieldGeneratedValues.FieldGeneratedValue
 import dataDictionary.enumerations.StorageTypes.StorageType
 import dataDictionary.enumerations.StorageZones.StorageZone
+import dataDictionary.enumerations.{FieldGeneratedValues, YesOrNoValues}
 import dataDictionary.enumerations.YesOrNoValues.YesOrNo
 import dataDictionary.field.FieldEntryReaderWriter.FieldEntryColumns
 import dataDictionary.field.FieldEntryReaderWriter.FieldEntryColumns._
@@ -83,6 +84,10 @@ case class FieldEntry(
 
   }
 
+  def isDateOrTimestamp: Option[Boolean] = {
+    logicalFormat.flatMap(Type(_, LogicalFormats).flatMap(_.logicalFormat).map(x => Seq(LogicalFormats.Date, LogicalFormats.Timestamp).contains(x.typeType)))
+  }
+
 
   def isFreeField: Option[Boolean] = {
     val freeFieldPrefix = "free_field"
@@ -90,15 +95,25 @@ case class FieldEntry(
   }
 
 
+  def isGenerated: Boolean = {
+    generatedField.contains(FieldGeneratedValues.Yes)
+  }
+
+
+  def isKey: Option[Boolean] = {
+    key.map(YesOrNoValues.toBoolean)
+  }
+
+
+  def isMandatory: Option[Boolean] = {
+    mandatory.map(YesOrNoValues.toBoolean)
+  }
+
+
   def sourceOrigin: Option[String] = {
     val physicalNameSeparator = "_"
     val sourceOriginIndex = 2
     physicalNameObject.flatMap(x => Some(x.split(physicalNameSeparator)).filter(_.length > sourceOriginIndex + 1).map(_(sourceOriginIndex)))
-  }
-
-
-  def isDateOrTimestamp: Option[Boolean] = {
-    logicalFormat.flatMap(Type(_, LogicalFormats).flatMap(_.logicalFormat).map(x => Seq(LogicalFormats.Date, LogicalFormats.Timestamp).contains(x.typeType)))
   }
 
 }

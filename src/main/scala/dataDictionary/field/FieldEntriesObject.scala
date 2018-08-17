@@ -14,16 +14,21 @@ import dataDictionary.`object`.ObjectEntry
 import dataDictionary.types.LogicalFormats
 import dataDictionary.types.LogicalFormats.LogicalFormat
 import dataDictionary.types.bigData.ParquetTypes
+import exceptions.InformationSetsToMergeContainIncompatibleFields
 import initialDataDictionary.ObjectAndFields
 import initialDataDictionary.enumerations.DataSuperTypes.DataSuperType
 import initialDataDictionary.field.Field
 
+import scala.util.Try
+
 case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
 
-  def merge(fieldEntriesObject: FieldEntriesObject, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn] = Seq()): FieldEntriesObject = {
+  def merge(fieldEntriesObject: FieldEntriesObject, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn] = Seq()): Try[FieldEntriesObject] = Try {
     //todo multiple source fields with different source objects, etc.
-    val definedSourceFieldToFieldEntryArgument = fieldEntriesObject.fieldEntries.filter(_.sourceField.isDefined).groupBy(_.sourceField.get).mapValues(_.head)
-    FieldEntriesObject(fieldEntries.map(x => x.sourceField.map(definedSourceFieldToFieldEntryArgument.get(_).map(x.merge(_, columnsArgumentHasPrecedence)).getOrElse(x)).getOrElse(x)))
+    val thisFieldEntryToThatFieldEntry = fieldEntries.map(x => (x, fieldEntriesObject.fieldEntries.find(y => if(x.isGenerated) x.physicalNameField.exists(z => y.physicalNameField.exists(_.equalsIgnoreCase(z))) else x.sourceField.exists(z => y.sourceField
+      .exists(_.equalsIgnoreCase(z)))))).toMap
+    if(thisFieldEntryToThatFieldEntry.values.collect{case Some(x) => x}.toSet != fieldEntriesObject.fieldEntries.toSet) throw InformationSetsToMergeContainIncompatibleFields()
+    FieldEntriesObject(fieldEntries.map(x => thisFieldEntryToThatFieldEntry(x).map(x.merge(_, columnsArgumentHasPrecedence)).getOrElse(x)))
   }
 
 
@@ -37,7 +42,7 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
   }
 
 
-  def toMasterIfFromTextExtraction(lcSourceFieldToDateFormat: Map[String, String], lcGeneratedFieldNameToDateFormat: Map[String, String]): FieldEntriesObject = {
+  def toMasterIfFromTextExtraction(lcSourceFieldToDateFormat: Map[String, String], lcGeneratedFieldNameToDateFormat: Map[String, String], lcMandatoryNonKeySourceFields: Set[String]): FieldEntriesObject = {
     FieldEntriesObject(fieldEntries.filter(!_.isFreeField.contains(true)).map{ fieldEntry =>
       val logicalFormat = fieldEntry.logicalFormat.flatMap(Type(_, LogicalFormats).flatMap(_.logicalFormat))
       val format = logicalFormat.map{
@@ -51,6 +56,7 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
         storageZone = Some(StorageZones.MasterData),
         dataType = logicalFormat.map(ParquetTypes.fromLogicalFormat(_).asString),
         format = format,
+        mandatory = if(fieldEntry.isKey.contains(true) || fieldEntry.sourceField.exists(x => lcMandatoryNonKeySourceFields.contains(x.toLowerCase))) Some(Yes) else fieldEntry.mandatory,
         physicalNameSourceObject = physicalNameObject,
         sourceField = fieldEntry.physicalNameField,
         dataTypeSourceField = fieldEntry.dataType,
@@ -128,13 +134,12 @@ object FieldEntriesObject {
   def rawFEOFromTextExtraction(objectAndFields: ObjectAndFields, generatedFields: Seq[GeneratedField]): FieldEntriesObject = {
 
     def rawFieldEntryFromTextExtractedField(field: Field, rawObjectEntry: ObjectEntry, dataSuperType: Option[DataSuperType], fieldToLength: Option[Map[Field, Int]]): FieldEntry = {
-      //todo physicalNameField assignment assumes no renamings
       FieldEntry(
         country = rawObjectEntry.countryTheDataSource,
         physicalNameObject = Some(rawObjectEntry.physicalNameObject),
         storageType = rawObjectEntry.storageType,
         storageZone = rawObjectEntry.storageZone,
-        physicalNameField = Some(field.fieldName),
+        physicalNameField = Some(new String),
         logicalNameField = Some(field.logicalName),
         simpleFieldDescription = Some(field.description),
         catalog = Some(field.catalog),
@@ -142,10 +147,10 @@ object FieldEntriesObject {
         format = Some(new String),
         logicalFormat = dataSuperType.flatMap(Type.logicalFormat(field.dataType, _).map(_.asString)),
         key = Some(YesOrNoValues.from(field.isKey)),
-        mandatory = Some(YesOrNoValues.from(field.isMandatoryNonKey)),
+        mandatory = Some(YesOrNoValues.No),
         defaultValue = Some(field.defaultValue),
-        physicalNameSourceObject = Some(field.objectName),
-        sourceField = Some(field.fieldName),
+        physicalNameSourceObject = Some(field.objectName.toLowerCase),
+        sourceField = Some(field.fieldName.toLowerCase),
         dataTypeSourceField = Some(DataTypes.string),
         formatSourceField = Some(new String),
         tags = Some(rawObjectEntry.tags.take(1)),

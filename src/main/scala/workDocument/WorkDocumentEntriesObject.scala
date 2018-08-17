@@ -32,8 +32,8 @@ case class WorkDocumentEntriesObject(entries: Seq[WorkDocumentEntry]) {
   }
 
 
-  def mergeIfFromTextExtraction(intermediateDataDictionary: DataDictionary, preserveRegistrationDatesThis: Boolean, preserveRegistrationDatesThat: Boolean, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn] = Seq()): Try[ObjectAndFieldEntries] = {
-    intermediateDataDictionary.objectAndFieldEntries(table).flatMap(x => Try(merge(x.rawFieldEntriesObject, columnsArgumentHasPrecedence, preserveRegistrationDatesThis, preserveRegistrationDatesThat)).map(x.updateFieldEntriesIfFromTextExtraction))
+  def mergeIfFromTextExtraction(intermediateDataDictionary: DataDictionary, preserveRegistrationDatesThis: Boolean, preserveRegistrationDatesThat: Boolean, columnsWorkDocumentEntriesObjectHasPrecedence: Iterable[FieldEntryColumn]): Try[ObjectAndFieldEntries] = {
+    intermediateDataDictionary.objectAndFieldEntries(table).flatMap(x => merge(x.rawFieldEntriesObject, columnsWorkDocumentEntriesObjectHasPrecedence, preserveRegistrationDatesThis, preserveRegistrationDatesThat).map(x.updateFieldEntriesIfFromTextExtraction))
   }
 
 
@@ -42,8 +42,8 @@ case class WorkDocumentEntriesObject(entries: Seq[WorkDocumentEntry]) {
   }
 
 
-  private def merge(rawFieldEntriesObject: FieldEntriesObject, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn], preserveRegistrationDatesThis: Boolean, preserveRegistrationDatesThat: Boolean): FieldEntriesObject = {
-    toRawFieldEntriesObject(preserveRegistrationDatesThis).merge(Some(rawFieldEntriesObject).filter(_ => preserveRegistrationDatesThat).getOrElse(rawFieldEntriesObject.withoutRegistrationDates), columnsArgumentHasPrecedence)
+  private def merge(rawFieldEntriesObject: FieldEntriesObject, columnsWorkDocumentEntriesObjectHasPrecedence: Iterable[FieldEntryColumn], preserveRegistrationDatesThis: Boolean, preserveRegistrationDatesThat: Boolean): Try[FieldEntriesObject] = {
+    Some(rawFieldEntriesObject).filter(_ => preserveRegistrationDatesThat).getOrElse(rawFieldEntriesObject.withoutRegistrationDates).merge(toRawFieldEntriesObject(preserveRegistrationDatesThis), columnsWorkDocumentEntriesObjectHasPrecedence)
   }
 
 

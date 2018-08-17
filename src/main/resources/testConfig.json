@@ -8,14 +8,13 @@
       "Description": "ETL Id of the Datio Process",
       "Catalog": "",
       "DateFormat": "",
-      "LogicalFormat": "decimal(8)",
-      "DefaultValue": "0",
+      "LogicalFormat": "alphanumeric(32)",
+      "DefaultValue": "",
       "TokenizationType": "",
       "CountryTheConceptualEntity": "United States",
       "ConceptualEntity": "",
       "OperationalEntity": "",
       "IsTrustedDataSource": true,
-      "GeneratedIfAlreadyDefinedWithSameLogicalFormat": false,
       "PlaceAtBeginning": false
     },
     {
@@ -25,13 +24,12 @@
       "Catalog": "",
       "DateFormat": "yyyy-MM-DD HH:mm:ss.SSS",
       "LogicalFormat": "timestamp",
-      "DefaultValue": "0",
+      "DefaultValue": "",
       "TokenizationType": "",
       "CountryTheConceptualEntity": "United States",
       "ConceptualEntity": "",
       "OperationalEntity": "",
       "IsTrustedDataSource": true,
-      "GeneratedIfAlreadyDefinedWithSameLogicalFormat": false,
       "PlaceAtBeginning": false
     }
   ],
