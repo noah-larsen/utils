@@ -19,7 +19,7 @@ abstract class AbstractCommand(parameters_ : Seq[Parameter]) extends SelfNamed(O
   }
 
 
-  protected def usage(nameSymbol: Char): String = {
+  protected def usage(nameSymbol: String): String = {
     val nameSymbolNameSeparator = " - "
     val descriptionParametersSeparator = ": "
     val parametersSeparator = " "

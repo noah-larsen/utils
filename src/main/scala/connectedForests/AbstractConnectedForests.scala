@@ -1,5 +1,8 @@
 package connectedForests
 
+import connectedForests.LabeledForest.Fields
+import connectedForests.LabeledForest.Fields.{Field, Id}
+
 trait AbstractConnectedForests[F, N] {
 
   protected type Self <: AbstractConnectedForests[F, N]
@@ -27,6 +30,9 @@ trait AbstractConnectedForests[F, N] {
 
 
   def relatedNodesPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]]
+
+
+  def resultPathToNormalizedScore(forestLabel: F, query: String, maxNResults: Integer): Map[Seq[N], Double]
 
 
   def roots(forestLabel: F): Set[N]
@@ -60,5 +66,15 @@ trait AbstractConnectedForests[F, N] {
 
 
   def withoutSubtree(forestLabel: F, path: Seq[N]): Self
+
+
+  def childPaths(forestLabel: F, path: Seq[N]): Set[Seq[N]] = {
+    children(forestLabel, path).map(path :+ _)
+  }
+
+
+  def rootPaths(forestLabel: F): Set[Seq[N]] = {
+    roots(forestLabel).map(Seq(_))
+  }
 
 }

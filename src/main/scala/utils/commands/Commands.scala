@@ -32,6 +32,7 @@ trait Commands extends Enumerated {
         if(clearScreenUponSuccess) clearScreen()
         x
     }
+    
   }
 
 
@@ -58,7 +59,8 @@ trait Commands extends Enumerated {
   private[utils] case class CommandInvocation[T](
                                                   command: CommandType,
                                                   arguments: Seq[String],
-                                                  oneBasedIndexCommandSelection: Option[T] = None
+                                                  oneBasedIndexCommandSelection: Option[T] = None,
+                                                  oneBasedIndexListCommandSelection: Option[Seq[T]] = None
                                                 ){
 
     def validate(listParameterToRuntimeValidationF: Map[ListParameter[_], Seq[String] => Try[Unit]] = Map()): Try[CommandInvocation[T]] = {
@@ -113,14 +115,27 @@ trait Commands extends Enumerated {
 
   private def parse[T](line: String, translatedOneBasedIndexCommandItems: Seq[T] = Seq(),
                        listParameterToRuntimeValidationF: Map[ListParameter[_], Seq[String] => Try[Unit]] = Map()): Try[CommandInvocation[T]] = {
+
     val whitespaceRe = "\\s+"
     val tokens = line.split(whitespaceRe)
+
+
     letterCommands
       .find(_.letterName.toString == tokens.head).map(CommandInvocation[T](_, tokens.tail).validate(listParameterToRuntimeValidationF))
-      .orElse(oneBasedIndexCommand.map((_, Try(tokens.head.toInt))).filter(_._2.isSuccess).map(x => (x._1, x._2.get)).filter(x => x._2 > 0 && x._2 <=
-        translatedOneBasedIndexCommandItems.length).map(x => CommandInvocation(x._1, tokens.tail, Some(translatedOneBasedIndexCommandItems(x._2 - 1))).validate(
-        listParameterToRuntimeValidationF)))
+      .orElse(
+        oneBasedIndexCommand.collect {
+          case _: OneBasedIndexListCommand =>
+            oneBasedIndexCommand.map((_, tokens.map(y => Try(y.toInt)))).filter(_._2.forall(_.isSuccess)).map(x => (x._1, x._2.map(_.get))).filter(_._2.forall(x => x > 0 &&
+              x <= translatedOneBasedIndexCommandItems.length)).map(x => Try(CommandInvocation[T](x._1, Seq(), None, Some(x._2.map(y => translatedOneBasedIndexCommandItems(y
+              - 1))))))
+          case _: OneBasedIndexCommand =>
+            oneBasedIndexCommand.map((_, Try(tokens.head.toInt))).filter(_._2.isSuccess).map(x => (x._1, x._2.get)).filter(x => x._2 > 0 && x._2 <=
+              translatedOneBasedIndexCommandItems.length).map(x => CommandInvocation(x._1, tokens.tail, Some(translatedOneBasedIndexCommandItems(x._2 - 1))).validate(
+              listParameterToRuntimeValidationF))
+        }.flatten
+      )
       .getOrElse(Failure[CommandInvocation[T]](UnknownCommandException))
+
   }
 
 }

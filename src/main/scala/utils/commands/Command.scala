@@ -12,7 +12,7 @@ abstract class Command(
 
 
   override def usage: String = {
-    usage(letterName)
+    usage(letterName.toString)
   }
 
 }

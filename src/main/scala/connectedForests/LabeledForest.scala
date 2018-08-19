@@ -1,6 +1,16 @@
 package connectedForests
 
-import connectedForests.LabeledForest.LabeledTreeNode
+import connectedForests.LabeledForest.Fields.{Field, Id}
+import connectedForests.LabeledForest.{Fields, LabeledTreeNode}
+import org.apache.lucene.analysis.standard.StandardAnalyzer
+import org.apache.lucene.document.Field.Store
+import org.apache.lucene.document.{Document, TextField}
+import org.apache.lucene.index.IndexWriterConfig.OpenMode
+import org.apache.lucene.index.{DirectoryReader, IndexWriter, IndexWriterConfig}
+import org.apache.lucene.queryparser.classic.QueryParser
+import org.apache.lucene.search.{IndexSearcher, MatchNoDocsQuery, Query}
+import org.apache.lucene.store.RAMDirectory
+import utils.enumerated.{Enumerated, SelfNamed}
 
 import scala.util.Try
 
@@ -104,12 +114,12 @@ case class LabeledForest[N] private(
 
 
   def withPath(path: Seq[N]): LabeledForest[N] = {
-    withPath(path, Map())
+    withPaths(Seq(path))
   }
 
 
   def withPaths(paths: Iterable[Seq[N]]): LabeledForest[N] = {
-    paths.foldLeft(this)((x, y) => x.withPath(y))
+    withPaths(paths, Map())
   }
 
 
@@ -127,7 +137,7 @@ case class LabeledForest[N] private(
   }
 
 
-  private def withPath(path: Seq[N], subPathToId: Map[Seq[N], Long]): LabeledForest[N] = {
+  private def withPaths(paths: Iterable[Seq[N]], subPathToId: Map[Seq[N], Long]): LabeledForest[N] = {
 
     def subpaths(path: Seq[N]): Seq[Seq[N]] = {
       path.zipWithIndex.map(x => path.take(x._2 + 1))
@@ -141,25 +151,74 @@ case class LabeledForest[N] private(
     }
 
 
-    subpaths(path).foldLeft((this, None: Option[Long])){(labeledForest_parentId, subPath) =>
-      val labeledForest = labeledForest_parentId._1
-      val parentId = labeledForest_parentId._2
-      val id = parentId.map(labeledForest.idToNode(_).labelToChildId).getOrElse(labeledForest.labelToRootId).get(subPath.last)
-
-
-      val subPathId = subPathToId.getOrElse(subPath, nextId(labeledForest))
-
-
-      val labeledForestWithSubpath = id.map(_ => labeledForest).getOrElse(
-        new LabeledForest[N](
-          parentId.map(x => labeledForest.idToNode.+(x -> labeledForest.idToNode(x).addChild(subPath.last, subPathId))).getOrElse(labeledForest.idToNode)
-            .+(subPathId -> LabeledTreeNode(subPath.last, parentId, Map())),
-          parentId.map(_ => labeledForest.labelToRootId).getOrElse(labeledForest.labelToRootId.+(subPath.last -> id.getOrElse(subPathId)))
+    val labeledForest = paths.foldLeft(this) { (labeledForest, path) =>
+      subpaths(path).foldLeft((labeledForest, None: Option[Long])) { (labeledForest_parentId, subPath) =>
+        val labeledForest = labeledForest_parentId._1
+        val parentId = labeledForest_parentId._2
+        val id = parentId.map(labeledForest.idToNode(_).labelToChildId).getOrElse(labeledForest.labelToRootId).get(subPath.last)
+        val subPathId = subPathToId.getOrElse(subPath, nextId(labeledForest))
+        val labeledForestWithSubpath = id.map(_ => labeledForest).getOrElse(
+          new LabeledForest[N](
+            parentId.map(x => labeledForest.idToNode.+(x -> labeledForest.idToNode(x).addChild(subPath.last, subPathId))).getOrElse(labeledForest.idToNode)
+              .+(subPathId -> LabeledTreeNode(subPath.last, parentId, Map())),
+            parentId.map(_ => labeledForest.labelToRootId).getOrElse(labeledForest.labelToRootId.+(subPath.last -> id.getOrElse(subPathId)))
+          )
         )
-      )
-      (labeledForestWithSubpath, id.orElse(Some(subPathId)))
-    }._1
+        (labeledForestWithSubpath, id.orElse(Some(subPathId)))
+      }._1
+    }
 
+
+    labeledForest.addPathsToIndex(paths)
+    labeledForest
+
+  }
+
+
+  private val ramDirectory = new RAMDirectory()
+  private val analyzer = new StandardAnalyzer()
+  private val pathStringSeparator = "; "
+
+
+  private def addPathsToIndex(paths: Iterable[Seq[N]]): Unit = {
+    val indexWriter = new IndexWriter(ramDirectory, new IndexWriterConfig(analyzer).setOpenMode(OpenMode.CREATE_OR_APPEND))
+    paths.foreach { path =>
+      val document = new Document()
+      document.add(new TextField(Fields.Id.name, id(path).toString, Store.YES))
+      document.add(new TextField(Fields.Path.name, path.mkString(pathStringSeparator), Store.NO))
+      indexWriter.addDocument(document)
+    }
+    indexWriter.close()
+  }
+
+
+  def resultPathToNormalizedScore(query: String, maxNResults: Integer, fields: Seq[Field] = Fields.values): Map[Seq[N], Double] = {
+    val directoryReader = DirectoryReader.open(ramDirectory)
+    try {
+      val indexSearcher = new IndexSearcher(directoryReader)
+      val topDocs = indexSearcher.search(parse(query, fields), maxNResults)
+      val resultPathToScore = topDocs.scoreDocs.map(x => (path(indexSearcher.doc(x.doc).getField(Id.name).stringValue().toLong), x.score.toDouble)).toMap
+      val maxScore = resultPathToScore.values.max
+      resultPathToScore.mapValues(x => if (maxScore > 0) x / maxScore else x)
+    } finally directoryReader.close()
+  }
+
+
+  private def parse(query: String, fields: Seq[Field]): Query = {
+    val remove = Seq("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "=", "{", "}", "[", "]", "|", "\\", ":", ";", "\"", "<", ",", ">", ".", "?", "/")
+    val removeAllFromBeginningTerm = '-'
+    val defineTermForFieldOperator = ":"
+    val separator = " "
+    val whitespaceRe = "\\s+"
+    val orOperator = "OR"
+    val queryTerms = remove.foldLeft(query)((x, y) => x.replace(y, new String)).toLowerCase.split(whitespaceRe).distinct.map(_.dropWhile(_ == removeAllFromBeginningTerm))
+      .filter(_ != new String)
+    queryTerms.length match {
+      case 0 => new MatchNoDocsQuery
+      case _ =>
+        val fieldDefinedTerms = queryTerms.flatMap(x => fields.map(_.name + defineTermForFieldOperator + x))
+        new QueryParser(new String, analyzer).parse(fieldDefinedTerms.mkString(separator + orOperator + separator))
+    }
   }
 
 }
@@ -172,12 +231,26 @@ object LabeledForest {
 
 
   def apply[N](pathToId: Map[Seq[N], Long]): LabeledForest[N] = {
-    pathToId.foldLeft(LabeledForest[N]())((x, y) => x.withPath(y._1, pathToId))
+    LabeledForest[N]().withPaths(pathToId.keys, pathToId)
   }
 
 
   def subPaths[N](path: Seq[N]): Seq[Seq[N]] = {
     path.inits.toSeq.reverse.tail
+  }
+
+
+  object Fields extends Enumerated {
+
+    override type T = Field
+    sealed trait Field extends SelfNamed
+
+    object Id extends Field
+    object Path extends Field
+
+
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[Fields.type], classOf[Field])
+
   }
 
 

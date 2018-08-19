@@ -1,6 +1,7 @@
 package connectedForests
 
 import connectedForests.ConnectedForests.RelatedNodesKey
+import connectedForests.LabeledForest.Fields
 
 case class ConnectedForests[F, N] private (
                                             private val labelToForest: Map[F, LabeledForest[N]],
@@ -56,6 +57,11 @@ case class ConnectedForests[F, N] private (
 
   override def relatedNodesPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]] = {
     LabeledForest.subPaths(fromForestPath).map(relatedNodes(fromForestLabel, _, toForestLabel))
+  }
+
+
+  override def resultPathToNormalizedScore(forestLabel: F, query: String, maxNResults: Integer): Map[Seq[N], Double] = {
+    labelToForest(forestLabel).resultPathToNormalizedScore(query, maxNResults)
   }
 
 

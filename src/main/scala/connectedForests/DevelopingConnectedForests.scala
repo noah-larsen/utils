@@ -80,6 +80,11 @@ case class DevelopingConnectedForests[F, N] private (
   }
 
 
+  override def resultPathToNormalizedScore(forestLabel: F, query: String, maxNResults: Integer): Map[Seq[N], Double] = {
+    connectedForests.resultPathToNormalizedScore(forestLabel, query, maxNResults)
+  }
+
+
   override def roots(forestLabel: F): Set[N] = {
     connectedForests.roots(forestLabel)
   }

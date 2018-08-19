@@ -3,10 +3,12 @@ package consoleApplication
 import java.io.PrintWriter
 
 import connectedForests.{DevelopingConnectedForests, LabeledForest}
+import consoleApplication.BrowseCommands.{CreateNewNode, GoTo, GoUp, MarkRelated}
 import consoleApplication.IterateCommands._
-import consoleApplication.IterateSelectionCommands.{All, Select, UnfinishedSubrootId}
-import consoleApplication.OtherCommands.{Back, InitializeGoogleProductTaxonomy}
+import consoleApplication.IterateSelectionCommands.{SelectAll, SelectNodes}
+import consoleApplication.OtherCommands.InitializeGoogleProductTaxonomy
 import consoleApplication.MainCommands._
+import consoleApplication.SearchResultCommands.GoToResultNumber
 import org.rogach.scallop.{ScallopConf, ScallopOption}
 import persistence.{ConnectedForestsAndRelatedNodesToFinishedProportionJsonFormat, PathToIdJsonFormat, StringJsonFormat}
 import play.api.libs.json.Json
@@ -35,8 +37,7 @@ object Driver extends App {
   private val jsonFormat = ConnectedForestsAndRelatedNodesToFinishedProportionJsonFormat(StringJsonFormat, StringJsonFormat)
 
 
-  main(Try(Source.fromFile(persistencePathname)).map(x => DevelopingConnectedForests(jsonFormat.fromJson(Json.parse(x.mkString)))).getOrElse(DevelopingConnectedForests[String,
-    String]()), promptWithLeadingNewline = false)
+  main(DevelopingConnectedForests(jsonFormat.fromJson(Json.parse(Source.fromFile(persistencePathname).mkString))), promptWithLeadingNewline = false)
 
 
   private def main(dcfs: DCFS, promptWithLeadingNewline: Boolean = true): Unit = {
@@ -56,13 +57,10 @@ object Driver extends App {
     val header = Seq("Id", "Unfinished Subroot")
     val unfinishedSubroots = dcfs.unfinishedSubroots(fromForest, toForest, maxFinishedProportionUnfinishedNode)
     println(IO.display(unfinishedSubroots.zipWithIndex.map(x => Seq((x._2 + 1).toString, display(x._1))), header))
-    val listParameterToRuntimeValidationF = Map[ListParameter[_], Seq[String] => Try[Unit]](UnfinishedSubrootId -> ((x: Seq[String]) => Try().filter(_ => x.map(y => Try(y
-      .toInt).filter(unfinishedSubroots.indices.map(_ + 1).contains)).forall(_.isSuccess))))
-    val commandInvocation = IterateSelectionCommands.promptUntilParsed(listParameterToRuntimeValidationF = listParameterToRuntimeValidationF)
+    val commandInvocation = IterateSelectionCommands.promptUntilParsed(unfinishedSubroots)
     commandInvocation.command match {
-      case All => iterate(dcfs, maxFinishedProportionUnfinishedNode)
-      case Select => iterate(dcfs, maxFinishedProportionUnfinishedNode, Some(unfinishedSubroots.zipWithIndex.collect{case (x, y) if commandInvocation.value(UnfinishedSubrootId)
-          .contains(y + 1) => x}))
+      case SelectNodes => iterate(dcfs, maxFinishedProportionUnfinishedNode, commandInvocation.oneBasedIndexListCommandSelection)
+      case SelectAll => iterate(dcfs, maxFinishedProportionUnfinishedNode)
       case IterateSelectionCommands.Back =>
         dcfs
     }
@@ -76,9 +74,23 @@ object Driver extends App {
       println(display(unfinishedSubroot))
       val commandInvocation = IterateCommands.promptUntilParsed()
       commandInvocation.command match {
-        case MakeNewRelatedNode =>
-          process((dcfs.withPath(toForest, commandInvocation.arguments).withRelationship(fromForest, unfinishedSubroot, toForest, commandInvocation.arguments), continue),
-            unfinishedSubroot)
+        case Browse => (browse(dcfs, unfinishedSubroot), continue)
+        case Search =>
+
+          //todo should be toForest; for development
+          val maxNResults = 100
+          val keywordsSeparator = " "
+          val results = dcfs.resultPathToNormalizedScore(fromForest, commandInvocation.value(Keyword).mkString(keywordsSeparator), maxNResults).toSeq.sortBy(-_._2)
+            .map(_._1)
+          println(IO.display(results.zipWithIndex.map(x => Seq((x._2 + 1).toString, display(x._1))), reverse = true))
+          val searchResultCommandInvocation = SearchResultCommands.promptUntilParsed(results)
+          searchResultCommandInvocation.command match {
+            case GoToResultNumber =>
+              ???
+            case SearchResultCommands.Back =>
+          }
+
+          process(dcfs_continue, unfinishedSubroot)
         case RelatedNodes =>
           val indent = "\t"
           println(LabeledForest.subPaths(unfinishedSubroot).zip(dcfs.relatedNodesPath(fromForest, unfinishedSubroot, toForest)).filter(_._2.nonEmpty).map(x =>
@@ -94,6 +106,26 @@ object Driver extends App {
         case Finish => (dcfs.withFinishedProportion(fromForest, unfinishedSubroot, toForest, finishedProportion(commandInvocation.value(FinishedValue1To5))), continue)
         case BackToMainMenu => (dcfs, false)
       }
+    }
+
+
+    def browse(dcfs: DCFS, unfinishedSubroot: Seq[String], toForestNode: Option[Seq[String]] = None): DCFS = {
+
+      //todo
+//      val childrenOrRoots = toForestNode.map(dcfs.childPaths(toForest, _)).getOrElse(dcfs.rootPaths(toForest)).toSeq
+      val childrenOrRoots = toForestNode.map(dcfs.childPaths(fromForest, _)).getOrElse(dcfs.rootPaths(fromForest)).toSeq
+      if(childrenOrRoots.nonEmpty) println(IO.display(childrenOrRoots.zipWithIndex.map(x => Seq((x._2 + 1).toString, x._1.last))))
+      toForestNode.foreach(x => println(System.lineSeparator() + display(x)))
+      val commandInvocation = BrowseCommands.promptUntilParsed(childrenOrRoots)
+      commandInvocation.command match {
+        case GoTo => browse(dcfs, unfinishedSubroot, commandInvocation.oneBasedIndexCommandSelection)
+        case GoUp => browse(dcfs, unfinishedSubroot, toForestNode.collect{case x if x.length > 1 => x.init})
+        case MarkRelated => browse(dcfs, unfinishedSubroot, toForestNode) //todo
+        case CreateNewNode => browse(dcfs, unfinishedSubroot, toForestNode) //todo
+        case BrowseCommands.Back => dcfs
+      }
+
+
     }
 
 
@@ -113,7 +145,7 @@ object Driver extends App {
       case InitializeGoogleProductTaxonomy =>
         val forestLabel = commandInvocation.arguments.tail.head
         dcfs.withForest(forestLabel).withPaths(forestLabel, GoogleProductTaxonomy(commandInvocation.arguments.head).labeledForest.paths)
-      case Back => dcfs
+      case OtherCommands.Back => dcfs
     }
   }
 
