@@ -35,11 +35,12 @@ case class FieldRowReaderWriter(sourceSystemForReading: SourceSystem, lcObjectNa
       conceptualEntity = r(10),
       meetsTokenizationCriteria = CheckboxValues.toBoolean(r(11)),
       isTDS = withDefaultIfEmpty(r(12), YesOrNoValues.toBooleanOption, lcObjectNameToObject.get(r(0).toLowerCase).flatMap(_.isTDS)),
-      countryTheConceptualEntity = withDefaultIfEmpty(r(13), Countries.withName(_), sourceSystemForReading.defaultCountryTheConceptualEntity),
-      operationalEntity = r(14),
-      isMandatoryNonKey = CheckboxValues.toBoolean(r(15)),
-      tokenizationType = TokenizationTypes.withName(r(16)),
-      defaultValue = r(17)
+      isPrimaryDateField = CheckboxValues.toBoolean(r(13)),
+      countryTheConceptualEntity = withDefaultIfEmpty(r(14), Countries.withName(_), sourceSystemForReading.defaultCountryTheConceptualEntity),
+      operationalEntity = r(15),
+      isMandatoryNonKey = CheckboxValues.toBoolean(r(16)),
+      tokenizationType = TokenizationTypes.withName(r(17)),
+      defaultValue = r(18)
     )
   }
 
@@ -89,6 +90,7 @@ object FieldRowReaderWriter {
     object ConceptualEntity extends FieldColumn(_.conceptualEntity)
     object MeetsTokenizationCriteria extends FieldColumn(_.meetsTokenizationCriteria.toString)
     object IsTDS extends FieldColumn(x => anyValOptionToString(x.isTDS))
+    object IsPrimaryDateField extends FieldColumn(_.isPrimaryDateField.toString)
     object CountryTheConceptualEntity extends FieldColumn(x => selfNamedOptionToString(x.countryTheConceptualEntity))
     object OperationalEntity extends FieldColumn(_.operationalEntity)
     object IsMandatoryNonKey extends FieldColumn(_.isMandatoryNonKey.toString)
@@ -96,8 +98,8 @@ object FieldRowReaderWriter {
     object DefaultValue extends FieldColumn(_.defaultValue)
     
     
-    override val values = Seq(ObjectName, FieldName, Index, LogicalName, Description, DataType, IsKey, DateFormat, Length, Catalog, ConceptualEntity, MeetsTokenizationCriteria, IsTDS, CountryTheConceptualEntity, OperationalEntity, IsMandatoryNonKey,
-      TokenizationType, DefaultValue)
+    override val values = Seq(ObjectName, FieldName, Index, LogicalName, Description, DataType, IsKey, DateFormat, Length, Catalog, ConceptualEntity, MeetsTokenizationCriteria, IsTDS, IsPrimaryDateField, CountryTheConceptualEntity, OperationalEntity,
+      IsMandatoryNonKey, TokenizationType, DefaultValue)
     
   }
   

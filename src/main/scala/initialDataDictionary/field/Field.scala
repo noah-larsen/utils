@@ -18,6 +18,7 @@ case class Field(
                   conceptualEntity: String,
                   meetsTokenizationCriteria: Boolean,
                   isTDS: Option[Boolean],
+                  isPrimaryDateField: Boolean,
                   countryTheConceptualEntity: Option[Country],
                   operationalEntity: String,
                   isMandatoryNonKey: Boolean,
