@@ -18,6 +18,6 @@ object CoreValues extends Enumerated {
   }
 
 
-  override val values = Seq(Yes, No)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[CoreValues.type], classOf[CoreValue])
 
 }

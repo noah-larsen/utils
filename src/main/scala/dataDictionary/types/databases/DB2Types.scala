@@ -41,7 +41,7 @@ object DB2Types extends SuperTypes {
   object Timestamp extends DB2Type
 
 
-  override val values = Seq(BigInt, Char, Date, Decimal, Float, Integer, SmallInt, Time, Timestamp)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[DB2Types.type], classOf[DB2Type])
 
 
   private val maxLengthStringTimeValue = 100

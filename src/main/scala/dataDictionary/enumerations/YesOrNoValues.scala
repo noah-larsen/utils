@@ -31,6 +31,6 @@ object YesOrNoValues extends Enumerated {
   }
 
 
-  override val values = Seq(Yes, No)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[YesOrNoValues.type], classOf[YesOrNo])
 
 }

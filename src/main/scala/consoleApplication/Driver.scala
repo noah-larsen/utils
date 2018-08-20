@@ -8,6 +8,7 @@ import dataDictionary.enumerations.IngestionStages
 import exceptions.{DataHubException, InitialDataDictionaryNotFound, IntermediateDataDictionaryAlreadyContainsEntriesForObject, ObjectNotFoundInInitialDataDictionary}
 import org.rogach.scallop.{ScallopConf, ScallopOption}
 import consoleApplication.ConsoleRenamer.Languages.Language
+import consoleApplication.MainCommands.{SourceSystem, TableName}
 import dataDictionary.`object`.ObjectAndFieldEntries
 import dataDictionary.enumerations.{Countries, SourceTypes}
 import dataDictionary.field.FieldEntryReaderWriter.FieldEntryColumns
@@ -59,12 +60,12 @@ object Driver extends App {
     main(false)
 
 
-    def main(leadWithNewLine: Boolean = true): Unit = {
-      val commandInvocation = MainCommands.promptUntilParsed(leadWithNewLine = leadWithNewLine)
+    def main(leadWithNewline: Boolean = true): Unit = {
+      val commandInvocation = MainCommands.promptUntilParsed(leadWithNewline = leadWithNewline)
       commandInvocation.command match {
         case MainCommands.CreateFromInitial =>
           Try {
-            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.CreateFromInitial.sourceSystem(commandInvocation.arguments), MainCommands.CreateFromInitial.objectName(commandInvocation.arguments))
+            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, commandInvocation.value(SourceSystem), commandInvocation.value(TableName))
             if(intermediateDataDictionary.containsEntriesFor(physicalNameObject).get) throw IntermediateDataDictionaryAlreadyContainsEntriesForObject()
             val objectAndFieldEntries = fromInitialDataDictionary(physicalNameObject).get
             saveWithRegistrationDates(objectAndFieldEntries, intermediateDataDictionary)
@@ -73,16 +74,14 @@ object Driver extends App {
           main()
         case MainCommands.LoadFromIntermediate =>
           Try {
-            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.LoadFromIntermediate.sourceSystem(commandInvocation.arguments), MainCommands.LoadFromIntermediate.objectName(commandInvocation
-              .arguments))
+            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, commandInvocation.value(SourceSystem), commandInvocation.value(TableName))
             val objectAndFieldEntries = intermediateDataDictionary.objectAndFieldEntries(physicalNameObject.asString).get
             table(consoleRenamer(physicalNameObject, objectAndFieldEntries), objectAndFieldEntries, physicalNameObject)
           }.recover(displayError)
           main()
         case MainCommands.WriteOnceToFinal =>
           Try {
-            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, MainCommands.LoadFromIntermediate.sourceSystem(commandInvocation.arguments), MainCommands.LoadFromIntermediate.objectName(commandInvocation
-              .arguments))
+            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, commandInvocation.value(SourceSystem),commandInvocation.value(TableName))
             workDocument.entriesObject(physicalNameObject).get.getOrElse(throw DataHubException("Object does not exist in work document")) match {
               case x if x.lowercaseSourceOrigin.isEmpty => throw DataHubException("Entries of approved object lack a consistent source origin.")
 //              case x if !x.allFieldsValidatedByLocalAndGlobalArchitecture => throw DataHubException("Work document entries exist for object that are unvalidated") //todo

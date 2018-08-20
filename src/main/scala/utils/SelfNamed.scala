@@ -1,6 +1,7 @@
 package utils.enumerated
 
-import utils.enumerated.SelfNamed.NameFormats.CaseFormats.{CaseFormat, Lowercase, Uppercase}
+import utils.enumerated.SelfNamed.NameFormats
+import utils.enumerated.SelfNamed.NameFormats.CaseFormats.{CaseFormat, FirstLetterLowercase, Lowercase, Uppercase}
 import utils.enumerated.SelfNamed.NameFormats._
 
 abstract class SelfNamed(nameFormat: NameFormat = ObjectName()) {
@@ -14,6 +15,7 @@ abstract class SelfNamed(nameFormat: NameFormat = ObjectName()) {
 
     def withCaseFormat(name: String, caseFormat: CaseFormat): String = {
       caseFormat match {
+        case FirstLetterLowercase => name.headOption.map(_.toLower + name.tail).getOrElse(name)
         case Lowercase => name.toLowerCase
         case CaseFormats.None => name
         case Uppercase => name.toUpperCase
@@ -56,6 +58,7 @@ object SelfNamed {
 
     object CaseFormats {
       sealed trait CaseFormat
+      object FirstLetterLowercase extends CaseFormat
       object Lowercase extends CaseFormat
       object None extends CaseFormat
       object Uppercase extends CaseFormat

@@ -21,6 +21,6 @@ object ObjectTypes extends Enumerated {
   }
 
 
-  override val values = Seq(File, Table)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[ObjectTypes.type], classOf[ObjectType])
 
 }

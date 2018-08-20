@@ -30,6 +30,6 @@ object LogicalFormats extends SuperTypes {
   object Xml extends LogicalFormat
 
 
-  override val values = Seq(Alphanumeric, Clob, Date, Decimal, Double, Float, NumericShort, NumericLarge, NumericBig, Time, Timestamp, Xml)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[LogicalFormats.type], classOf[LogicalFormat])
 
 }

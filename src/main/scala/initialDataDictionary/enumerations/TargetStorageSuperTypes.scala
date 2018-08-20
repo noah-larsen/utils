@@ -21,6 +21,6 @@ object TargetStorageSuperTypes extends Enumerated {
   object Teradata extends TargetStorageSuperType
 
 
-  override val values = Seq(DB2, Elasticsearch, HdfsAvroParquet, MongoDB, Netezza, Neo4J, Oracle, Postgresql, SAS, SqlServer, Sybase, Teradata)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[TargetStorageSuperTypes.type], classOf[TargetStorageSuperType])
 
 }

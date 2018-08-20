@@ -2,7 +2,7 @@ package utils
 
 import java.util.concurrent.TimeUnit
 
-import scala.util.{Failure, Try}
+import scala.util.Try
 
 object Retry {
 

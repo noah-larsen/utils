@@ -85,6 +85,7 @@ object PhoenixOwnerDataDictionary {
             conceptualEntity = new String,
             meetsTokenizationCriteria = CheckboxValues.toBoolean(False),
             isTDS = None,
+            isPrimaryDateField = false,
             countryTheConceptualEntity = None,
             operationalEntity = new String,
             isMandatoryNonKey = CheckboxValues.toBoolean(False),

@@ -1,11 +1,14 @@
 package consoleApplication
 
+import consoleApplication.ConsoleRenamer.Languages
 import consoleApplication.ConsoleRenamer.Languages.Language
 import dataDictionary.field.FieldEntry
 import renaming.nameComparator.NameComparator
 import renaming.{NameSearch, Renaming, SourceName, TargetName}
 import utils.commands._
 import utils.commands.Commands.CommandException
+import utils.commands.IndexedCommand.IndexCommand
+import utils.commands.Parameter.{ListParameter, ValueParameter}
 import utils.enumerated.{Enumerated, SelfNamed}
 
 import scala.io.StdIn
@@ -29,9 +32,9 @@ case class ConsoleRenamer(
   def viewRenamings(): ConsoleRenamer = {
     val header = Seq(" " * (renaming.fieldEntries.length.toString.length + 1), "Source", "Renamed To")
     println(display(renaming.fieldEntries.zipWithIndex.map(x => Seq((x._2 + 1).toString, x._1.sourceField.getOrElse(new String), x._1.physicalNameField.getOrElse(new String))), header))
-    val commandInvocation = ViewRenamingsCommands.promptUntilParsed(renaming.fieldEntries)
+    val commandInvocation = ViewRenamingsCommands.promptUntilParsed(IndexedCommand.withOneBasedIndexes(renaming.fieldEntries))
     commandInvocation.command match {
-      case ViewRenamingsCommands.RenameFieldWithIndex => iterate(Seq(commandInvocation.oneBasedIndexCommandSelection.get))
+      case ViewRenamingsCommands.RenameFieldWithIndex => iterate(Seq(commandInvocation.indexCommandSelection.get))
       case ViewRenamingsCommands.Back => this
     }
   }
@@ -44,9 +47,9 @@ case class ConsoleRenamer(
         case (Some(sourceField), true) =>
           def processMatchResults(matchResults: Seq[TargetName]): (Renaming, Boolean) = {
             println(displayMatchResults(unnamedFieldEntry, matchResults, reverse = true) + System.lineSeparator())
-            val commandInvocation = RenameCommands.promptUntilParsed(matchResults)
+            val commandInvocation = RenameCommands.promptUntilParsed(IndexedCommand.withOneBasedIndexes(matchResults))
             commandInvocation.command match {
-              case RenameCommands.RenameToFieldWithIndex => (updatedRenaming.name(sourceField, commandInvocation.oneBasedIndexCommandSelection.get.name), true)
+              case RenameCommands.RenameToFieldWithIndex => (updatedRenaming.name(sourceField, commandInvocation.indexCommandSelection.get.name), true)
               case RenameCommands.Search => processMatchResults(withPositiveScoreOrdered(nameSearch.approvedNameToNormalizedScoreFromArgs(commandInvocation.arguments, nTopHitsToGetPossiblyPositiveScoresWhenSearching)))
               case RenameCommands.EnterNameManually => (updatedRenaming.name(sourceField, commandInvocation.arguments.head), continue)
               case RenameCommands.Pass => (updatedRenaming, continue)
@@ -133,15 +136,21 @@ case class ConsoleRenamer(
     override type CommandType = RenameCommand
     sealed abstract class RenameCommand(parameters: Seq[Parameter] = Seq(), specifiedLetterName: Option[Char] = None) extends Command(parameters, specifiedLetterName)
 
-    object RenameToFieldWithIndex extends RenameCommand with OneBasedIndexCommand
-    object Search extends RenameCommand(Seq(Parameter("terms", isList = true)))
-    object EnterNameManually extends RenameCommand(Seq(Parameter("name")))
+    object RenameToFieldWithIndex extends RenameCommand with IndexCommand
+    object Search extends RenameCommand(Seq(Terms))
+    object EnterNameManually extends RenameCommand(Seq(Name))
     object Pass extends RenameCommand
     object GoBackToTableMenu extends RenameCommand(specifiedLetterName = Some('b'))
 
 
+    object Name extends ValueParameter
+    object Terms extends ListParameter
+
+
     override protected def letterCommands = Seq(Search, EnterNameManually, Pass, GoBackToTableMenu)
-    override protected def oneBasedIndexCommand = Some(RenameToFieldWithIndex)
+    override protected def indexedCommand = Some(RenameToFieldWithIndex)
+
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[RenameCommands.type], classOf[RenameCommand])
 
   }
 
@@ -151,12 +160,14 @@ case class ConsoleRenamer(
     override type CommandType = ViewRenamingsCommand
     sealed abstract class ViewRenamingsCommand extends Command
 
-    object RenameFieldWithIndex extends ViewRenamingsCommand with OneBasedIndexCommand
+    object RenameFieldWithIndex extends ViewRenamingsCommand with IndexCommand
     object Back extends ViewRenamingsCommand
 
 
-    override protected def letterCommands = Seq(Back)
-    override protected def oneBasedIndexCommand = Some(RenameFieldWithIndex)
+    override protected def indexedCommand = Some(RenameFieldWithIndex)
+
+
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[ViewRenamingsCommands.type], classOf[ViewRenamingsCommand])
 
   }
 
@@ -173,7 +184,7 @@ object ConsoleRenamer {
     object Spanish extends Language
 
 
-    override val values = Seq(English, Spanish)
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[Languages.type], classOf[Language])
 
   }
 

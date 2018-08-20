@@ -125,9 +125,7 @@ object ObjectRowReaderWriter {
     object RawToMasterSchemasPath extends ObjectColumn(_.rawToMasterSchemasPath)
     
 
-    override val values = Seq(BusinessEngineeringStewardComplete, DataOwnerComplete, DataArchitectureComplete, IngestionComplete, ObjectName, LogicalName, Description, LoadingType, Frequency, Mailbox, SourceOperational, ExtractionFileType,
-      ExtractionFileDelimeter, ObjectType, DataSuperType, IsIngestedFromFixedWidth, CurrentDepth, Perimeter, InformationLevel, EstimatedVolumeRecords, TechnicalResponsible, InformationGroup, IsCore, IsTDS, CountryTheDataSource, TimeRequirement, RequiredDepth,
-      SystemCodeUUAA, DataSource, StagingPath, RawPath, MasterPath, TargetStorageSuperType, Partitions, StagingToRawSchemasPath, RawToMasterSchemasPath)
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[ObjectRowReaderWriterColumns.type], classOf[ObjectColumn])
 
   }
 

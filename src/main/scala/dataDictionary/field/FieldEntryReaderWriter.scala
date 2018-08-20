@@ -101,14 +101,12 @@ object FieldEntryReaderWriter {
     object Tds extends FieldEntryColumn(x => selfNamedOptionToString(x.tds))
 
 
-    val values = Seq(Country, PhysicalNameObject, StorageType, StorageZone, PhysicalNameField, LogicalNameField, SimpleFieldDescription, Catalog, DataType, Format, LogicalFormat, Key, Mandatory, DefaultValue, PhysicalNameSourceObject, SourceField,
-      DataTypeSourceField, FormatSourceField, Tags, FieldPositionInTheObject, ExcludeInclude, TokenizationType, RegistrationDate, CountryTheConceptualEntity, ConceptualEntity, OperationalEntity, Tds
-    )
-
-
     private def stringOptionToString(x: Option[String]): String = {
       x.getOrElse(new String)
     }
+
+
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[FieldEntryColumns.type], classOf[FieldEntryColumn])
 
   }
 

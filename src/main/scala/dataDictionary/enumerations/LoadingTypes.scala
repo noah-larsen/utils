@@ -11,6 +11,6 @@ object LoadingTypes extends Enumerated {
   object Incremental extends LoadingType
 
 
-  override val values = Seq(Complete, Incremental)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[LoadingTypes.type], classOf[LoadingType])
 
 }

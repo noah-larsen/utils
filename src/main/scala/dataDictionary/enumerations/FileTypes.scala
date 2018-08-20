@@ -16,6 +16,6 @@ object FileTypes extends Enumerated {
   object XML extends FileType
 
 
-  override val values = Seq(Avro, CSV, Fixed, Parquet, TextExtended, XML)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[FileTypes.type], classOf[FileType])
 
 }

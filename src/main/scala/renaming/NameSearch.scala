@@ -91,7 +91,7 @@ object NameSearch {
     object Description extends Field
 
 
-    override val values = Seq(Name, NameSubstrings, LogicalName, Description)
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[Fields.type], classOf[Field])
 
   }
 

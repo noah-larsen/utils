@@ -24,6 +24,6 @@ object GeneratedFieldParameters extends Enumerated {
   object PlaceAtBeginning extends GeneratedFieldParameter
 
 
-  override val values = Seq(Name, LogicalName, Description, Catalog, DateFormat, LogicalFormat, DefaultValue, TokenizationType, CountryTheConceptualEntity, ConceptualEntity, OperationalEntity, IsTrustedDataSource, PlaceAtBeginning)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[GeneratedFieldParameters.type], classOf[GeneratedFieldParameter])
 
 }

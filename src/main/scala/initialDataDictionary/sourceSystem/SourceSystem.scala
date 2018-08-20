@@ -9,6 +9,7 @@ import googleSpreadsheets.{GoogleSpreadsheet, RowParametersReader, SheetRange}
 import initialDataDictionary.enumerations.DataSuperTypes.DataSuperType
 import initialDataDictionary.enumerations.ObjectTypes.ObjectType
 import initialDataDictionary.enumerations.TargetStorageSuperTypes.TargetStorageSuperType
+import initialDataDictionary.sourceSystem.SourceSystem.SourceSystemRowParameters
 import utils.enumerated.SelfNamed.NameFormats.{Custom, NameFormat, ObjectNameWithSpacesBetweenWords}
 
 import scala.util.Try
@@ -81,11 +82,7 @@ object SourceSystem {
     object SourceSystem extends SourceSystemRowParameter
 
 
-    override val values = Seq(
-      AdditionalOperationalSourceSystems, DefaultCountryOfTheConceptualEntity, DefaultCountryOfTheDataSource, DefaultDataSuperType, DefaultDataSource, DefaultDateFormat, DefaultExtractionFileType, DefaultExtractionFileDelimeter, DefaultFrequency, DefaultIsCore,
-      DefaultIsIngestedFromFixedWidth, DefaultIsTDS, DefaultLoadingType, DefaultMailbox, DefaultObjectType, DefaultPartitions, DefaultRawToMasterSchemasPath, DefaultStagingToRawSchemasPath, DefaultSystemCodeUUAA, DefaultTargetStorageSuperType,
-      DefaultTimestampFormat, SourceSystem
-    )
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[SourceSystemRowParameters.type], classOf[SourceSystemRowParameter])
 
   }
 

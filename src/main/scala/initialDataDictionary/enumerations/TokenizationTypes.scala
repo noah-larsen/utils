@@ -22,6 +22,6 @@ object TokenizationTypes extends Enumerated {
   object Phone extends TokenizationType
 
 
-  override val values = Seq(Alphanumeric, AlphanumericExtended, Cclient, DateExtended, Generic, Mail, Nif, Numeric, NumericExtended, Pan, Phone)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[TokenizationTypes.type], classOf[TokenizationType])
 
 }

@@ -1,6 +1,6 @@
 package consoleApplication
 
-import utils.commands.{AbstractCommand, Commands, Command, Parameter}
+import utils.commands.{AbstractCommand, Command, Commands, Parameter}
 
 object TableCommands extends Commands {
 
@@ -15,6 +15,6 @@ object TableCommands extends Commands {
   object GoBackWithoutSaving extends TableCommand(Some('b'))
 
 
-  override protected def letterCommands = Seq(RenameFields, ViewRenamings, SaveToIntermediate, WriteOnceToWorkDocument, UpdateFromInitial, GoBackWithoutSaving)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[TableCommands.type], classOf[TableCommand])
 
 }

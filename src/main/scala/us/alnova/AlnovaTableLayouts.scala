@@ -9,6 +9,7 @@ import dataDictionary.types.databases.DB2Types.DB2Type
 import dataDictionary.{PhysicalNameObject, Type}
 import exceptions.DataHubException
 import googleSpreadsheets._
+import us.alnova.AlnovaTableLayouts.AlnovaSourceSystems
 import utils.enumerated.Enumerated
 import utils.enumerated.SelfNamed
 import utils.enumerated.SelfNamed.NameFormats.CaseFormats.Lowercase
@@ -68,7 +69,7 @@ object AlnovaTableLayouts {
     object AlnLoans extends AlnovaSourceSystem
 
 
-    override val values = Seq(AlnCif, AlnDeposits, AlnLoans)
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[AlnovaSourceSystems.type], classOf[AlnovaSourceSystem])
 
   }
 

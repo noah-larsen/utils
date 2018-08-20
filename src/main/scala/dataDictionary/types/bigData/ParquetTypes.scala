@@ -32,9 +32,6 @@ object ParquetTypes extends BigDataSuperTypes {
   object String extends ParquetType
 
 
-  override val values = Seq(Date, Decimal, Float, Int32, Int96, String)
-
-
   override def fromLogicalFormat(logicalFormat: Type[LogicalFormat]): Type[ParquetType] = {
     (logicalFormat: @unchecked) match { //todo possible error handling
       case Type(LogicalFormats.Alphanumeric, Some(x), None) => Type(String)
@@ -51,5 +48,8 @@ object ParquetTypes extends BigDataSuperTypes {
       case Type(LogicalFormats.Xml, None, None) => Type(String)
     }
   }
+
+
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[ParquetTypes.type], classOf[ParquetType])
 
 }

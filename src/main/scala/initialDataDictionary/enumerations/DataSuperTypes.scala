@@ -17,6 +17,6 @@ object DataSuperTypes extends Enumerated {
   object Teradata extends DataSuperType
 
 
-  override val values = Seq(DB2, DB2UDB, Netezza, Oracle, Postgresql, SqlServer, Sybase, Teradata)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[DataSuperTypes.type], classOf[DataSuperType])
 
 }

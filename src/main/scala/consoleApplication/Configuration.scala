@@ -2,6 +2,7 @@ package consoleApplication
 
 import com.typesafe.config.ConfigException.Missing
 import com.typesafe.config.{Config, ConfigFactory}
+import consoleApplication.Configuration.ConfigParameters
 import consoleApplication.Configuration.ConfigParameters.GeneratedFields
 import consoleApplication.ConsoleRenamer.Languages
 import consoleApplication.ConsoleRenamer.Languages.Language
@@ -60,7 +61,7 @@ object Configuration extends RichConfig {
     object WorkDocumentId extends ConfigParameter
 
 
-    override val values = Seq(ApplicationId, Country, GeneratedFields, Language, IntermediateDataDictionaryId, SourceSystemToDataDictionaryId, SourceSystemToInitialDataDictionaryId, WorkDocumentId)
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[ConfigParameters.type], classOf[ConfigParameter])
 
   }
 

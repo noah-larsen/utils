@@ -12,9 +12,6 @@ object CheckboxValues extends Enumerated {
   object False extends CheckboxValue
 
 
-  override val values = Seq(True, False)
-
-
   def toBoolean(checkboxValue: String): Boolean = {
     toBoolean(withName(checkboxValue).getOrElse(False))
   }
@@ -23,5 +20,8 @@ object CheckboxValues extends Enumerated {
   def toBoolean(checkboxValue: CheckboxValue): Boolean = {
     checkboxValue.name.toBoolean
   }
+
+
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[CheckboxValues.type], classOf[CheckboxValue])
 
 }

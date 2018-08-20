@@ -33,6 +33,6 @@ object OracleTypes extends SuperTypes {
   object Varchar2 extends OracleType
 
 
-  override val values = Seq(Date, Float, Number, Timestamp, Varchar2)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[OracleTypes.type], classOf[OracleType])
 
 }

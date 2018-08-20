@@ -97,10 +97,9 @@ object FieldRowReaderWriter {
     object TokenizationType extends FieldColumn(x => selfNamedOptionToString(x.tokenizationType))
     object DefaultValue extends FieldColumn(_.defaultValue)
     
-    
-    override val values = Seq(ObjectName, FieldName, Index, LogicalName, Description, DataType, IsKey, DateFormat, Length, Catalog, ConceptualEntity, MeetsTokenizationCriteria, IsTDS, IsPrimaryDateField, CountryTheConceptualEntity, OperationalEntity,
-      IsMandatoryNonKey, TokenizationType, DefaultValue)
-    
+
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[FieldRowReaderWriterColumns.type], classOf[FieldColumn])
+
   }
   
 }

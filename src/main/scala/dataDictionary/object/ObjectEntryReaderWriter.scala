@@ -109,10 +109,7 @@ case class ObjectEntryReaderWriter(ingestionStage: IngestionStage) extends RowRe
     object Tags extends ObjectColumn(_.tags.mkString(Constants.listSeparator))
 
 
-    override val values = Seq(CountryTheDataSource, PhysicalNameObject, LogicalNameObject, DescriptionObject, InformationGroupLevel1, InformationGroupLevel2, InformationGroupLevel3, Core, Perimeter, InformationLevel, DataSource, TechnicalResponsible,
-      StorageType, StorageZone, ObjectType, PhysicalPath, Schema, SystemCodeUuaa, Partitions, Frequency, TimeRequirement, LoadingType, CurrentDepth, RequiredDepth, EstimatedVolumeRecords, SourceOperational, SourceSystem, PhysicalNameSourceObject,
-      MailboxSourceTable, SourcePath, SchemaPath, SourceFileType, SourceFileDelimeter, TargetFileType, TargetFileDelimeter, RegistrationDate, Tags
-    )
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[ObjectColumns.type], classOf[ObjectColumn])
 
   }
 

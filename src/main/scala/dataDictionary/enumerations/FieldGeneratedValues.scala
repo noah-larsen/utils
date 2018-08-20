@@ -12,6 +12,6 @@ object FieldGeneratedValues extends Enumerated {
   object Yes extends FieldGeneratedValue
 
 
-  override val values = Seq(Yes)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[FieldGeneratedValues.type], classOf[FieldGeneratedValue])
 
 }

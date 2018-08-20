@@ -22,6 +22,6 @@ object Countries extends Enumerated {
   object Venezuela extends Country
 
 
-  override val values = Seq(Argentina, Colombia, Chile, Holding, Mexico, Paraguay, Peru, Spain, Turkey, UnitedStates, Uruguay, Venezuela)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[Countries.type], classOf[Country])
 
 }

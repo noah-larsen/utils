@@ -14,7 +14,7 @@ import utils.enumerated.SelfNamed.NameFormats.Custom
 import workDocument.WorkDocumentEntry.WorkDocumentColumns.WorkDocumentColumn
 import workDocument.WorkDocumentEntry.Statuses.Status
 import workDocument.WorkDocumentEntry.ValidatedValues.ValidatedValue
-import workDocument.WorkDocumentEntry.{Statuses, ValidatedValues}
+import workDocument.WorkDocumentEntry.{Statuses, ValidatedValues, WorkDocumentColumns}
 
 import scala.util.Try
 
@@ -95,7 +95,7 @@ object WorkDocumentEntry extends RowReaderWriter[WorkDocumentEntry] {
     object NotUsed extends Status("Not Used")
 
 
-    override val values = Seq(RegisteredInTheCentralRepository, PendingDataModeler, PendingLocalArchitecture, PendingGlobalArchitecutre, RuledOut, ExistsInGlobalRepo, NotUsed)
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[Statuses.type], classOf[Status])
 
   }
 
@@ -109,7 +109,7 @@ object WorkDocumentEntry extends RowReaderWriter[WorkDocumentEntry] {
     object KO extends ValidatedValue
 
 
-    override val values = Seq(OK, KO)
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[ValidatedValues.type], classOf[ValidatedValue])
 
   }
 
@@ -163,9 +163,7 @@ object WorkDocumentEntry extends RowReaderWriter[WorkDocumentEntry] {
     object GlobalNamingField extends WorkDocumentColumn(_.globalNamingField.toString)
 
 
-    val values = Seq(ColumnRank, RegistrationDate, Status, SourceOrigin, Table, SourceField, LogicFormat, FieldDescription, UsedYN, DataModelerComments, GlobalArchitectureComments, LocalArchitectureComments, ValidatedByLocalArchitecture, ValidatedByGlobalArchitecture,
-      FieldCode, GlobalNamingField
-    )
+    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[WorkDocumentColumns.type], classOf[WorkDocumentColumn])
 
   }
 

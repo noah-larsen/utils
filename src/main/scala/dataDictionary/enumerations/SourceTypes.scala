@@ -15,6 +15,6 @@ object SourceTypes extends Enumerated {
   object Table extends SourceType('t')
 
 
-  override val values = Seq(File, Table)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[StorageTypes.type], classOf[SourceType])
 
 }

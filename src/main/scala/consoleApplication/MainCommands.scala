@@ -1,25 +1,23 @@
 package consoleApplication
 
-import consoleApplication.MainCommands.ParameterizedBySourceSystemAndTableName
-import utils.commands.{AbstractCommand, Command, Commands, Parameter}
+import initialDataDictionary.sourceSystem.SourceSystem
+import utils.commands.Parameter.ValueParameter
+import utils.commands.{Command, Commands, Parameter}
 
 object MainCommands extends Commands {
 
   override type CommandType = MainCommand
   sealed abstract class MainCommand(parameters: Seq[Parameter] = Seq()) extends Command(parameters)
 
-  object CreateFromInitial extends MainCommand(Seq(Parameter("sourceSystem"), Parameter("tableName"))) with ParameterizedBySourceSystemAndTableName
-  object LoadFromIntermediate extends MainCommand(Seq(Parameter("sourceSystem"), Parameter("tableName"))) with ParameterizedBySourceSystemAndTableName
-  object WriteOnceToFinal extends MainCommand(Seq(Parameter("sourceSystem"), Parameter("tableName"))) with ParameterizedBySourceSystemAndTableName
+  object CreateFromInitial extends MainCommand(Seq(SourceSystem, TableName))
+  object LoadFromIntermediate extends MainCommand(Seq(SourceSystem, TableName))
+  object WriteOnceToFinal extends MainCommand(Seq(SourceSystem, TableName))
   object Quit extends MainCommand
 
+  object SourceSystem extends ValueParameter
+  object TableName extends ValueParameter
 
-  override protected def letterCommands = Seq(CreateFromInitial, LoadFromIntermediate, WriteOnceToFinal, Quit)
 
-
-  trait ParameterizedBySourceSystemAndTableName {
-    def sourceSystem(arguments: Seq[String]): String = arguments.head
-    def objectName(arguments: Seq[String]): String = arguments(1)
-  }
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[MainCommands.type], classOf[MainCommand])
 
 }

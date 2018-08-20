@@ -22,6 +22,6 @@ object StorageTypes extends Enumerated {
   }
 
 
-  override val values = Seq(HdfsAvro, HdfsParquet)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[StorageTypes.type], classOf[StorageType])
 
 }

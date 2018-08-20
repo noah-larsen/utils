@@ -23,6 +23,6 @@ object StorageZones extends Enumerated {
   }
 
 
-  override val values = Seq(MasterData, Production, RawData, Sandbox)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[StorageZones.type], classOf[StorageZone])
 
 }

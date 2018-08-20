@@ -20,6 +20,6 @@ object Frequencies extends Enumerated {
   object Weekly extends Frequency
 
 
-  override val values = Seq(Annually, Bimonthly, ByRequest, Daily, Monthly, Punctual, Quarterly, RealTime, Semiannual, Weekly)
+  override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[Frequencies.type], classOf[Frequency])
 
 }
