@@ -1,6 +1,6 @@
 package utils.commands
 
-import utils.enumerated.IO
+import utils.IO
 
 sealed trait IndexedCommand extends AbstractCommand {
 
