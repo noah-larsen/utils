@@ -28,7 +28,6 @@ case class Object_(
                     extractionFileDelimeter: String,
                     objectType: Option[ObjectType],
                     dataSuperType: Option[DataSuperType],
-                    isIngestedFromFixedWidth: Option[Boolean],
                     currentDepth: String,
                     perimeter: String,
                     informationLevel: String,
@@ -52,4 +51,3 @@ case class Object_(
                  ) extends Row {
 
 }
-

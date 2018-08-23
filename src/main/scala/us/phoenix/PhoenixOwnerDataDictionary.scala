@@ -47,7 +47,6 @@ object PhoenixOwnerDataDictionary {
           extractionFileDelimeter = new String,
           objectType = None,
           dataSuperType = None,
-          isIngestedFromFixedWidth = None,
           currentDepth = new String,
           perimeter = new String,
           informationLevel = new String,

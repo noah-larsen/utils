@@ -25,7 +25,6 @@ case class SourceSystem(
                          defaultExtractionFileDelimeter: String,
                          defaultFrequency: Option[Frequency],
                          defaultIsCore: Option[Boolean],
-                         defaultIsIngestedFromFixedWidth: Option[Boolean],
                          defaultIsTDS: Option[Boolean],
                          defaultLoadingType: Option[LoadingType],
                          defaultMailbox: String,
@@ -49,7 +48,7 @@ object SourceSystem {
 
 
   def empty: SourceSystem = {
-    SourceSystem(Seq(), None, None, new String, None, new String, None, new String, None, None, None, None, None, new String, None, Seq(), new String, new String, new String, None, new String, new String)
+    SourceSystem(Seq(), None, None, new String, None, new String, None, new String, None, None, None, None, new String, None, Seq(), new String, new String, new String, None, new String, new String)
   }
 
 
@@ -68,7 +67,6 @@ object SourceSystem {
     object DefaultExtractionFileDelimeter extends SourceSystemRowParameter
     object DefaultFrequency extends SourceSystemRowParameter
     object DefaultIsCore extends SourceSystemRowParameter
-    object DefaultIsIngestedFromFixedWidth extends SourceSystemRowParameter
     object DefaultIsTDS extends SourceSystemRowParameter(nameFormat = Custom("Default Is TDS"))
     object DefaultLoadingType extends SourceSystemRowParameter
     object DefaultMailbox extends SourceSystemRowParameter

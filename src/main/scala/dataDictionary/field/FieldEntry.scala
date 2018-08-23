@@ -9,10 +9,8 @@ import dataDictionary.enumerations.StorageTypes.StorageType
 import dataDictionary.enumerations.StorageZones.StorageZone
 import dataDictionary.enumerations.{FieldGeneratedValues, YesOrNoValues}
 import dataDictionary.enumerations.YesOrNoValues.YesOrNo
-import dataDictionary.field.FieldEntryReaderWriter.FieldEntryColumns
-import dataDictionary.field.FieldEntryReaderWriter.FieldEntryColumns._
+import dataDictionary.field.FieldEntryColumns._
 import dataDictionary.types.LogicalFormats
-import dataDictionary.types.LogicalFormats.LogicalFormat
 import googleSpreadsheets.Row
 
 case class FieldEntry(
@@ -53,10 +51,10 @@ case class FieldEntry(
 
 
     FieldEntry(
-      mergedValue(_.country, FieldEntryColumns.Country),
-      mergedValue(_.physicalNameObject, FieldEntryColumns.PhysicalNameObject),
+      mergedValue(_.country, Country),
+      mergedValue(_.physicalNameObject, PhysicalNameObject),
       mergedValue(_.storageType, FieldEntryColumns.StorageType),
-      mergedValue(_.storageZone, FieldEntryColumns.StorageZone),
+      mergedValue(_.storageZone, StorageZone),
       mergedValue(_.physicalNameField, PhysicalNameField),
       mergedValue(_.logicalNameField, LogicalNameField),
       mergedValue(_.simpleFieldDescription, SimpleFieldDescription),

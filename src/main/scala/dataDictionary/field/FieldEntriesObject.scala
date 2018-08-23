@@ -9,8 +9,8 @@ import dataDictionary.enumerations.StorageTypes.{HdfsAvro, StorageType}
 import dataDictionary.enumerations.StorageZones.{RawData, StorageZone}
 import dataDictionary.enumerations.YesOrNoValues.{No, Yes, YesOrNo}
 import dataDictionary.enumerations._
-import dataDictionary.field.FieldEntryReaderWriter.FieldEntryColumns.FieldEntryColumn
 import dataDictionary.`object`.ObjectEntry
+import dataDictionary.field.FieldEntryColumns.FieldEntryColumn
 import dataDictionary.types.LogicalFormats
 import dataDictionary.types.LogicalFormats.LogicalFormat
 import dataDictionary.types.bigData.ParquetTypes

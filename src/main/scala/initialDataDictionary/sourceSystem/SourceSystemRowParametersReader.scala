@@ -13,7 +13,7 @@ import initialDataDictionary.sourceSystem.SourceSystem.SourceSystemRowParameters
 object SourceSystemRowParametersReader extends RowParametersReader[SourceSystem] {
 
   override def sheetRange: SheetRange = {
-    SheetRange("Source System", maxColumn)
+    SheetRange("Source System", maxColumn, 3)
   }
 
 
@@ -32,7 +32,6 @@ object SourceSystemRowParametersReader extends RowParametersReader[SourceSystem]
       defaultExtractionFileDelimeter = parameterToValue(DefaultExtractionFileDelimeter),
       defaultFrequency = Frequencies.withName(parameterToValue(DefaultFrequency)),
       defaultIsCore = YesOrNoValues.withName(parameterToValue(DefaultIsCore)).map(YesOrNoValues.toBoolean),
-      defaultIsIngestedFromFixedWidth = YesOrNoValues.withName(parameterToValue(DefaultIsIngestedFromFixedWidth)).map(_ == Yes),
       defaultIsTDS = YesOrNoValues.withName(parameterToValue(DefaultIsTDS)).map(_ == Yes),
       defaultLoadingType = LoadingTypes.withName(parameterToValue(DefaultLoadingType)),
       defaultMailbox = parameterToValue(DefaultMailbox),

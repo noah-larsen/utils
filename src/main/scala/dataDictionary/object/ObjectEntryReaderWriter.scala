@@ -3,6 +3,7 @@ package dataDictionary.`object`
 import java.time.format.DateTimeFormatter
 
 import dataDictionary.Constants
+import dataDictionary.`object`.ObjectEntryColumns._
 import dataDictionary.enumerations.IngestionStages.{IngestionStage, Master, Raw}
 import dataDictionary.enumerations._
 import googleSpreadsheets.{Column, Columns, RowReaderWriter, SheetRange}
@@ -18,99 +19,49 @@ case class ObjectEntryReaderWriter(ingestionStage: IngestionStage) extends RowRe
   }
 
 
-  override protected def columns: Seq[Column[ObjectEntry]] = ObjectColumns.values
+  override protected def columns: Seq[Column[ObjectEntry]] = ObjectEntryColumns.values
 
 
-  override protected def toRow(r: Int => String): ObjectEntry = {
+  override protected def toRow(row: Map[Column[ObjectEntry], String]): ObjectEntry = {
     ObjectEntry(
-      countryTheDataSource = dropDown(Countries, r(0)),
-      physicalNameObject = r(1),
-      logicalNameObject = r(2),
-      descriptionObject = r(3),
-      informationGroupLevel1 = r(4),
-      informationGroupLevel2 = r(5),
-      informationGroupLevel3 = r(6),
-      core = dropDown(CoreValues, r(7)),
-      perimeter = r(8),
-      informationLevel = r(9),
-      dataSource = r(10),
-      technicalResponsible = r(11),
-      storageType = dropDown(StorageTypes, r(12)),
-      storageZone = dropDown(StorageZones, r(13)),
-      objectType = r(14),
-      physicalPath = r(15),
-      schema = r(16),
-      systemCodeUuaa = r(17),
-      partitions = list(r(18), Constants.listSeparator),
-      frequency = dropDown(Frequencies, r(19)),
-      timeRequirement = r(20),
-      loadingType = dropDown(LoadingTypes, r(21)),
-      currentDepth = r(22),
-      requiredDepth = r(23),
-      estimatedVolumeRecords = r(24),
-      sourceOperational = r(25),
-      sourceSystem = r(26),
-      physicalNameSourceObject = r(27),
-      mailboxSourceTable = r(28),
-      sourcePath = r(29),
-      schemaPath = r(30),
-      sourceFileType = dropDown(FileTypes, r(31)),
-      sourceFileDelimeter = r(32),
-      targetFileType = dropDown(FileTypes, r(33)),
-      targetFileDelimeter = r(34),
-      registrationDate = Some(r(35)).filter(_ != new String).map(x => date(x, Seq(Constants.registrationDateFormat, googleSpreadsheets.googleSpreadsheetModifiedDateFormat)).get),
-      tags = list(r(36), Constants.listSeparator)
+      countryTheDataSource = dropDown(Countries, row(CountryTheDataSource)),
+      physicalNameObject = row(PhysicalNameObject),
+      logicalNameObject = row(LogicalNameObject),
+      descriptionObject = row(DescriptionObject),
+      informationGroupLevel1 = row(InformationGroupLevel1),
+      informationGroupLevel2 = row(InformationGroupLevel2),
+      informationGroupLevel3 = row(InformationGroupLevel3),
+      core = dropDown(CoreValues, row(Core)),
+      perimeter = row(Perimeter),
+      informationLevel = row(InformationLevel),
+      dataSource = row(DataSource),
+      technicalResponsible = row(TechnicalResponsible),
+      storageType = dropDown(StorageTypes, row(StorageType)),
+      storageZone = dropDown(StorageZones, row(StorageZone)),
+      objectType = row(ObjectType),
+      physicalPath = row(PhysicalPath),
+      schema = row(Schema),
+      systemCodeUuaa = row(SystemCodeUuaa),
+      partitions = list(row(Partitions), Constants.listSeparator),
+      frequency = dropDown(Frequencies, row(Frequency)),
+      timeRequirement = row(TimeRequirement),
+      loadingType = dropDown(LoadingTypes, row(LoadingType)),
+      currentDepth = row(CurrentDepth),
+      requiredDepth = row(RequiredDepth),
+      estimatedVolumeRecords = row(EstimatedVolumeRecords),
+      sourceOperational = row(SourceOperational),
+      sourceSystem = row(SourceSystem),
+      physicalNameSourceObject = row(PhysicalNameSourceObject),
+      mailboxSourceTable = row(MailboxSourceTable),
+      sourcePath = row(SourcePath),
+      schemaPath = row(SchemaPath),
+      sourceFileType = dropDown(FileTypes, row(SourceFileType)),
+      sourceFileDelimeter = row(SourceFileDelimeter),
+      targetFileType = dropDown(FileTypes, row(TargetFileType)),
+      targetFileDelimeter = row(TargetFileDelimeter),
+      registrationDate = Some(row(RegistrationDate)).filter(_ != new String).map(x => date(x, Seq(Constants.registrationDateFormat, googleSpreadsheets.googleSpreadsheetModifiedDateFormat)).get),
+      tags = list(row(Tags), Constants.listSeparator)
     )
-  }
-
-
-  private object ObjectColumns extends Columns {
-
-    override type RowType = ObjectEntry
-    override type ColumnType = ObjectColumn
-    sealed abstract class ObjectColumn(val string: ObjectEntry => String) extends Column[ObjectEntry]
-
-    object CountryTheDataSource extends ObjectColumn(x => selfNamedOptionToString(x.countryTheDataSource))
-    object PhysicalNameObject extends ObjectColumn(_.physicalNameObject)
-    object LogicalNameObject extends ObjectColumn(_.logicalNameObject)
-    object DescriptionObject extends ObjectColumn(_.descriptionObject)
-    object InformationGroupLevel1 extends ObjectColumn(_.informationGroupLevel1)
-    object InformationGroupLevel2 extends ObjectColumn(_.informationGroupLevel2)
-    object InformationGroupLevel3 extends ObjectColumn(_.informationGroupLevel3)
-    object Core extends ObjectColumn(x => selfNamedOptionToString(x.core))
-    object Perimeter extends ObjectColumn(_.perimeter)
-    object InformationLevel extends ObjectColumn(_.informationLevel)
-    object DataSource extends ObjectColumn(_.dataSource)
-    object TechnicalResponsible extends ObjectColumn(_.technicalResponsible)
-    object StorageType extends ObjectColumn(x => selfNamedOptionToString(x.storageType))
-    object StorageZone extends ObjectColumn(x => selfNamedOptionToString(x.storageZone))
-    object ObjectType extends ObjectColumn(_.objectType)
-    object PhysicalPath extends ObjectColumn(_.physicalPath)
-    object Schema extends ObjectColumn(_.schema)
-    object SystemCodeUuaa extends ObjectColumn(_.systemCodeUuaa)
-    object Partitions extends ObjectColumn(_.partitions.mkString(Constants.listSeparator))
-    object Frequency extends ObjectColumn(x => selfNamedOptionToString(x.frequency))
-    object TimeRequirement extends ObjectColumn(_.timeRequirement)
-    object LoadingType extends ObjectColumn(x => selfNamedOptionToString(x.loadingType))
-    object CurrentDepth extends ObjectColumn(_.currentDepth)
-    object RequiredDepth extends ObjectColumn(_.requiredDepth)
-    object EstimatedVolumeRecords extends ObjectColumn(_.estimatedVolumeRecords)
-    object SourceOperational extends ObjectColumn(_.sourceOperational)
-    object SourceSystem extends ObjectColumn(_.sourceSystem)
-    object PhysicalNameSourceObject extends ObjectColumn(_.physicalNameSourceObject)
-    object MailboxSourceTable extends ObjectColumn(_.mailboxSourceTable)
-    object SourcePath extends ObjectColumn(_.sourcePath)
-    object SchemaPath extends ObjectColumn(_.schemaPath)
-    object SourceFileType extends ObjectColumn(x => selfNamedOptionToString(x.sourceFileType))
-    object SourceFileDelimeter extends ObjectColumn(_.sourceFileDelimeter)
-    object TargetFileType extends ObjectColumn(x => selfNamedOptionToString(x.targetFileType))
-    object TargetFileDelimeter extends ObjectColumn(_.targetFileDelimeter)
-    object RegistrationDate extends ObjectColumn(_.registrationDate.map(_.format(DateTimeFormatter.ofPattern(Constants.registrationDateFormat))).getOrElse(new String))
-    object Tags extends ObjectColumn(_.tags.mkString(Constants.listSeparator))
-
-
-    override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[ObjectColumns.type], classOf[ObjectColumn])
-
   }
 
 }

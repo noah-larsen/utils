@@ -11,7 +11,7 @@ import consoleApplication.ConsoleRenamer.Languages.Language
 import consoleApplication.MainCommands.{SourceSystem, TableName}
 import dataDictionary.`object`.ObjectAndFieldEntries
 import dataDictionary.enumerations.{Countries, SourceTypes}
-import dataDictionary.field.FieldEntryReaderWriter.FieldEntryColumns
+import dataDictionary.field.FieldEntryColumns
 import initialDataDictionary.InitialDataDictionary
 import renaming.nameComparator.{CombinationNameComparator, SearchNameComparator, StringNameComparator}
 import renaming.{ApprovedRenamings, NameSearch, Renaming, TargetName}

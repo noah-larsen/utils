@@ -17,6 +17,13 @@ trait RowReaderWriter[T <: Row] extends RowReader[T] {
   protected def columns: Seq[Column[T]]
 
 
+  protected def toRow(row: Map[Column[T], String]): T
+
+
+  protected def toRow(r: Int => String): T = {
+    toRow(columns.map(x => (x, r(columns.indexOf(x)))).toMap)
+  }
+
   protected def date(value: String, possibleFormats: Seq[String]): Try[LocalDate] = {
     possibleFormats.map(x => Try(LocalDate.parse(value, DateTimeFormatter.ofPattern(x)))).maxBy(_.isSuccess)
   }
