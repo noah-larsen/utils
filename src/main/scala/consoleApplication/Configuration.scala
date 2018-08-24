@@ -3,7 +3,7 @@ package consoleApplication
 import com.typesafe.config.ConfigException.Missing
 import com.typesafe.config.{Config, ConfigFactory}
 import consoleApplication.Configuration.ConfigParameters
-import consoleApplication.Configuration.ConfigParameters.GeneratedFields
+import consoleApplication.Configuration.ConfigParameters.{GeneratedFields, PrimaryDateField}
 import consoleApplication.ConsoleRenamer.Languages
 import consoleApplication.ConsoleRenamer.Languages.Language
 import dataDictionary.enumerations.Countries
@@ -24,6 +24,7 @@ case class Configuration(
                           intermediateDataDictionaryId: String,
                           lcSourceSystemToDataDictionaryId: Map[String, String],
                           lcSourceSystemToInitialDataDictionaryId: Map[String, String],
+                          primaryDateField: Option[GeneratedField],
                           workDocumentId: String,
                         ) {
 
@@ -41,6 +42,7 @@ object Configuration extends RichConfig {
       intermediateDataDictionaryId = config.getString(ConfigParameters.IntermediateDataDictionaryId.name),
       lcSourceSystemToDataDictionaryId = config.getObject(ConfigParameters.SourceSystemToDataDictionaryId.name).unwrapped().toMap.asInstanceOf[Map[String, String]].map(x => (x._1.toLowerCase, x._2)),
       lcSourceSystemToInitialDataDictionaryId = config.getObject(ConfigParameters.SourceSystemToInitialDataDictionaryId.name).unwrapped().toMap.asInstanceOf[Map[String, String]].map(x => (x._1.toLowerCase, x._2)),
+      primaryDateField = config.get(PrimaryDateField.name, _.getConfig).map(GeneratedField(_).get),
       workDocumentId = config.getString(ConfigParameters.WorkDocumentId.name)
     ))
   }
@@ -56,6 +58,7 @@ object Configuration extends RichConfig {
     object GeneratedFields extends ConfigParameter
     object Language extends ConfigParameter
     object IntermediateDataDictionaryId extends ConfigParameter
+    object PrimaryDateField extends ConfigParameter
     object SourceSystemToDataDictionaryId extends ConfigParameter
     object SourceSystemToInitialDataDictionaryId extends ConfigParameter
     object WorkDocumentId extends ConfigParameter

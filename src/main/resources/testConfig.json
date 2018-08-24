@@ -35,6 +35,21 @@
   ],
   "Language": "english",
   "IntermediateDataDictionaryId": "1MaI7K82DFCHV43aoUZicUzwQy0ObgYaCMaiGSy5rci8",
+  "PrimaryDateField": {
+    "Name": "business_day_id",
+    "LogicalName": "",
+    "Description": "",
+    "Catalog": "",
+    "DateFormat": "",
+    "LogicalFormat": "decimal(8,0)",
+    "DefaultValue": "",
+    "TokenizationType": "",
+    "CountryTheConceptualEntity": "United States",
+    "ConceptualEntity": "",
+    "OperationalEntity": "",
+    "IsTrustedDataSource": true,
+    "PlaceAtBeginning": true
+  },
   "SourceSystemToDataDictionaryId": {
     "aln_cif": "1TGq-kVRlVt__ipiAsiKwBEp-_0662BrNDhA88oOrPN0",
     "aln_deposits": "1XcGTCWWmmUne8TV5qJH35jcsWi09wV5H5OSc3DkGMOA",

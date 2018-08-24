@@ -31,8 +31,8 @@ case class ObjectAndFieldEntries(
 
 object ObjectAndFieldEntries {
 
-  def fromTextExtraction(objectAndFields: ObjectAndFields, generatedFields: Seq[GeneratedField]): ObjectAndFieldEntries = {
-    val rawFieldEntriesObject = FieldEntriesObject.rawFEOFromTextExtraction(objectAndFields, generatedFields)
+  def fromTextExtraction(objectAndFields: ObjectAndFields, generatedFields: Seq[GeneratedField], primaryDateField: Option[GeneratedField]): ObjectAndFieldEntries = {
+    val rawFieldEntriesObject = FieldEntriesObject.rawFEOFromTextExtraction(objectAndFields, generatedFields, primaryDateField)
     ObjectAndFieldEntries(ObjectEntry(objectAndFields.obj, objectAndFields.sourceSystem, Raw), ObjectEntry(objectAndFields.obj, objectAndFields.sourceSystem, Master), rawFieldEntriesObject, rawFieldEntriesObject.toMasterIfFromTextExtraction(objectAndFields
       .fields.map(x => (x.fieldName.toLowerCase, x.dateFormat)).toMap, generatedFields.map(x => (x.name.toLowerCase, x.dateFormat)).toMap, objectAndFields.fields.collect{case x if x.isMandatoryNonKey => x.fieldName.toLowerCase}.toSet))
   }

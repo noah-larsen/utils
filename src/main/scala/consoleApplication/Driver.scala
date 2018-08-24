@@ -46,6 +46,7 @@ object Driver extends App {
     val applicationId = configuration.applicationId
     val country = configuration.country
     val generatedFields = configuration.generatedFields
+    val primaryDateField = configuration.primaryDateField
     val lcSourceSystemToInitialDataDictionary = configuration.lcSourceSystemToInitialDataDictionaryId.filter(_._2.trim.nonEmpty).map(x => (x._1.toLowerCase, InitialDataDictionary(x._2).get))
     val lcSourceSystemToDataDictionary = configuration.lcSourceSystemToDataDictionaryId.filter(_._2.trim.nonEmpty).map(x => (x._1.toLowerCase, DataDictionary(x._2).get))
     val sourceType = SourceTypes.Table //todo
@@ -145,7 +146,7 @@ object Driver extends App {
       val lcSourceSystem = physicalNameObject.lcSourceSystem
       val lcObjectName = physicalNameObject.lcObjectName
       ObjectAndFieldEntries.fromTextExtraction(lcSourceSystemToInitialDataDictionary.getOrElse(lcSourceSystem, throw InitialDataDictionaryNotFound(lcSourceSystem)).lcObjectNameToObjectAndFields.map(_.getOrElse(lcObjectName, throw
-        ObjectNotFoundInInitialDataDictionary(lcObjectName))).get, generatedFields)
+        ObjectNotFoundInInitialDataDictionary(lcObjectName))).get, generatedFields, primaryDateField)
     }
 
 

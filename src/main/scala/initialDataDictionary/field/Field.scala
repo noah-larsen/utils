@@ -1,6 +1,7 @@
 package initialDataDictionary.field
 
 import dataDictionary.enumerations.Countries.Country
+import dataDictionary.field.GeneratedField
 import googleSpreadsheets.{GoogleSpreadsheet, Row}
 import initialDataDictionary.enumerations.TokenizationTypes.TokenizationType
 

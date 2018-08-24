@@ -5,19 +5,19 @@ import java.time.LocalDate
 import dataDictionary.Type
 import dataDictionary.enumerations.Countries.Country
 import dataDictionary.enumerations.IngestionStages.Raw
-import dataDictionary.enumerations.StorageTypes.{HdfsAvro, StorageType}
-import dataDictionary.enumerations.StorageZones.{RawData, StorageZone}
+import dataDictionary.enumerations.StorageTypes.StorageType
+import dataDictionary.enumerations.StorageZones.StorageZone
 import dataDictionary.enumerations.YesOrNoValues.{No, Yes, YesOrNo}
 import dataDictionary.enumerations._
 import dataDictionary.`object`.ObjectEntry
 import dataDictionary.field.FieldEntryColumns.FieldEntryColumn
 import dataDictionary.types.LogicalFormats
-import dataDictionary.types.LogicalFormats.LogicalFormat
 import dataDictionary.types.bigData.ParquetTypes
 import exceptions.InformationSetsToMergeContainIncompatibleFields
 import initialDataDictionary.ObjectAndFields
 import initialDataDictionary.enumerations.DataSuperTypes.DataSuperType
 import initialDataDictionary.field.Field
+import renaming.Renaming
 
 import scala.util.Try
 
@@ -131,7 +131,7 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
 
 object FieldEntriesObject {
 
-  def rawFEOFromTextExtraction(objectAndFields: ObjectAndFields, generatedFields: Seq[GeneratedField]): FieldEntriesObject = {
+  def rawFEOFromTextExtraction(objectAndFields: ObjectAndFields, generatedFields: Seq[GeneratedField], primaryDateField: Option[GeneratedField]): FieldEntriesObject = {
 
     def rawFieldEntryFromTextExtractedField(field: Field, rawObjectEntry: ObjectEntry, dataSuperType: Option[DataSuperType], fieldToLength: Option[Map[Field, Int]]): FieldEntry = {
       FieldEntry(
@@ -202,8 +202,11 @@ object FieldEntriesObject {
     val obj = objectAndFields.obj
     val rawObjectEntry = ObjectEntry(obj, objectAndFields.sourceSystem, Raw)
     val fieldToLength = Some(objectAndFields.fields).filter(_.forall(_.length.isDefined)).map(x => Some(x.zip(x.map(_.length.get).init.+:(0))).map(y => y.tail.scanLeft((y.head, 1))((z, w) => (w, z._2 + w._2))).get.map(y => (y._1._1, y._2)).toMap)
-    val nonGeneratedFieldEntries = objectAndFields.fields.map(rawFieldEntryFromTextExtractedField(_, rawObjectEntry, obj.dataSuperType, fieldToLength))
-    val (generatedFieldsAtBeginning, generatedFieldsAtEnd) = generatedFields.partition(_.generatedAtBeginning)
+    val nonGeneratedFieldToFieldEntry = objectAndFields.fields.map(x => (x, rawFieldEntryFromTextExtractedField(x, rawObjectEntry, obj.dataSuperType, fieldToLength)))
+    val existingPrimaryDateFieldEntry = primaryDateField.flatMap(x => nonGeneratedFieldToFieldEntry.find(y => y._1.isPrimaryDateField && y._2.logicalFormat.flatMap(Type.logicalFormat).exists(_.isLogicalSubsetOf(x.logicalFormat)) && y._2.sourceField.isDefined))
+      .map(_._2)
+    val nonGeneratedFieldEntries = existingPrimaryDateFieldEntry.map(x => Renaming(nonGeneratedFieldToFieldEntry.map(_._2)).name(x.sourceField.get, primaryDateField.get.name).fieldEntries).getOrElse(nonGeneratedFieldToFieldEntry.map(_._2))
+    val (generatedFieldsAtBeginning, generatedFieldsAtEnd) = (primaryDateField.filter(_ => existingPrimaryDateFieldEntry.isEmpty).map(Seq(_)).getOrElse(Nil) ++ generatedFields).partition(_.generatedAtBeginning)
     FieldEntriesObject(generatedFieldsAtBeginning.map(rawFieldEntryFromGeneratedTextExtractedField(_, rawObjectEntry)) ++ nonGeneratedFieldEntries ++ generatedFieldsAtEnd.map(rawFieldEntryFromGeneratedTextExtractedField(_, rawObjectEntry)))
 
   }
