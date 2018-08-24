@@ -38,7 +38,8 @@ class GoogleSpreadsheet(sheets: Sheets, spreadsheetId: String) {
 
 
   def update[T <: Row](rows: Seq[T], dataReaderWriter: RowReaderWriter[T], fromRow: Option[Int] = None, toRow: Option[Int] = None, valueInputOption: ValueInputOptions.Value = ValueInputOptions.userEntered): Try[UpdateValuesResponse] = {
-    val range = Some(dataReaderWriter.sheetRange).map(x => x.copy(fromRow = fromRow.getOrElse(x.fromRow), toRow = toRow.orElse(x.toRow))).map(x => if(x.toRow.isEmpty) get(dataReaderWriter).map(y => x.copy(fromRow = x.fromRow + y.length)) else Try(x)).get.map(_.range)
+    val range = Some(dataReaderWriter.sheetRange).map(x => x.copy(fromRow = fromRow.getOrElse(x.fromRow), toRow = toRow.orElse(x.toRow))).map(x => if(x.toRow.isEmpty) get(dataReaderWriter).map(y => x.copy(toRow = Some(x.fromRow + y.length))) else Try(x)).get
+      .map(_.range)
     range.flatMap(x => Try(sheets.spreadsheets.values.update(spreadsheetId, x, new ValueRange().setValues(rows.map(dataReaderWriter.toStringSeq(_).map(_.asInstanceOf[AnyRef]).asJava).asJava)).setValueInputOption(valueInputOption.toString).execute()))
   }
 

@@ -84,8 +84,9 @@ case class DataDictionary(private val spreadsheet: GoogleSpreadsheet) {
       rangesInclusive.length match {
         case 0 => spreadsheet.append(rows, rowReaderWriter)
         case x if x == 1 && length(rangesInclusive.head) == rows.length => spreadsheet.update(rows, rowReaderWriter, Some(rangesInclusive.head._1), Some(rangesInclusive.head._2))
-        case x if x == 1 => Failure(DataHubException("Spreadsheet contains a different number of existing entries for the entity than the entries to overwrite with"))
-        case _ => Failure(DataHubException("Existing spreadsheet entries for the entity are not contiguous"))
+        case _ => spreadsheet.get(rowReaderWriter).flatMap(x => spreadsheet.update(x.filter(!isCorrespondingRow(_)) ++ rows, rowReaderWriter))
+//        case x if x == 1 => Failure(DataHubException("Spreadsheet contains a different number of existing entries for the entity than the entries to overwrite with"))
+//        case _ => Failure(DataHubException("Existing spreadsheet entries for the entity are not contiguous"))
       }
     }
   }
