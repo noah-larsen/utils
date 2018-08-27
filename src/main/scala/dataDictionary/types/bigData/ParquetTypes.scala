@@ -9,7 +9,7 @@ object ParquetTypes extends BigDataSuperTypes {
 
   override type T = ParquetType
 
-  sealed abstract class ParquetType extends SuperType(ObjectName(CaseFormats.Lowercase)){
+  sealed abstract class ParquetType extends SuperType(ObjectName(CaseFormats.Lowercase)) {
 
     override protected def withLogicalFormat[T <: ParquetType.this.type](type_ : Type[T]): Option[Type[LogicalFormats.LogicalFormat]] = {
       type_ match {
@@ -30,9 +30,10 @@ object ParquetTypes extends BigDataSuperTypes {
   object Int32 extends ParquetType
   object Int96 extends ParquetType
   object String extends ParquetType
+  object Timestamp_Millis extends ParquetType
 
 
-  override def fromLogicalFormat(logicalFormat: Type[LogicalFormat]): Type[ParquetType] = {
+  override def fromLogicalFormat(logicalFormat: Type[LogicalFormat], convertTimestampToString: Boolean): Type[ParquetType] = {
     (logicalFormat: @unchecked) match { //todo possible error handling
       case Type(LogicalFormats.Alphanumeric, Some(x), None) => Type(String)
       case Type(LogicalFormats.NumericShort, None, None) => Type(Int32)
@@ -41,7 +42,7 @@ object ParquetTypes extends BigDataSuperTypes {
       case Type(LogicalFormats.Decimal, Some(x), y) => Type(Decimal, Some(x), y)
       case Type(LogicalFormats.Date, None, None) => Type(Date)
       case Type(LogicalFormats.Time, None, None) => Type(String)
-      case Type(LogicalFormats.Timestamp, None, None) => Type(String)
+      case Type(LogicalFormats.Timestamp, None, None) => if(convertTimestampToString) Type(String) else Type(Timestamp_Millis)
       case Type(LogicalFormats.Float, None, None) => Type(Float)
       case Type(LogicalFormats.Double, None, None) => Type(Float)
       case Type(LogicalFormats.Clob, None, None) => Type(String)

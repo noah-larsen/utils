@@ -1,8 +1,55 @@
 {
   "ApplicationId": "wdco",
   "Country": "United States",
+  "GeneratedFields": [
+    {
+      "Name": "datio_process_id",
+      "LogicalName": "Datio Process Id",
+      "Description": "ETL Id of the Datio Process",
+      "Catalog": "",
+      "DateFormat": "",
+      "LogicalFormat": "alphanumeric(32)",
+      "DefaultValue": "",
+      "TokenizationType": "",
+      "CountryTheConceptualEntity": "United States",
+      "ConceptualEntity": "",
+      "OperationalEntity": "",
+      "IsTrustedDataSource": true,
+      "PlaceAtBeginning": false
+    },
+    {
+      "Name": "datio_process_date",
+      "LogicalName": "Datio Process Date",
+      "Description": "Date/Time information was processed in Datio",
+      "Catalog": "",
+      "DateFormat": "yyyy-MM-DD HH:mm:ss.SSS",
+      "LogicalFormat": "timestamp",
+      "DefaultValue": "",
+      "TokenizationType": "",
+      "CountryTheConceptualEntity": "United States",
+      "ConceptualEntity": "",
+      "OperationalEntity": "",
+      "IsTrustedDataSource": true,
+      "PlaceAtBeginning": false
+    }
+  ],
   "Language": "english",
   "IntermediateDataDictionaryId": "1eHTmuC31OaYVx064ClnXQ6W497L6I0aH8HlJU_dy94Q",
+  "PrimaryDateField": {
+    "Name": "business_day_id",
+    "LogicalName": "Business Day Id",
+    "Description": "The primary business date associated with the record, represented as an integer with digits corresponding to the date format yyyyMMDD.",
+    "Catalog": "",
+    "DateFormat": "",
+    "LogicalFormat": "decimal(8,0)",
+    "DefaultValue": "",
+    "TokenizationType": "",
+    "CountryTheConceptualEntity": "United States",
+    "ConceptualEntity": "",
+    "OperationalEntity": "",
+    "IsTrustedDataSource": true,
+    "PlaceAtBeginning": true
+  },
   "SourceSystemToDataDictionaryId": {
     "aln_cif": "1-cYvNfDwUUogLdHu8NGeI4uvtr6tURowAdQBCrZH4TE",
     "aln_deposits": "1qO2SwhehYgIhNeParFcvqYA_SDlRkx2sJEpveoI5mB4",

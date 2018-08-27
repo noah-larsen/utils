@@ -20,6 +20,7 @@ case class WorkDocumentEntry(
                               sourceOrigin: String,
                               table: String,
                               sourceField: String,
+                              sourceFieldRepeatedYN: String,
                               logicFormat: String,
                               fieldDescription: String,
                               usedYN: String,
@@ -72,7 +73,7 @@ case class WorkDocumentEntry(
 object WorkDocumentEntry extends RowReaderWriter[WorkDocumentEntry] {
 
   override def sheetRange: SheetRange = {
-    SheetRange("Namings Repository - Work Document - Avro", "P", 4)
+    SheetRange("Namings Repository - Work Document - Avro", "Q", 4)
   }
 
 
@@ -84,6 +85,7 @@ object WorkDocumentEntry extends RowReaderWriter[WorkDocumentEntry] {
       sourceOrigin = row(SourceOrigin),
       table = row(Table),
       sourceField = row(SourceField),
+      sourceFieldRepeatedYN = row(SourceFieldRepeatedYN),
       logicFormat = row(LogicFormat),
       fieldDescription = row(FieldDescription),
       usedYN = row(UsedYN),

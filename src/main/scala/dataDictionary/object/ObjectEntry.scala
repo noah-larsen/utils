@@ -86,7 +86,7 @@ object ObjectEntry {
       storageType = obj.targetStorageSuperType.flatMap(StorageTypes.from(_, ingestionStage)),
       storageZone = Some(StorageZones.from(ingestionStage)),
       objectType = obj.objectType.map(_.name).getOrElse(new String),
-      physicalPath = ingestionStage match {case Raw => obj.rawPath case Master => obj.masterPath},
+      physicalPath = (ingestionStage match {case Raw => obj.rawPath case Master => obj.masterPath}).toLowerCase,
       schema = new String, //todo
       systemCodeUuaa = obj.systemCodeUUAA,
       partitions = obj.partitions,

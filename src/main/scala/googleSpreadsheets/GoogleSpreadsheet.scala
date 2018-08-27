@@ -12,7 +12,7 @@ import com.google.api.client.googleapis.auth.oauth2.{GoogleAuthorizationCodeFlow
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.client.util.store.FileDataStoreFactory
-import com.google.api.services.sheets.v4.model.{AppendValuesResponse, UpdateValuesResponse, ValueRange}
+import com.google.api.services.sheets.v4.model.{AppendValuesResponse, ClearValuesRequest, UpdateValuesResponse, ValueRange}
 import com.google.api.services.sheets.v4.{Sheets, SheetsScopes}
 import googleSpreadsheets.GoogleSpreadsheet.ValueInputOptions
 
@@ -23,7 +23,7 @@ import scala.util.Try
 class GoogleSpreadsheet(sheets: Sheets, spreadsheetId: String) {
 
   def get(sheetRange: SheetRange): Try[Seq[Seq[String]]] = {
-    Try(Option(sheets.spreadsheets.values.get(spreadsheetId, sheetRange.range).execute.getValues).map(_.asScala.map(_.asScala.map(_.toString).toSeq)).getOrElse(Seq()))
+    Try(Option(sheets.spreadsheets.values.get(spreadsheetId, sheetRange.asString).execute.getValues).map(_.asScala.map(_.asScala.map(_.toString).toSeq)).getOrElse(Seq()))
   }
 
 
@@ -38,14 +38,16 @@ class GoogleSpreadsheet(sheets: Sheets, spreadsheetId: String) {
 
 
   def update[T <: Row](rows: Seq[T], dataReaderWriter: RowReaderWriter[T], fromRow: Option[Int] = None, toRow: Option[Int] = None, valueInputOption: ValueInputOptions.Value = ValueInputOptions.userEntered): Try[UpdateValuesResponse] = {
-    val range = Some(dataReaderWriter.sheetRange).map(x => x.copy(fromRow = fromRow.getOrElse(x.fromRow), toRow = toRow.orElse(x.toRow))).map(x => if(x.toRow.isEmpty) get(dataReaderWriter).map(y => x.copy(toRow = Some(x.fromRow + y.length))) else Try(x)).get
-      .map(_.range)
-    range.flatMap(x => Try(sheets.spreadsheets.values.update(spreadsheetId, x, new ValueRange().setValues(rows.map(dataReaderWriter.toStringSeq(_).map(_.asInstanceOf[AnyRef]).asJava).asJava)).setValueInputOption(valueInputOption.toString).execute()))
+    val range = Some(dataReaderWriter.sheetRange).map(x => x.copy(fromRow = fromRow.getOrElse(x.fromRow), toRow = toRow.orElse(x.toRow))).get
+    Try{
+      if(range.toRow.isEmpty) sheets.spreadsheets.values.clear(spreadsheetId, range.asString, new ClearValuesRequest).execute()
+      sheets.spreadsheets.values.update(spreadsheetId, range.asString, new ValueRange().setValues(rows.map(dataReaderWriter.toStringSeq(_).map(_.asInstanceOf[AnyRef]).asJava).asJava)).setValueInputOption(valueInputOption.toString).execute()
+    }
   }
 
 
   def append[T <: Row](rows: Seq[T], dataReaderWriter: RowReaderWriter[T], valueInputOption: ValueInputOptions.Value = ValueInputOptions.userEntered): Try[AppendValuesResponse] = {
-    val range = Some(dataReaderWriter.sheetRange).filter(_.toRow.isEmpty).map(x => get(dataReaderWriter).map(y => x.copy(fromRow = x.fromRow + y.length))).getOrElse(Try(dataReaderWriter.sheetRange)).map(_.range)
+    val range = Some(dataReaderWriter.sheetRange).filter(_.toRow.isEmpty).map(x => get(dataReaderWriter).map(y => x.copy(fromRow = x.fromRow + y.length))).getOrElse(Try(dataReaderWriter.sheetRange)).map(_.asString)
     range.flatMap(x => Try(sheets.spreadsheets.values.append(spreadsheetId, x, new ValueRange().setValues(rows.map(dataReaderWriter.toStringSeq(_).map(_.asInstanceOf[AnyRef]).asJava).asJava)).setValueInputOption(valueInputOption.toString).execute()))
   }
 

@@ -27,7 +27,6 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
     //todo multiple source fields with different source objects, etc.
     val thisFieldEntryToThatFieldEntry = fieldEntries.map(x => (x, fieldEntriesObject.fieldEntries.find(y => if(x.isGenerated) x.physicalNameField.exists(z => y.physicalNameField.exists(_.equalsIgnoreCase(z))) else x.sourceField.exists(z => y.sourceField
       .exists(_.equalsIgnoreCase(z)))))).toMap
-    if(thisFieldEntryToThatFieldEntry.values.collect{case Some(x) => x}.toSet != fieldEntriesObject.fieldEntries.toSet) throw InformationSetsToMergeContainIncompatibleFields()
     FieldEntriesObject(fieldEntries.map(x => thisFieldEntryToThatFieldEntry(x).map(x.merge(_, columnsArgumentHasPrecedence)).getOrElse(x)))
   }
 
@@ -54,7 +53,7 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
       fieldEntry.copy(
         storageType = fieldEntry.storageType.filter(_ == StorageTypes.HdfsAvro).map(_ => StorageTypes.HdfsParquet),
         storageZone = Some(StorageZones.MasterData),
-        dataType = logicalFormat.map(ParquetTypes.fromLogicalFormat(_).asString),
+        dataType = logicalFormat.map(ParquetTypes.fromLogicalFormat(_, !fieldEntry.isGenerated).asString),
         format = format,
         mandatory = if(fieldEntry.isKey.contains(true) || fieldEntry.sourceField.exists(x => lcMandatoryNonKeySourceFields.contains(x.toLowerCase))) Some(Yes) else fieldEntry.mandatory,
         physicalNameSourceObject = physicalNameObject,
@@ -145,7 +144,7 @@ object FieldEntriesObject {
         catalog = Some(field.catalog),
         dataType = Some(DataTypes.string),
         format = Some(new String),
-        logicalFormat = dataSuperType.flatMap(Type.logicalFormat(field.dataType, _).map(_.asString)),
+        logicalFormat = dataSuperType.flatMap(Type.logicalFormat(field.dataType, _).map(_.asString.toUpperCase)),
         key = Some(YesOrNoValues.from(field.isKey)),
         mandatory = Some(YesOrNoValues.No),
         defaultValue = Some(field.defaultValue),
@@ -178,7 +177,7 @@ object FieldEntriesObject {
         catalog = Some(generatedField.catalog),
         dataType = Some(DataTypes.string),
         format = Some(new String),
-        logicalFormat = Some(generatedField.logicalFormat.asString),
+        logicalFormat = Some(generatedField.logicalFormat.asString.toUpperCase),
         key = Some(No),
         mandatory = Some(Yes),
         defaultValue = Some(generatedField.defaultValue),

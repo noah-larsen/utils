@@ -17,6 +17,7 @@ private[workDocument] object WorkDocumentColumns extends Columns {
   object SourceOrigin extends WorkDocumentColumn(_.sourceOrigin.toString)
   object Table extends WorkDocumentColumn(_.table.toString)
   object SourceField extends WorkDocumentColumn(_.sourceField.toString)
+  object SourceFieldRepeatedYN extends WorkDocumentColumn(_.sourceFieldRepeatedYN.toString)
   object LogicFormat extends WorkDocumentColumn(_.logicFormat.toString)
   object FieldDescription extends WorkDocumentColumn(_.fieldDescription.toString)
   object UsedYN extends WorkDocumentColumn(_.usedYN.toString)

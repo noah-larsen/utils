@@ -37,8 +37,8 @@
   "IntermediateDataDictionaryId": "1MaI7K82DFCHV43aoUZicUzwQy0ObgYaCMaiGSy5rci8",
   "PrimaryDateField": {
     "Name": "business_day_id",
-    "LogicalName": "",
-    "Description": "",
+    "LogicalName": "Business Day Id",
+    "Description": "The primary business date associated with the record, represented as an integer with digits corresponding to the date format yyyyMMDD.",
     "Catalog": "",
     "DateFormat": "",
     "LogicalFormat": "decimal(8,0)",
