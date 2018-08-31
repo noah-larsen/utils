@@ -15,7 +15,7 @@
       "ConceptualEntity": "",
       "OperationalEntity": "",
       "IsTrustedDataSource": true,
-      "PlaceAtBeginning": false
+      "PlaceAtBeginning": false,
     },
     {
       "Name": "datio_process_date",
@@ -30,7 +30,7 @@
       "ConceptualEntity": "",
       "OperationalEntity": "",
       "IsTrustedDataSource": true,
-      "PlaceAtBeginning": false
+      "PlaceAtBeginning": false,
     }
   ],
   "Language": "english",
@@ -41,7 +41,7 @@
     "Description": "The primary business date associated with the record, represented as an integer with digits corresponding to the date format yyyyMMDD.",
     "Catalog": "",
     "DateFormat": "",
-    "LogicalFormat": "decimal(8,0)",
+    "LogicalFormat": "decimal(8)",
     "DefaultValue": "",
     "TokenizationType": "",
     "CountryTheConceptualEntity": "United States",

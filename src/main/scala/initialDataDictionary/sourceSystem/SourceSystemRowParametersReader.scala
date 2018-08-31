@@ -1,19 +1,23 @@
 package initialDataDictionary.sourceSystem
 
+import dataDictionary.Type
 import dataDictionary.enumerations.YesOrNoValues
 import dataDictionary.enumerations.YesOrNoValues.Yes
 import dataDictionary.enumerations.{Countries, FileTypes, Frequencies, LoadingTypes}
+import dataDictionary.types.LogicalFormats
 import googleSpreadsheets.RowParametersReader.{RowParameter, RowParameters}
 import googleSpreadsheets.{RowParametersReader, SheetRange}
-import initialDataDictionary.enumerations.{DataSuperTypes, ObjectTypes, TargetStorageSuperTypes}
+import initialDataDictionary.enumerations.{DataSuperTypes, MoveExistingPrimaryDateFieldValues, ObjectTypes, TargetStorageSuperTypes}
 import initialDataDictionary.sourceSystem.SourceSystem.SourceSystemRowParameters
 import initialDataDictionary.sourceSystem.SourceSystem.SourceSystemRowParameters._
+
+import scala.util.Try
 
 
 object SourceSystemRowParametersReader extends RowParametersReader[SourceSystem] {
 
   override def sheetRange: SheetRange = {
-    SheetRange("Source System", maxColumn, 3)
+    SheetRange("Source System", maxColumn)
   }
 
 
@@ -22,6 +26,9 @@ object SourceSystemRowParametersReader extends RowParametersReader[SourceSystem]
 
   override protected def transform(parameterToValue: Map[RowParameter, String], parameterToValues: Map[RowParameter, Seq[String]]): SourceSystem = {
     initialDataDictionary.sourceSystem.SourceSystem(
+      addedPrimaryDateFieldDateFormat = parameterToValue(AddedPrimaryDateFieldDateFormat),
+      addedPrimaryDateFieldIndex = Try(parameterToValue(AddedPrimaryDateFieldIndex).toInt).toOption,
+      addedPrimaryDateFieldLogicalFormat = Type.logicalFormat(parameterToValue(AddedPrimaryDateFieldLogicalFormat)),
       additionalOperationalSourceSystems = parameterToValues(AdditionalOperationalSourceSystems),
       defaultCountryTheConceptualEntity = Countries.withName(parameterToValue(DefaultCountryOfTheConceptualEntity)),
       defaultCountryTheDataSource = Countries.withName(parameterToValue(DefaultCountryOfTheDataSource)),
@@ -42,6 +49,7 @@ object SourceSystemRowParametersReader extends RowParametersReader[SourceSystem]
       defaultSystemCodeUUAA = parameterToValue(DefaultSystemCodeUUAA),
       defaultTargetStorageSuperType = TargetStorageSuperTypes.withName(parameterToValue(DefaultTargetStorageSuperType)),
       defaultTimestampFormat = parameterToValue(DefaultTimestampFormat),
+      moveExistingPrimaryDateField = MoveExistingPrimaryDateFieldValues.withName(parameterToValue(MoveExistingPrimaryDateField)),
       sourceSystem = parameterToValue(SourceSystemRowParameters.SourceSystem)
     )
   }

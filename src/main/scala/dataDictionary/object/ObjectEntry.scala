@@ -62,6 +62,11 @@ case class ObjectEntry(
     if(registrationDate.isDefined) this else copy(registrationDate = Some(LocalDate.now()))
   }
 
+
+  def withRegistrationDate(registrationDate: LocalDate): ObjectEntry = {
+    copy(registrationDate = Some(registrationDate))
+  }
+
 }
 
 object ObjectEntry {
@@ -100,7 +105,7 @@ object ObjectEntry {
       sourceSystem = ss.sourceSystem,
       physicalNameSourceObject = ingestionStage match {case Raw => obj.objectName.toLowerCase case Master => physicalNameObject},
       mailboxSourceTable = obj.mailbox,
-      sourcePath = ingestionStage match {case Raw => obj.stagingPath case Master => obj.rawPath},
+      sourcePath = (ingestionStage match {case Raw => obj.stagingPath case Master => obj.rawPath}).toLowerCase,
       schemaPath = ingestionStage match {case Raw => obj.stagingToRawSchemasPath case Master => obj.rawToMasterSchemasPath},
       sourceFileType = ingestionStage match {case Raw => obj.extractionFileType case Master => Some(Avro).filter(_ => obj.targetStorageSuperType.contains(HdfsAvroParquet))},
       sourceFileDelimeter = ingestionStage match {case Raw => obj.extractionFileDelimeter case Master => new String},
@@ -119,8 +124,8 @@ object ObjectEntry {
 
 
   private def alias(sourceSystem: String, sourceObjectName: String): String = {
-    val sourceSystemObjectNameSeparator = "_"
-    sourceSystem.toLowerCase + sourceSystemObjectNameSeparator + sourceObjectName.toLowerCase
+    val substringToRemove = "_"
+    (sourceSystem.toLowerCase + sourceObjectName.toLowerCase).replace(substringToRemove, new String)
   }
 
 }

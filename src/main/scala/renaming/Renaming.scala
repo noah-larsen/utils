@@ -9,8 +9,18 @@ class Renaming(fieldEntries: Seq[FieldEntry]) extends FieldEntriesObject(fieldEn
   }
 
 
+  def insert(fieldEntry: FieldEntry, index: Int): Renaming = {
+    fieldEntries.splitAt(index) match {case (x, y) => Renaming(x ++ Seq(fieldEntry) ++ y)}
+  }
+
+
   def name(sourceField: String, physicalNameField: String): Renaming = {
     Renaming(fieldEntries.map(x => if(x.sourceField.contains(sourceField)) x.copy(physicalNameField = Some(physicalNameField)) else x))
+  }
+
+
+  def moveToFront(physicalNameField: String): Renaming = {
+    fieldEntries.find(_.physicalNameField.exists(_.equalsIgnoreCase(physicalNameField))).map(x => Renaming(fieldEntries.filter(_ != x).+:(x))).getOrElse(this)
   }
 
 

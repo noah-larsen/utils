@@ -1,17 +1,19 @@
 package consoleApplication
 
 import java.io.File
+import java.time.LocalDate
 
 import centralNamingsRepository.CentralNamingsRepository
 import dataDictionary.{DataDictionary, PhysicalNameObject}
 import dataDictionary.enumerations.IngestionStages
-import exceptions.{DataHubException, InitialDataDictionaryNotFound, IntermediateDataDictionaryAlreadyContainsEntriesForObject, ObjectNotFoundInInitialDataDictionary}
+import exceptions._
 import org.rogach.scallop.{ScallopConf, ScallopOption}
 import consoleApplication.ConsoleRenamer.Languages.Language
 import consoleApplication.MainCommands.{SourceSystem, TableName}
 import dataDictionary.`object`.ObjectAndFieldEntries
 import dataDictionary.enumerations.{Countries, SourceTypes}
 import dataDictionary.field.FieldEntryColumns
+import dataDictionary.field.FieldEntryColumns.PhysicalNameField
 import initialDataDictionary.InitialDataDictionary
 import renaming.nameComparator.{CombinationNameComparator, SearchNameComparator, StringNameComparator}
 import renaming.{ApprovedRenamings, NameSearch, Renaming, TargetName}
@@ -46,7 +48,7 @@ object Driver extends App {
     val applicationId = configuration.applicationId
     val country = configuration.country
     val generatedFields = configuration.generatedFields
-    val primaryDateField = configuration.primaryDateField
+    val primaryDateFieldTemplate = configuration.primaryDateFieldTemplate
     val lcSourceSystemToInitialDataDictionary = configuration.lcSourceSystemToInitialDataDictionaryId.filter(_._2.trim.nonEmpty).map(x => (x._1.toLowerCase, InitialDataDictionary(x._2).get))
     val lcSourceSystemToDataDictionary = configuration.lcSourceSystemToDataDictionaryId.filter(_._2.trim.nonEmpty).map(x => (x._1.toLowerCase, DataDictionary(x._2).get))
     val sourceType = SourceTypes.Table //todo
@@ -62,42 +64,43 @@ object Driver extends App {
 
 
     def main(leadWithNewline: Boolean = true): Unit = {
-      val commandInvocation = MainCommands.promptUntilParsed(leadWithNewline = leadWithNewline)
-      commandInvocation.command match {
-        case MainCommands.CreateFromInitial =>
-          Try {
+      Try {
+        val commandInvocation = MainCommands.promptUntilParsed(leadWithNewline = leadWithNewline)
+        commandInvocation.command match {
+          case MainCommands.Load =>
             val physicalNameObject = PhysicalNameObject(sourceType, applicationId, commandInvocation.value(SourceSystem), commandInvocation.value(TableName))
-            if(intermediateDataDictionary.containsEntriesFor(physicalNameObject).get) throw IntermediateDataDictionaryAlreadyContainsEntriesForObject()
-            val objectAndFieldEntries = fromInitialDataDictionary(physicalNameObject).get
-            saveWithRegistrationDates(objectAndFieldEntries, intermediateDataDictionary)
+            val objectAndFieldEntries = load(physicalNameObject).get
             table(consoleRenamer(physicalNameObject, objectAndFieldEntries), objectAndFieldEntries, physicalNameObject)
-          }.recover(displayError)
-          main()
-        case MainCommands.LoadFromIntermediate =>
-          Try {
+          case MainCommands.WriteToFinal =>
             val physicalNameObject = PhysicalNameObject(sourceType, applicationId, commandInvocation.value(SourceSystem), commandInvocation.value(TableName))
-            val objectAndFieldEntries = intermediateDataDictionary.objectAndFieldEntries(physicalNameObject.asString).get
-            table(consoleRenamer(physicalNameObject, objectAndFieldEntries), objectAndFieldEntries, physicalNameObject)
-          }.recover(displayError)
-          main()
-        case MainCommands.WriteOnceToFinal =>
-          Try {
-            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, commandInvocation.value(SourceSystem),commandInvocation.value(TableName))
-            workDocument.entriesObject(physicalNameObject).get.getOrElse(throw DataHubException("Object does not exist in work document")) match {
-              case x if x.lowercaseSourceOrigin.isEmpty => throw DataHubException("Entries of approved object lack a consistent source origin.")
-//              case x if !x.allFieldsValidatedByLocalAndGlobalArchitecture => throw DataHubException("Work document entries exist for object that are unvalidated") //todo
-              case x if !lcSourceSystemToDataDictionary.contains(x.lowercaseSourceOrigin.get) => throw DataHubException("Cannot find dictionary for source system")
-              case x if lcSourceSystemToDataDictionary(x.lowercaseSourceOrigin.get).fieldEntries(IngestionStages.Raw).get.exists(_.physicalNameObject.contains(x.table)) => throw DataHubException("Object already exists in data dictionary")
-              case x =>
-                x.mergeIfFromTextExtraction(intermediateDataDictionary, preserveRegistrationDatesThis = false, preserveRegistrationDatesThat = false, Seq(FieldEntryColumns.PhysicalNameField))
-                  .recoverWith { case e: DataHubException => Failure(DataHubException(s"Could not merge with work data dictionary entries. ${e.getMessage}")) }
-                  .flatMap(y => saveWithRegistrationDates(y, lcSourceSystemToDataDictionary(x.lowercaseSourceOrigin.get)).map(_ => println("Wrote to data dictionary")))
-                  .get
-            }
-          }.recover(displayError)
-          main()
-        case MainCommands.Quit =>
-      }
+            val objectAndFieldEntries = loadForFinal(physicalNameObject).get
+            saveWithRegistrationDates(objectAndFieldEntries, lcSourceSystemToDataDictionary.getOrElse(physicalNameObject.lcSourceSystem, throw FinalDataDictionaryNotFound(physicalNameObject.lcSourceSystem)))
+          case MainCommands.Quit => System.exit(0)
+        }
+      }.recover(displayError)
+      main()
+    }
+
+
+    def load(physicalNameObject: PhysicalNameObject): Try[ObjectAndFieldEntries] = Try {
+      val objectAndFieldEntriesInitial = fromInitialDataDictionary(physicalNameObject).get
+      val intermediateRawFieldEntriesObject = intermediateDataDictionary.rawFieldEntriesObject(physicalNameObject.asString).get
+      val workDocumentEntriesObject = workDocument.entriesObject(physicalNameObject).get
+      val rawFEOInitialIntermediate = intermediateRawFieldEntriesObject.map(objectAndFieldEntriesInitial.rawFieldEntriesObject.merge(_, Seq(PhysicalNameField)).withoutRegistrationDates).getOrElse(objectAndFieldEntriesInitial.rawFieldEntriesObject)
+      val rawFEOInitialIntermediateWorkDocument = workDocumentEntriesObject.map(x => rawFEOInitialIntermediate.merge(x.toRawFieldEntriesObject(false), Seq(PhysicalNameField))).getOrElse(rawFEOInitialIntermediate)
+      objectAndFieldEntriesInitial.updateFieldEntriesIfFromTextExtraction(rawFEOInitialIntermediateWorkDocument)
+    }
+
+
+    def loadForFinal(physicalNameObject: PhysicalNameObject): Try[ObjectAndFieldEntries] = Try {
+      val objectAndFieldEntriesInitial = fromInitialDataDictionary(physicalNameObject).get
+      val rawFEOInitial = objectAndFieldEntriesInitial.rawFieldEntriesObject
+      val workDocumentEntriesObject = workDocument.entriesObject(physicalNameObject).get
+      if(workDocumentEntriesObject.isEmpty) throw WorkDocumentEntriesForObjectDoNotExist(physicalNameObject.asLcString)
+      val rawFEOInitialWorkDocument = workDocumentEntriesObject.map(x => rawFEOInitial.merge(x.toRawFieldEntriesObject(false), Seq(PhysicalNameField))).getOrElse(rawFEOInitial)
+      val objectAndFieldEntriesInitialWorkDocument = objectAndFieldEntriesInitial.updateFieldEntriesIfFromTextExtraction(rawFEOInitialWorkDocument)
+      if(objectAndFieldEntriesInitialWorkDocument.containsDuplicateFieldNames) throw ObjectContainsDuplicateFieldNames(physicalNameObject.asLcString)
+      objectAndFieldEntriesInitialWorkDocument
     }
 
 
@@ -128,10 +131,6 @@ object Driver extends App {
           case TableCommands.WriteOnceToWorkDocument =>
             workDocument.writeOnce(WorkDocumentEntriesObject(consoleRenamer.renaming, centralNamingsRepository, preserveRegistrationDates = false).withRegistrationDates).get
             table(consoleRenamer, objectAndFieldEntries, physicalNameObject)
-          case TableCommands.UpdateFromInitial =>
-            val fromInitial = fromInitialDataDictionary(physicalNameObject).get
-            val updated = fromInitial.updateFieldEntriesIfFromTextExtraction(fromInitial.rawFieldEntriesObject.merge(objectAndFieldEntries.rawFieldEntriesObject, Seq(FieldEntryColumns.PhysicalNameField)).get)
-            table(consoleRenamer.copy(renaming = Renaming(updated.rawFieldEntriesObject)), updated, physicalNameObject)
           case TableCommands.GoBackWithoutSaving =>
         }
       }.recover{
@@ -146,13 +145,14 @@ object Driver extends App {
       val lcSourceSystem = physicalNameObject.lcSourceSystem
       val lcObjectName = physicalNameObject.lcObjectName
       ObjectAndFieldEntries.fromTextExtraction(lcSourceSystemToInitialDataDictionary.getOrElse(lcSourceSystem, throw InitialDataDictionaryNotFound(lcSourceSystem)).lcObjectNameToObjectAndFields.map(_.getOrElse(lcObjectName, throw
-        ObjectNotFoundInInitialDataDictionary(lcObjectName))).get, generatedFields, primaryDateField)
+        ObjectNotFoundInInitialDataDictionary(lcObjectName))).get, generatedFields, primaryDateFieldTemplate)
     }
 
 
     def saveWithRegistrationDates(objectAndFieldEntries: ObjectAndFieldEntries, toDataDictionary: DataDictionary): Try[ObjectAndFieldEntries] = {
       //todo specific exception message
-      val withRegistrationDates = toDataDictionary.objectAndFieldEntries(objectAndFieldEntries.rawObjectEntry.physicalNameObject).map(_ => objectAndFieldEntries).getOrElse(objectAndFieldEntries.withRegistrationDates)
+      val withRegistrationDates = toDataDictionary.objectAndFieldEntries(objectAndFieldEntries.rawObjectEntry.physicalNameObject).map(x => objectAndFieldEntries.withRegistrationDate(x.maxRegistrationDate.getOrElse(LocalDate.now()))).getOrElse(
+        objectAndFieldEntries.withRegistrationDates)
       toDataDictionary.write(withRegistrationDates).map(_ => withRegistrationDates)
     }
 

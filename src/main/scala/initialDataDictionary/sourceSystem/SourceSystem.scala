@@ -1,12 +1,15 @@
 package initialDataDictionary.sourceSystem
 
+import dataDictionary.Type
 import dataDictionary.enumerations.Countries.Country
 import dataDictionary.enumerations.FileTypes.FileType
 import dataDictionary.enumerations.Frequencies.Frequency
 import dataDictionary.enumerations.LoadingTypes.LoadingType
+import dataDictionary.types.LogicalFormats.LogicalFormat
 import googleSpreadsheets.RowParametersReader.{RowParameter, RowParameters}
 import googleSpreadsheets.{GoogleSpreadsheet, RowParametersReader, SheetRange}
 import initialDataDictionary.enumerations.DataSuperTypes.DataSuperType
+import initialDataDictionary.enumerations.MoveExistingPrimaryDateFieldValues.MoveExistingPrimaryDateFieldValue
 import initialDataDictionary.enumerations.ObjectTypes.ObjectType
 import initialDataDictionary.enumerations.TargetStorageSuperTypes.TargetStorageSuperType
 import initialDataDictionary.sourceSystem.SourceSystem.SourceSystemRowParameters
@@ -15,6 +18,9 @@ import utils.enumerated.SelfNamed.NameFormats.{Custom, NameFormat, ObjectNameWit
 import scala.util.Try
 
 case class SourceSystem(
+                         addedPrimaryDateFieldDateFormat: String,
+                         addedPrimaryDateFieldIndex: Option[Int],
+                         addedPrimaryDateFieldLogicalFormat: Option[Type[LogicalFormat]],
                          additionalOperationalSourceSystems: Seq[String],
                          defaultCountryTheConceptualEntity: Option[Country],
                          defaultCountryTheDataSource: Option[Country],
@@ -35,6 +41,7 @@ case class SourceSystem(
                          defaultSystemCodeUUAA: String,
                          defaultTargetStorageSuperType: Option[TargetStorageSuperType],
                          defaultTimestampFormat: String,
+                         moveExistingPrimaryDateField: Option[MoveExistingPrimaryDateFieldValue],
                          sourceSystem: String
                        ) {
 
@@ -48,7 +55,7 @@ object SourceSystem {
 
 
   def empty: SourceSystem = {
-    SourceSystem(Seq(), None, None, new String, None, new String, None, new String, None, None, None, None, new String, None, Seq(), new String, new String, new String, None, new String, new String)
+    SourceSystem(new String, None, None, Seq(), None, None, new String, None, new String, None, new String, None, None, None, None, new String, None, Seq(), new String, new String, new String, None, new String, None, new String)
   }
 
 
@@ -57,6 +64,9 @@ object SourceSystem {
     override type RowParameterType = SourceSystemRowParameter
     sealed abstract class SourceSystemRowParameter(isList: Boolean = false, nameFormat: NameFormat = ObjectNameWithSpacesBetweenWords()) extends RowParameter(isList, nameFormat)
 
+    object AddedPrimaryDateFieldDateFormat extends SourceSystemRowParameter
+    object AddedPrimaryDateFieldIndex extends SourceSystemRowParameter
+    object AddedPrimaryDateFieldLogicalFormat extends SourceSystemRowParameter
     object AdditionalOperationalSourceSystems extends SourceSystemRowParameter(true)
     object DefaultCountryOfTheConceptualEntity extends SourceSystemRowParameter
     object DefaultCountryOfTheDataSource extends SourceSystemRowParameter
@@ -77,6 +87,7 @@ object SourceSystem {
     object DefaultSystemCodeUUAA extends SourceSystemRowParameter(nameFormat = Custom("Default System Code UUAA"))
     object DefaultTargetStorageSuperType extends SourceSystemRowParameter
     object DefaultTimestampFormat extends SourceSystemRowParameter
+    object MoveExistingPrimaryDateField extends SourceSystemRowParameter
     object SourceSystem extends SourceSystemRowParameter
 
 

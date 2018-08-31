@@ -16,14 +16,22 @@ import dataDictionary.types.bigData.ParquetTypes
 import exceptions.InformationSetsToMergeContainIncompatibleFields
 import initialDataDictionary.ObjectAndFields
 import initialDataDictionary.enumerations.DataSuperTypes.DataSuperType
+import initialDataDictionary.enumerations.MoveExistingPrimaryDateFieldValues
+import initialDataDictionary.enumerations.MoveExistingPrimaryDateFieldValues.{NotApplicable, ToTheBeginning}
 import initialDataDictionary.field.Field
+import initialDataDictionary.sourceSystem.SourceSystem
 import renaming.Renaming
 
 import scala.util.Try
 
 case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
 
-  def merge(fieldEntriesObject: FieldEntriesObject, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn] = Seq()): Try[FieldEntriesObject] = Try {
+  def containsDuplicateNames: Boolean = {
+    fieldEntries.groupBy(_.physicalNameField.getOrElse(new String).toLowerCase).exists(_._2.lengthCompare(1) > 0)
+  }
+
+
+  def merge(fieldEntriesObject: FieldEntriesObject, columnsArgumentHasPrecedence: Iterable[FieldEntryColumn] = Seq()): FieldEntriesObject = {
     //todo multiple source fields with different source objects, etc.
     val thisFieldEntryToThatFieldEntry = fieldEntries.map(x => (x, fieldEntriesObject.fieldEntries.find(y => if(x.isGenerated) x.physicalNameField.exists(z => y.physicalNameField.exists(_.equalsIgnoreCase(z))) else x.sourceField.exists(z => y.sourceField
       .exists(_.equalsIgnoreCase(z)))))).toMap
@@ -67,33 +75,13 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
   }
 
 
-  def withCountry(country: Country): FieldEntriesObject = {
-    copy(fieldEntries.map(_.copy(country = Some(country))))
-  }
-
-
-  def withCountryTheConceptualEntity(countryTheConceptualEntity: Country): FieldEntriesObject = {
-    copy(fieldEntries.map(_.copy(countryTheConceptualEntity = Some(countryTheConceptualEntity))))
-  }
-
-
-  def withKey(physicalNameFields: Iterable[String]): FieldEntriesObject = {
-    FieldEntriesObject(fieldEntries.map(x => if(x.physicalNameField.exists(y => physicalNameFields.exists(_.equalsIgnoreCase(y)))) x.copy(key = Some(YesOrNoValues.Yes), defaultValue = None) else x.copy(key = Some(YesOrNoValues.No))))
-  }
-
-
-  def withMandatory(mandatory: YesOrNo): FieldEntriesObject = {
-    FieldEntriesObject(fieldEntries.map(_.copy(mandatory = Some(mandatory))))
-  }
-
-
-  def withPhysicalNameSourceObject(physicalNameSourceObject: String): FieldEntriesObject = {
-    copy(fieldEntries.map(_.copy(physicalNameSourceObject = Some(physicalNameSourceObject))))
-  }
-
-
   def withRegistrationDates: FieldEntriesObject = {
     copy(fieldEntries.map(x => if(x.registrationDate.isEmpty) x.copy(registrationDate = Some(LocalDate.now())) else x))
+  }
+
+
+  def withRegistrationDate(registrationDate: LocalDate): FieldEntriesObject = {
+    copy(fieldEntries.map(_.copy(registrationDate = Some(registrationDate))))
   }
 
 
@@ -101,36 +89,11 @@ case class FieldEntriesObject(fieldEntries: Seq[FieldEntry]) {
     copy(fieldEntries.map(_.copy(registrationDate = None)))
   }
 
-
-  def withTrustedDataSource(trustedDataSource: YesOrNo): FieldEntriesObject = {
-    copy(fieldEntries.map(_.copy(tds = Some(trustedDataSource))))
-  }
-
-
-  private def withDataType(dataType: String): FieldEntriesObject = {
-    copy(fieldEntries.map(_.copy(dataType = Some(dataType))))
-  }
-
-
-  private def withDataTypeSourceField(dataTypeSourceField: String): FieldEntriesObject = {
-    copy(fieldEntries.map(_.copy(dataTypeSourceField = Some(dataTypeSourceField))))
-  }
-
-
-  private def withStorageType(storageType: StorageType): FieldEntriesObject = {
-    copy(fieldEntries.map(_.copy(storageType = Some(storageType))))
-  }
-
-
-  private def withStorageZone(storageZone: StorageZone): FieldEntriesObject = {
-    copy(fieldEntries.map(_.copy(storageZone = Some(storageZone))))
-  }
-
 }
 
 object FieldEntriesObject {
 
-  def rawFEOFromTextExtraction(objectAndFields: ObjectAndFields, generatedFields: Seq[GeneratedField], primaryDateField: Option[GeneratedField]): FieldEntriesObject = {
+  def rawFEOFromTextExtraction(objectAndFields: ObjectAndFields, generatedFields: Seq[GeneratedField], primaryDateFieldTemplate: Option[PrimaryDateFieldTemplate]): FieldEntriesObject = {
 
     def rawFieldEntryFromTextExtractedField(field: Field, rawObjectEntry: ObjectEntry, dataSuperType: Option[DataSuperType], fieldToLength: Option[Map[Field, Int]]): FieldEntry = {
       FieldEntry(
@@ -165,7 +128,7 @@ object FieldEntriesObject {
     }
 
 
-    def rawFieldEntryFromGeneratedTextExtractedField(generatedField: GeneratedField, rawObjectEntry: ObjectEntry): FieldEntry = {
+    def rawFieldEntryFromGeneratedField(generatedField: GeneratedField, rawObjectEntry: ObjectEntry): FieldEntry = {
       FieldEntry(
         country = rawObjectEntry.countryTheDataSource,
         physicalNameObject = Some(rawObjectEntry.physicalNameObject),
@@ -183,7 +146,7 @@ object FieldEntriesObject {
         defaultValue = Some(generatedField.defaultValue),
         physicalNameSourceObject = Some(new String),
         sourceField = Some(new String),
-        dataTypeSourceField = Some(DataTypes.string),
+        dataTypeSourceField = Some(new String),
         formatSourceField = Some(new String),
         tags = Some(rawObjectEntry.tags.take(1)),
         fieldPositionInTheObject = None,
@@ -198,15 +161,59 @@ object FieldEntriesObject {
     }
 
 
+    def rawFieldEntryFromPrimaryDateFieldTemplate(primaryDateFieldTemplate: PrimaryDateFieldTemplate, sourceSystem: SourceSystem, rawObjectEntry: ObjectEntry): FieldEntry = {
+      FieldEntry(
+        country = rawObjectEntry.countryTheDataSource,
+        physicalNameObject = Some(rawObjectEntry.physicalNameObject),
+        storageType = rawObjectEntry.storageType,
+        storageZone = rawObjectEntry.storageZone,
+        physicalNameField = Some(primaryDateFieldTemplate.name),
+        logicalNameField = Some(primaryDateFieldTemplate.logicalName),
+        simpleFieldDescription = Some(primaryDateFieldTemplate.description),
+        catalog = None,
+        dataType = Some(DataTypes.string),
+        format = Some(new String),
+        logicalFormat = Some(sourceSystem.addedPrimaryDateFieldLogicalFormat.get.asString.toUpperCase),
+        key = Some(No),
+        mandatory = Some(No),
+        defaultValue = Some(primaryDateFieldTemplate.defaultValue),
+        physicalNameSourceObject = Some(new String),
+        sourceField = Some(new String),
+        dataTypeSourceField = Some(DataTypes.string),
+        formatSourceField = Some(new String),
+        tags = Some(rawObjectEntry.tags.take(1)),
+        fieldPositionInTheObject = None,
+        generatedField = None,
+        tokenizationType = Some(new String),
+        registrationDate = None,
+        countryTheConceptualEntity = primaryDateFieldTemplate.countryTheConceptualEntity,
+        conceptualEntity = Some(primaryDateFieldTemplate.conceptualEntity),
+        operationalEntity = Some(primaryDateFieldTemplate.operationalEntity),
+        tds = Some(YesOrNoValues.from(primaryDateFieldTemplate.isTrustedDataSource))
+      )
+    }
+
+
     val obj = objectAndFields.obj
+    val sourceSystem = objectAndFields.sourceSystem
     val rawObjectEntry = ObjectEntry(obj, objectAndFields.sourceSystem, Raw)
     val fieldToLength = Some(objectAndFields.fields).filter(_.forall(_.length.isDefined)).map(x => Some(x.zip(x.map(_.length.get).init.+:(0))).map(y => y.tail.scanLeft((y.head, 1))((z, w) => (w, z._2 + w._2))).get.map(y => (y._1._1, y._2)).toMap)
-    val nonGeneratedFieldToFieldEntry = objectAndFields.fields.map(x => (x, rawFieldEntryFromTextExtractedField(x, rawObjectEntry, obj.dataSuperType, fieldToLength)))
-    val existingPrimaryDateFieldEntry = primaryDateField.flatMap(x => nonGeneratedFieldToFieldEntry.find(y => y._1.isPrimaryDateField && y._2.logicalFormat.flatMap(Type.logicalFormat).exists(_.isLogicalSubsetOf(x.logicalFormat)) && y._2.sourceField.isDefined))
-      .map(_._2)
-    val nonGeneratedFieldEntries = existingPrimaryDateFieldEntry.map(x => Renaming(nonGeneratedFieldToFieldEntry.map(_._2)).name(x.sourceField.get, primaryDateField.get.name).fieldEntries).getOrElse(nonGeneratedFieldToFieldEntry.map(_._2))
-    val (generatedFieldsAtBeginning, generatedFieldsAtEnd) = (primaryDateField.filter(_ => existingPrimaryDateFieldEntry.isEmpty).map(Seq(_)).getOrElse(Nil) ++ generatedFields).partition(_.generatedAtBeginning)
-    FieldEntriesObject(generatedFieldsAtBeginning.map(rawFieldEntryFromGeneratedTextExtractedField(_, rawObjectEntry)) ++ nonGeneratedFieldEntries ++ generatedFieldsAtEnd.map(rawFieldEntryFromGeneratedTextExtractedField(_, rawObjectEntry)))
+    val iddDefinedFieldToFieldEntry = objectAndFields.fields.map(x => (x, rawFieldEntryFromTextExtractedField(x, rawObjectEntry, obj.dataSuperType, fieldToLength)))
+    val existingPrimaryDateFieldEntry = primaryDateFieldTemplate.flatMap(x => iddDefinedFieldToFieldEntry.find(y => y._1.isPrimaryDateField && y._2.sourceField.isDefined)).map(_._2)
+    val iddDefinedFieldEntries = existingPrimaryDateFieldEntry.map(x => Some(Renaming(iddDefinedFieldToFieldEntry.map(_._2)).name(x.sourceField.get, primaryDateFieldTemplate.get.name)).map(entriesWithRenaming =>
+      objectAndFields.sourceSystem.moveExistingPrimaryDateField.map{
+        case MoveExistingPrimaryDateFieldValues.No => entriesWithRenaming
+        case NotApplicable => entriesWithRenaming
+        case ToTheBeginning => entriesWithRenaming.moveToFront(primaryDateFieldTemplate.get.name)
+      }.getOrElse(entriesWithRenaming)).get.fieldEntries).getOrElse(iddDefinedFieldToFieldEntry.map(_._2))
+    val (generatedFieldsAtBeginning, generatedFieldsAtEnd) = generatedFields.partition(_.addedAtBeginning)
+    val withIddDefinedAndGeneratedFEs = FieldEntriesObject(generatedFieldsAtBeginning.map(rawFieldEntryFromGeneratedField(_, rawObjectEntry)) ++ iddDefinedFieldEntries ++ generatedFieldsAtEnd.map(rawFieldEntryFromGeneratedField(_, rawObjectEntry)))
+    val index = sourceSystem.addedPrimaryDateFieldIndex.get match {
+      case x if x > 0 => Math.min(x - 1, withIddDefinedAndGeneratedFEs.fieldEntries.length)
+      case x if x < 0 => Math.max(withIddDefinedAndGeneratedFEs.fieldEntries.length + x - 1, 0)
+    }
+    primaryDateFieldTemplate.filter(_ => existingPrimaryDateFieldEntry.isEmpty).map(x => Renaming(withIddDefinedAndGeneratedFEs).insert(rawFieldEntryFromPrimaryDateFieldTemplate(x, objectAndFields.sourceSystem, rawObjectEntry), index)).getOrElse(
+      withIddDefinedAndGeneratedFEs)
 
   }
 

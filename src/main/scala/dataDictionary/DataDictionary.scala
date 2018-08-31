@@ -35,6 +35,11 @@ case class DataDictionary(private val spreadsheet: GoogleSpreadsheet) {
   }
 
 
+  def rawFieldEntriesObject(physicalNameObject: String): Try[Option[FieldEntriesObject]] = {
+    fieldEntriesObject(IngestionStages.Raw, physicalNameObject)
+  }
+
+
   def write(objectAndFieldEntries: ObjectAndFieldEntries): Try[Seq[GenericJson]] = {
     //todo better error handling
     write(IngestionStages.Raw, objectAndFieldEntries.rawObjectEntry).map(Seq(_))

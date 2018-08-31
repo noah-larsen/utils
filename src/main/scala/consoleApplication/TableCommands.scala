@@ -11,7 +11,6 @@ object TableCommands extends Commands {
   object ViewRenamings extends TableCommand
   object SaveToIntermediate extends TableCommand
   object WriteOnceToWorkDocument extends TableCommand
-  object UpdateFromInitial extends TableCommand
   object GoBackWithoutSaving extends TableCommand(Some('b'))
 
 

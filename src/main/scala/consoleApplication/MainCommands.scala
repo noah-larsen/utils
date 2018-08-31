@@ -9,10 +9,10 @@ object MainCommands extends Commands {
   override type CommandType = MainCommand
   sealed abstract class MainCommand(parameters: Seq[Parameter] = Seq()) extends Command(parameters)
 
-  object CreateFromInitial extends MainCommand(Seq(SourceSystem, TableName))
-  object LoadFromIntermediate extends MainCommand(Seq(SourceSystem, TableName))
-  object WriteOnceToFinal extends MainCommand(Seq(SourceSystem, TableName))
+  object Load extends MainCommand(Seq(SourceSystem, TableName))
+  object WriteToFinal extends MainCommand(Seq(SourceSystem, TableName))
   object Quit extends MainCommand
+
 
   object SourceSystem extends ValueParameter
   object TableName extends ValueParameter
