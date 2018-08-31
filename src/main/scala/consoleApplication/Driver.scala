@@ -1,11 +1,13 @@
 package consoleApplication
 
-import java.io.PrintWriter
+import java.io.{File, PrintWriter}
 
 import connectedForests.{DevelopingConnectedForests, LabeledForest}
-import consoleApplication.BrowseCommands.{CreateNewNode, GoTo, GoUp, MarkRelated}
-import consoleApplication.IterateCommands._
-import consoleApplication.IterateSelectionCommands.{SelectAll, SelectNodes}
+import consoleApplication.BrowseCommands.{SourceNodes, TargetNodes}
+import consoleApplication.LookupTargetNodesCommands._
+import consoleApplication.CommonParameters.{Keyword, MaxDepth}
+import consoleApplication.ConnectSourceNodeCommands.{BackToMainMenu, _}
+import consoleApplication.ConnectSourceNodesSelectionCommands.{SelectAll, SelectNodes}
 import consoleApplication.OtherCommands.InitializeGoogleProductTaxonomy
 import consoleApplication.MainCommands._
 import consoleApplication.SearchResultCommands.GoToResultNumber
@@ -14,7 +16,9 @@ import persistence.{ConnectedForestsAndRelatedNodesToFinishedProportionJsonForma
 import play.api.libs.json.Json
 import taxonomies.GoogleProductTaxonomy
 import utils.IO
+import utils.commands.{Commands, IndexedCommand}
 import utils.commands.Parameter.ListParameter
+import utils.enumerated.SelfNamed
 
 import scala.io.Source
 import scala.util.Try
@@ -32,18 +36,21 @@ object Driver extends App {
 
   private val conf = Conf(args)
   private val persistencePathname = conf.persistencePathname()
-  private val fromForest = conf.fromForest()
-  private val toForest = conf.toForest()
+  private val sourceForest = conf.fromForest()
+  private val targetForest = conf.toForest()
   private val jsonFormat = ConnectedForestsAndRelatedNodesToFinishedProportionJsonFormat(StringJsonFormat, StringJsonFormat)
+  private val captializeFirstLetterRelatedNodes = true
 
 
-  main(DevelopingConnectedForests(jsonFormat.fromJson(Json.parse(Source.fromFile(persistencePathname).mkString))), promptWithLeadingNewline = false)
+  main(if(new File(persistencePathname).exists()) DevelopingConnectedForests(jsonFormat.fromJson(Json.parse(Source.fromFile(persistencePathname).mkString))) else
+    DevelopingConnectedForests().withForest(sourceForest).withForest(targetForest), promptWithLeadingNewline = false)
 
 
   private def main(dcfs: DCFS, promptWithLeadingNewline: Boolean = true): Unit = {
     val commandInvocation = MainCommands.promptUntilParsed(leadWithNewline = promptWithLeadingNewline)
     commandInvocation.command match {
-      case Iterate => main(iterateSelection(dcfs, finishedProportion(commandInvocation.value(MaxFinishedValue1To5))))
+      case Connect => main(connectSelection(dcfs, finishedProportion(commandInvocation.value(MaxFinishedValue1To5))))
+      case Browse => main(browse(dcfs))
       case Other => main(other(dcfs))
       case Save =>
         new PrintWriter(persistencePathname){write(jsonFormat.toJson(dcfs.connectedForestsAndRelatedNodesToFinishedProportion).toString()); close()}
@@ -53,87 +60,101 @@ object Driver extends App {
   }
 
 
-  private def iterateSelection(dcfs: DCFS, maxFinishedProportionUnfinishedNode: Double): DCFS = {
-    val header = Seq("Id", "Unfinished Subroot")
-    val unfinishedSubroots = dcfs.unfinishedSubroots(fromForest, toForest, maxFinishedProportionUnfinishedNode)
-    println(IO.display(unfinishedSubroots.zipWithIndex.map(x => Seq((x._2 + 1).toString, display(x._1))), header))
-    val commandInvocation = IterateSelectionCommands.promptUntilParsed(unfinishedSubroots)
+  private def connectSelection(dcfs: DCFS, maxFinishedProportionUnfinishedNode: Double): DCFS = {
+    val header = "Unfinished Source Node With No Unfinished Ancestors"
+    val indexToUnfinishedSubroots = IndexedCommand.withOneBasedIndexes(dcfs.unfinishedSubroots(sourceForest, targetForest, maxFinishedProportionUnfinishedNode))
+    println(IndexedCommand.display(indexToUnfinishedSubroots.mapValues(display(_)), header))
+    val commandInvocation = ConnectSourceNodesSelectionCommands.promptUntilParsed(indexToUnfinishedSubroots, if(indexToUnfinishedSubroots.isEmpty) Seq(SelectAll) else Nil)
     commandInvocation.command match {
-      case SelectNodes => iterate(dcfs, maxFinishedProportionUnfinishedNode, commandInvocation.oneBasedIndexListCommandSelection)
-      case SelectAll => iterate(dcfs, maxFinishedProportionUnfinishedNode)
-      case IterateSelectionCommands.Back =>
+      case SelectNodes => connect(dcfs, maxFinishedProportionUnfinishedNode, commandInvocation.indexListCommandSelection)
+      case SelectAll => connect(dcfs, maxFinishedProportionUnfinishedNode)
+      case ConnectSourceNodesSelectionCommands.Back =>
         dcfs
     }
   }
 
 
-  private def iterate(dcfs: DCFS, maxFinishedProportionUnfinishedNode: Double, selectedSubroots: Option[Seq[Seq[String]]] = None): DCFS = {
+  private def connect(dcfs: DCFS, maxFinishedProportionUnfinishedNode: Double, selectedSubroots: Option[Seq[Seq[String]]] = None): DCFS = {
 
     def process(dcfs_continue: (DCFS, Boolean), unfinishedSubroot: Seq[String]): (DCFS, Boolean) = {
       val (dcfs, continue) = (dcfs_continue._1, dcfs_continue._2)
       println(display(unfinishedSubroot))
-      val commandInvocation = IterateCommands.promptUntilParsed()
+      val commandInvocation = ConnectSourceNodeCommands.promptUntilParsed()
       commandInvocation.command match {
-        case Browse => (browse(dcfs, unfinishedSubroot), continue)
-        case Search =>
-
-          //todo should be toForest; for development
-          val maxNResults = 100
-          val keywordsSeparator = " "
-          val results = dcfs.resultPathToNormalizedScore(fromForest, commandInvocation.value(Keyword).mkString(keywordsSeparator), maxNResults).toSeq.sortBy(-_._2)
-            .map(_._1)
-          println(IO.display(results.zipWithIndex.map(x => Seq((x._2 + 1).toString, display(x._1))), reverse = true))
-          val searchResultCommandInvocation = SearchResultCommands.promptUntilParsed(results)
-          searchResultCommandInvocation.command match {
-            case GoToResultNumber =>
-              ???
-            case SearchResultCommands.Back =>
-          }
-
-          process(dcfs_continue, unfinishedSubroot)
+        case LookupTargetNodes => process((lookupTargetNodes(dcfs, unfinishedSubroot), continue), unfinishedSubroot)
+        case SearchTargetNodes => process((search(dcfs, unfinishedSubroot, commandInvocation.value(Keyword)), continue), unfinishedSubroot)
         case RelatedNodes =>
-          val indent = "\t"
-          println(LabeledForest.subPaths(unfinishedSubroot).zip(dcfs.relatedNodesPath(fromForest, unfinishedSubroot, toForest)).filter(_._2.nonEmpty).map(x =>
-            display(x._1) + System.lineSeparator() + x._2.map(indent + display(_)).mkString(System.lineSeparator())).mkString(System.lineSeparator()) + System.lineSeparator())
+          println(displayRelatedNodes(dcfs, unfinishedSubroot) + System.lineSeparator())
           process(dcfs_continue, unfinishedSubroot)
         case Descendants =>
-          println(dcfs.pathsSubtree(fromForest, unfinishedSubroot).-(unfinishedSubroot).filter(_.length - unfinishedSubroot.length <= commandInvocation.value(MaxDepth))
-            .toSeq.sortWith((x, y) => x.length < y.length && y.startsWith(x) || x.zip(y).find(z => z._1 != z._2).exists(z => z._1.compare(z._2) < 0)).map(display)
-            .mkString(System.lineSeparator()))
-          println()
+          println(displayDescendants(dcfs, sourceForest, unfinishedSubroot, commandInvocation.value(MaxDepth)) + System.lineSeparator())
           process(dcfs_continue, unfinishedSubroot)
         case Next => dcfs_continue
-        case Finish => (dcfs.withFinishedProportion(fromForest, unfinishedSubroot, toForest, finishedProportion(commandInvocation.value(FinishedValue1To5))), continue)
-        case BackToMainMenu => (dcfs, false)
+        case Finish => (dcfs.withFinishedProportion(sourceForest, unfinishedSubroot, targetForest, finishedProportion(commandInvocation.value(FinishedValue1To5))), continue)
+        case ConnectSourceNodeCommands.BackToMainMenu => (dcfs, false)
       }
     }
 
 
-    def browse(dcfs: DCFS, unfinishedSubroot: Seq[String], toForestNode: Option[Seq[String]] = None): DCFS = {
-
-      //todo
-//      val childrenOrRoots = toForestNode.map(dcfs.childPaths(toForest, _)).getOrElse(dcfs.rootPaths(toForest)).toSeq
-      val childrenOrRoots = toForestNode.map(dcfs.childPaths(fromForest, _)).getOrElse(dcfs.rootPaths(fromForest)).toSeq
-      if(childrenOrRoots.nonEmpty) println(IO.display(childrenOrRoots.zipWithIndex.map(x => Seq((x._2 + 1).toString, x._1.last))))
-      toForestNode.foreach(x => println(System.lineSeparator() + display(x)))
-      val commandInvocation = BrowseCommands.promptUntilParsed(childrenOrRoots)
-      commandInvocation.command match {
-        case GoTo => browse(dcfs, unfinishedSubroot, commandInvocation.oneBasedIndexCommandSelection)
-        case GoUp => browse(dcfs, unfinishedSubroot, toForestNode.collect{case x if x.length > 1 => x.init})
-        case MarkRelated => browse(dcfs, unfinishedSubroot, toForestNode) //todo
-        case CreateNewNode => browse(dcfs, unfinishedSubroot, toForestNode) //todo
-        case BrowseCommands.Back => dcfs
-      }
-
-
-    }
-
-
-    val unfinishedSubroots = Some(dcfs.unfinishedSubroots(fromForest, toForest, maxFinishedProportionUnfinishedNode)).map(x => selectedSubroots.map(y => x.filter(z => y
+    val unfinishedSubroots = Some(dcfs.unfinishedSubroots(sourceForest, targetForest, maxFinishedProportionUnfinishedNode)).map(x => selectedSubroots.map(y => x.filter(z => y
       .exists(z.startsWith(_)))).getOrElse(x)).get
     unfinishedSubroots.foldLeft((dcfs, true)){(x, y) => if(x._2) process(x, y) else x} match {
-      case x if x._2 && unfinishedSubroots.nonEmpty => iterate(x._1, maxFinishedProportionUnfinishedNode, selectedSubroots)
+      case x if x._2 && unfinishedSubroots.nonEmpty => connect(x._1, maxFinishedProportionUnfinishedNode, selectedSubroots)
       case x => x._1
+    }
+
+  }
+
+
+  private def browse(dcfs: DCFS): DCFS = {
+    val commandInvocation = BrowseCommands.promptUntilParsed()
+    commandInvocation.command match {
+      case SourceNodes => browseSourceNodes(dcfs)
+      case TargetNodes => ???
+    }
+  }
+
+
+  private def browseSourceNodes(dcfs: DCFS, sourceNode: Option[Seq[String]] = None): DCFS = {
+
+    def editRelatedNodes(dcfs: DCFS, sourceNode: Seq[String]): DCFS = {
+      println(display(sourceNode))
+      val commandInvocation = EditRelatedNodesCommands.promptUntilParsed()
+      commandInvocation.command match {
+        case EditRelatedNodesCommands.LookupTargetNodes => editRelatedNodes(lookupTargetNodes(dcfs, sourceNode), sourceNode)
+        case EditRelatedNodesCommands.SearchTargetNodes => editRelatedNodes(search(dcfs, sourceNode, commandInvocation.value(Keyword)), sourceNode)
+        case EditRelatedNodesCommands.RelatedNodes =>
+          println(displayRelatedNodes(dcfs, sourceNode) + System.lineSeparator())
+          editRelatedNodes(dcfs, sourceNode)
+        case EditRelatedNodesCommands.Descendants =>
+          println(displayDescendants(dcfs, sourceForest, sourceNode, commandInvocation.value(MaxDepth)) + System.lineSeparator())
+          editRelatedNodes(dcfs, sourceNode)
+        case EditRelatedNodesCommands.Back => dcfs
+      }
+    }
+
+
+    val indexToChildrenOrRoots = IndexedCommand.withOneBasedIndexes(sourceNode.map(dcfs.childPaths(sourceForest, _)).getOrElse(dcfs.rootPaths(sourceForest)).toSeq)
+    sourceNode.foreach(x => println(display(x) + System.lineSeparator()))
+    if(indexToChildrenOrRoots.nonEmpty) println(IndexedCommand.display(indexToChildrenOrRoots.mapValues(display(_, sourceNode.getOrElse(Nil))), sourceNode.map(_ => NodeTypes
+      .Child.name).getOrElse(NodeTypes.Root.name)))
+    sourceNode.foreach(x => println(System.lineSeparator() + display(x)))
+    val without = Seq(
+      (BrowseSourceNodesCommands.GoUp, sourceNode.isEmpty),
+      (BrowseSourceNodesCommands.RelatedNodes, sourceNode.isEmpty),
+      (BrowseSourceNodesCommands.EditRelatedNodes, sourceNode.isEmpty),
+    ).filter(_._2).map(_._1)
+    val commandInvocation = BrowseSourceNodesCommands.promptUntilParsed(indexToChildrenOrRoots, without)
+    commandInvocation.command match {
+      case BrowseSourceNodesCommands.GoTo => browseSourceNodes(dcfs, commandInvocation.indexCommandSelection)
+      case BrowseSourceNodesCommands.GoUp => browseSourceNodes(dcfs, sourceNode.collect{case x if x.length > 1 => x.init})
+      case BrowseSourceNodesCommands.RelatedNodes =>
+        println(displayRelatedNodes(dcfs, sourceNode.get))
+        IO.promptToPressEnterAndWait()
+        IO.clearScreen()
+        browseSourceNodes(dcfs, sourceNode)
+      case BrowseSourceNodesCommands.EditRelatedNodes => browseSourceNodes(editRelatedNodes(dcfs, sourceNode.get), sourceNode)
+      case BrowseSourceNodesCommands.BackToMainMenu => dcfs
     }
 
   }
@@ -150,14 +171,78 @@ object Driver extends App {
   }
 
 
+  private def lookupTargetNodes(dcfs: DCFS, sourceForestNode: Seq[String], targestForestNode: Option[Seq[String]] = None): DCFS = {
+    val indexToChildrenOrRoots = IndexedCommand.withOneBasedIndexes(targestForestNode.map(dcfs.childPaths(targetForest, _)).getOrElse(dcfs.rootPaths(targetForest)).toSeq)
+    if(indexToChildrenOrRoots.nonEmpty) println(IndexedCommand.display(indexToChildrenOrRoots.mapValues(display(_, targestForestNode.getOrElse(Nil))), targestForestNode
+      .map(_ => NodeTypes.Child.name).getOrElse(NodeTypes.Root.name)))
+    val displaySourceNodePrefix = "(Source Node: "
+    val displaySourceNodeSuffix = ")"
+    targestForestNode.foreach(x => println(System.lineSeparator() + display(x)))
+    println(System.lineSeparator() + displaySourceNodePrefix + display(sourceForestNode) + displaySourceNodeSuffix)
+    val without = Seq(
+      (GoUp, targestForestNode.isEmpty),
+      (MarkRelated, targestForestNode.forall(dcfs.relatedNodes(sourceForest, sourceForestNode, targetForest).contains)),
+      (RemoveRelatedness, targestForestNode.forall(!dcfs.relatedNodes(sourceForest, sourceForestNode, targetForest).contains(_)))
+    ).filter(_._2).map(_._1)
+    val commandInvocation = LookupTargetNodesCommands.promptUntilParsed(indexToChildrenOrRoots, without)
+    commandInvocation.command match {
+      case GoTo => lookupTargetNodes(dcfs, sourceForestNode, commandInvocation.indexCommandSelection)
+      case GoUp => lookupTargetNodes(dcfs, sourceForestNode, targestForestNode.collect{case x if x.length > 1 => x.init})
+      case MarkRelated => lookupTargetNodes(dcfs.withRelationship(sourceForest, sourceForestNode, targetForest, targestForestNode.get), sourceForestNode, targestForestNode)
+      case RemoveRelatedness => lookupTargetNodes(dcfs.withoutRelationship(sourceForest, sourceForestNode, targetForest, targestForestNode.get), sourceForestNode, targestForestNode)
+      case CreateNewTargetNodeHere =>
+        val partsNameSeparator = " "
+        lookupTargetNodes(dcfs.withPath(targetForest, targestForestNode.getOrElse(Nil) :+ Some(commandInvocation.value(PartOfName).mkString(partsNameSeparator)).map(x => if(
+          captializeFirstLetterRelatedNodes) x.capitalize else x).get), sourceForestNode, targestForestNode)
+      case LookupTargetNodesCommands.Back => dcfs
+    }
+  }
+
+
+  private def search(dcfs: DCFS, sourceForestNode: Seq[String], query: Seq[String]): DCFS = {
+    val keywordsSeparator = " "
+    val header = "Search Result"
+    val maxNResults = 100
+    val indexToResult = IndexedCommand.withOneBasedIndexes(dcfs.resultPathToNormalizedScore(targetForest, query.mkString(keywordsSeparator),
+      maxNResults).toSeq.sortBy(-_._2).map(_._1))
+    println(IndexedCommand.display(indexToResult.mapValues(display(_)), header, reverse = true))
+    val commandInvocation = SearchResultCommands.promptUntilParsed(indexToResult)
+    commandInvocation.command match {
+      case GoToResultNumber => lookupTargetNodes(dcfs, sourceForestNode, commandInvocation.indexCommandSelection)
+      case SearchResultCommands.Search => search(dcfs, sourceForestNode, commandInvocation.value(Keyword))
+      case SearchResultCommands.Back => dcfs
+    }
+  }
+
+
+  private def displayRelatedNodes(dcfs: DCFS, sourceForestNode: Seq[String]): String = {
+    val indent = "  "
+    val noRelatedNodesSymbol = "()"
+    IO.display(LabeledForest.subPaths(sourceForestNode).zip(dcfs.relatedNodesOfPath(sourceForest, sourceForestNode, targetForest)).map(x => Seq(display(x._1)) ++ Some(x._2
+      .map(display(_))).filter(_.nonEmpty).getOrElse(Seq(noRelatedNodesSymbol)).map(indent + _)).flatMap(_.map(Seq(_))))
+  }
+
+
+  private def displayDescendants(dcfs: DCFS, forestLabel: String, node: Seq[String], maxDepth: Int): String = {
+    IO.display(dcfs.pathsSubtree(forestLabel, node).-(node).filter(_.length - node.length <= maxDepth).toSeq.sortWith((x, y) => x.length < y.length && y.startsWith(x) || x
+      .zip(y).find(z => z._1 != z._2).exists(z => z._1.compare(z._2) < 0)).map(x => Seq(display(x, node))))
+  }
+
+
   private def finishedProportion(finishedValue: Int): Double = {
     (finishedValue - finishedValues.min).toDouble / (finishedValues.max - finishedValues.min).toDouble
   }
 
 
-  private def display[N](path: Seq[N]): String = {
+  private def display[N](path: Seq[N], withoutSubpath: Seq[N] = Nil): String = {
     val separator = " -> "
-    path.mkString(separator)
+    path.drop(withoutSubpath.inits.toList.find(path.startsWith(_)).get.length).mkString(separator)
+  }
+
+
+  private object NodeTypes {
+    object Root extends SelfNamed
+    object Child extends SelfNamed
   }
 
 }

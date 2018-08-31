@@ -29,7 +29,7 @@ trait AbstractConnectedForests[F, N] {
   def relatedNodes(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Set[Seq[N]]
 
 
-  def relatedNodesPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]]
+  def relatedNodesOfPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]]
 
 
   def resultPathToNormalizedScore(forestLabel: F, query: String, maxNResults: Integer): Map[Seq[N], Double]

@@ -1,6 +1,14 @@
 package utils
 
+import scala.io.StdIn
+
 object IO {
+
+  def clearScreen(): Unit = {
+    val nBlankLines = 100
+    println(System.lineSeparator() * nBlankLines)
+  }
+
 
   def display(rows: Seq[Seq[String]], header: Seq[String] = Seq(), reverse: Boolean = false): String = {
     val verticalDividerFillCharacter = "-"
@@ -20,6 +28,13 @@ object IO {
     Some(header.headOption.map(_ => Seq(verticalDivider, displayRow(unifiedRowsWithHeaderIfNonEmpty.head, maxLengths), verticalDivider)).getOrElse(Seq(verticalDivider))
       .++(header.headOption.map(_ => unifiedRowsWithHeaderIfNonEmpty.tail).getOrElse(unifiedRowsWithHeaderIfNonEmpty).map(displayRow(_, maxLengths))).:+(verticalDivider))
       .map(x => if(reverse) x.reverse else x).get.mkString(System.lineSeparator())
+  }
+
+
+  def promptToPressEnterAndWait(leadWithNewLine: Boolean = true): Unit ={
+    if(leadWithNewLine) println
+    println("Press enter to continue")
+    StdIn.readLine()
   }
 
 }

@@ -10,7 +10,8 @@ object MainCommands extends Commands {
   override type CommandType = MainCommand
   sealed abstract class MainCommand(parameters: Seq[Parameter] = Seq()) extends Command(parameters)
 
-  object Iterate extends MainCommand(Seq(MaxFinishedValue1To5))
+  object Connect extends MainCommand(Seq(MaxFinishedValue1To5))
+  object Browse extends MainCommand
   object Other extends MainCommand
   object Save extends MainCommand
   object Quit extends MainCommand

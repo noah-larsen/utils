@@ -55,7 +55,7 @@ case class ConnectedForests[F, N] private (
   }
 
 
-  override def relatedNodesPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]] = {
+  override def relatedNodesOfPath(fromForestLabel: F, fromForestPath: Seq[N], toForestLabel: F): Seq[Set[Seq[N]]] = {
     LabeledForest.subPaths(fromForestPath).map(relatedNodes(fromForestLabel, _, toForestLabel))
   }
 

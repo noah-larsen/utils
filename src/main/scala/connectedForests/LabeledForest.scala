@@ -198,7 +198,7 @@ case class LabeledForest[N] private(
       val indexSearcher = new IndexSearcher(directoryReader)
       val topDocs = indexSearcher.search(parse(query, fields), maxNResults)
       val resultPathToScore = topDocs.scoreDocs.map(x => (path(indexSearcher.doc(x.doc).getField(Id.name).stringValue().toLong), x.score.toDouble)).toMap
-      val maxScore = resultPathToScore.values.max
+      lazy val maxScore = resultPathToScore.values.max
       resultPathToScore.mapValues(x => if (maxScore > 0) x / maxScore else x)
     } finally directoryReader.close()
   }

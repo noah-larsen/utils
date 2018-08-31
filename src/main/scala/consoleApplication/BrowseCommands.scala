@@ -1,18 +1,14 @@
 package consoleApplication
 
-import utils.commands.{Command, Commands, OneBasedIndexCommand, Parameter}
+import utils.commands.{Command, Commands}
 
 object BrowseCommands extends Commands {
 
   override type CommandType = BrowseCommand
-  sealed abstract class BrowseCommand(parameters: Seq[Parameter] = Seq(), specifiedLetterName: Option[Char] = None) extends Command(parameters, specifiedLetterName)
+  sealed abstract class BrowseCommand extends Command
 
-  object GoTo extends BrowseCommand with OneBasedIndexCommand
-  object GoUp extends BrowseCommand(specifiedLetterName = Some('u'))
-  object MarkRelated extends BrowseCommand
-  object CreateNewNode extends BrowseCommand
-  object Back extends BrowseCommand
-
+  object SourceNodes extends BrowseCommand
+  object TargetNodes extends BrowseCommand
 
   override protected val enumeratedTypes = EnumeratedTypes(u.typeOf[BrowseCommands.type], classOf[BrowseCommand])
 
