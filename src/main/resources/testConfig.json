@@ -22,7 +22,7 @@
       "LogicalName": "Datio Process Date",
       "Description": "Date/Time information was processed in Datio",
       "Catalog": "",
-      "DateFormat": "yyyy-MM-DD HH:mm:ss.SSS",
+      "DateFormat": "yyyy-MM-dd HH:mm:ss.SSS",
       "LogicalFormat": "timestamp",
       "DefaultValue": "",
       "TokenizationType": "",
@@ -62,5 +62,5 @@
     "aln_loans": "",
     "phx": "1ZjIFcnFbXTWTbc_W3CnpbA2zIXMHc31EDCR7dC_qIv8"
   },
-  "WorkDocumentId": "1Pp-zmpWNF8NNve1JP6vjoO2wa2kwXg_DskBeNHCMuVM"
+  "WorkDocumentId": "1d_gBfuZiZi2KV55EU1TZQ6gXPm18PIH_TCiZjJ04fPI"
 }

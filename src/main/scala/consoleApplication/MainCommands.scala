@@ -11,6 +11,7 @@ object MainCommands extends Commands {
 
   object Load extends MainCommand(Seq(SourceSystem, TableName))
   object WriteToFinal extends MainCommand(Seq(SourceSystem, TableName))
+  object UpdateAllInFinal extends MainCommand(Seq(SourceSystem))
   object Quit extends MainCommand
 
 

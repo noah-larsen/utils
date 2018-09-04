@@ -35,6 +35,14 @@ object PhysicalNameObject {
 
   //todo better error handling, also many strings can still break sourceSystem and nameData
 
+  def apply(physicalNameObject: String, lcSourceSystems: Set[String]): Option[PhysicalNameObject] = {
+    (sourceType(physicalNameObject), applicationId(physicalNameObject), sourceSystem(physicalNameObject, lcSourceSystems), objectName(physicalNameObject, lcSourceSystems)) match {
+      case (Some(w), Some(x), Some(y), Some(z)) => Some(PhysicalNameObject(w, x, y, z))
+      case _ => None
+    }
+  }
+
+
   def sourceType(physicalNameObject: String): Option[SourceType] = {
     SourceTypes.withName(physicalNameObject.split(physicalNameObjectSeparator).head)
   }
@@ -47,25 +55,25 @@ object PhysicalNameObject {
 
 
   def sourceSystem(physicalNameObject: String, lowercaseSourceSystems: Set[String]): Option[String] = {
-    sourceSystemDataName(physicalNameObject, lowercaseSourceSystems)._1
+    sourceSystemAndObjectName(physicalNameObject, lowercaseSourceSystems)._1
   }
 
 
   def objectName(physicalNameObject: String, lowercaseSourceSystems: Set[String]): Option[String] = {
-    sourceSystemDataName(physicalNameObject, lowercaseSourceSystems)._2
+    sourceSystemAndObjectName(physicalNameObject, lowercaseSourceSystems)._2
   }
 
 
   private val physicalNameObjectSeparator = "_"
 
 
-  private def sourceSystemDataName(physicalNameObject: String, lowercaseSourceSystems: Set[String]): (Option[String], Option[String]) = {
+  private def sourceSystemAndObjectName(physicalNameObject: String, lowercaseSourceSystems: Set[String]): (Option[String], Option[String]) = {
     val substrings = physicalNameObject.split(physicalNameObjectSeparator)
-    val sourceSystemDataNameSubstrings = substrings.tail.tail
-    val sourceSystem = sourceSystemDataNameSubstrings.inits.toSeq.reverse.init.tail.map(_.mkString(physicalNameObjectSeparator)).find(lowercaseSourceSystems.contains)
-    val sourceSystemDataName = sourceSystemDataNameSubstrings.mkString(physicalNameObjectSeparator)
-    val dataName = sourceSystem.filter(_.length != sourceSystemDataName.length).map(x => sourceSystemDataNameSubstrings.mkString(physicalNameObjectSeparator).substring(x.length))
-    (sourceSystem, dataName)
+    val sourceSystemAndObjectNameSubstrings = substrings.tail.tail
+    val sourceSystem = sourceSystemAndObjectNameSubstrings.inits.toSeq.reverse.init.tail.map(_.mkString(physicalNameObjectSeparator)).find(lowercaseSourceSystems.contains)
+    val sourceSystemAndObjectName = sourceSystemAndObjectNameSubstrings.mkString(physicalNameObjectSeparator)
+    val objectName = sourceSystem.filter(_.length != sourceSystemAndObjectName.length).map(x => sourceSystemAndObjectName.substring(x.length + physicalNameObjectSeparator.length))
+    (sourceSystem, objectName)
   }
 
 }

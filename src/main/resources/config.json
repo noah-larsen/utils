@@ -22,7 +22,7 @@
       "LogicalName": "Datio Process Date",
       "Description": "Date/Time information was processed in Datio",
       "Catalog": "",
-      "DateFormat": "yyyy-MM-DD HH:mm:ss.SSS",
+      "DateFormat": "yyyy-MM-dd HH:mm:ss.SSS",
       "LogicalFormat": "timestamp",
       "DefaultValue": "",
       "TokenizationType": "",

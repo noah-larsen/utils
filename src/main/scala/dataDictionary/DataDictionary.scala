@@ -9,6 +9,7 @@ import dataDictionary.`object`.{ObjectAndFieldEntries, ObjectEntry, ObjectEntryR
 import exceptions.DataHubException
 import googleSpreadsheets._
 import renaming.TargetName
+import utils.errorHandling
 
 import scala.util.{Failure, Try}
 
@@ -22,6 +23,11 @@ case class DataDictionary(private val spreadsheet: GoogleSpreadsheet) {
 
   def fieldEntries(ingestionStage: IngestionStage): Try[Seq[FieldEntry]] = {
     spreadsheet.get(FieldEntryReaderWriter(ingestionStage))
+  }
+
+
+  def lcPhysicalNamesObjects: Try[Seq[String]] = Try {
+    objectEntries(Raw).get.map(_.physicalNameObject.toLowerCase)
   }
 
 

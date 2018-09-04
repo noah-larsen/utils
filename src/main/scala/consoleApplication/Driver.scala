@@ -72,9 +72,14 @@ object Driver extends App {
             val objectAndFieldEntries = load(physicalNameObject).get
             table(consoleRenamer(physicalNameObject, objectAndFieldEntries), objectAndFieldEntries, physicalNameObject)
           case MainCommands.WriteToFinal =>
-            val physicalNameObject = PhysicalNameObject(sourceType, applicationId, commandInvocation.value(SourceSystem), commandInvocation.value(TableName))
-            val objectAndFieldEntries = loadForFinal(physicalNameObject).get
-            saveWithRegistrationDates(objectAndFieldEntries, lcSourceSystemToDataDictionary.getOrElse(physicalNameObject.lcSourceSystem, throw FinalDataDictionaryNotFound(physicalNameObject.lcSourceSystem)))
+            writeToFinal(PhysicalNameObject(sourceType, applicationId, commandInvocation.value(SourceSystem), commandInvocation.value(TableName)))
+          case MainCommands.UpdateAllInFinal =>
+            val lcSourceSystem = commandInvocation.value(SourceSystem).toString.toLowerCase
+            val finalDataDictionary = lcSourceSystemToDataDictionary.getOrElse(lcSourceSystem, throw FinalDataDictionaryNotFound(lcSourceSystem))
+            finalDataDictionary.lcPhysicalNamesObjects.get.foreach{ physicalNameObject =>
+              //todo look into how physical name objects are reconstructed
+              writeToFinal(PhysicalNameObject(physicalNameObject, Set(lcSourceSystem)).get).get
+            }
           case MainCommands.Quit => System.exit(0)
         }
       }.recover(displayError)
@@ -91,16 +96,23 @@ object Driver extends App {
       objectAndFieldEntriesInitial.updateFieldEntriesIfFromTextExtraction(rawFEOInitialIntermediateWorkDocument)
     }
 
+    def writeToFinal(physicalNameObject: PhysicalNameObject): Try[Unit] = Try {
 
-    def loadForFinal(physicalNameObject: PhysicalNameObject): Try[ObjectAndFieldEntries] = Try {
-      val objectAndFieldEntriesInitial = fromInitialDataDictionary(physicalNameObject).get
-      val rawFEOInitial = objectAndFieldEntriesInitial.rawFieldEntriesObject
-      val workDocumentEntriesObject = workDocument.entriesObject(physicalNameObject).get
-      if(workDocumentEntriesObject.isEmpty) throw WorkDocumentEntriesForObjectDoNotExist(physicalNameObject.asLcString)
-      val rawFEOInitialWorkDocument = workDocumentEntriesObject.map(x => rawFEOInitial.merge(x.toRawFieldEntriesObject(false), Seq(PhysicalNameField))).getOrElse(rawFEOInitial)
-      val objectAndFieldEntriesInitialWorkDocument = objectAndFieldEntriesInitial.updateFieldEntriesIfFromTextExtraction(rawFEOInitialWorkDocument)
-      if(objectAndFieldEntriesInitialWorkDocument.containsDuplicateFieldNames) throw ObjectContainsDuplicateFieldNames(physicalNameObject.asLcString)
-      objectAndFieldEntriesInitialWorkDocument
+      def loadForFinal(physicalNameObject: PhysicalNameObject): Try[ObjectAndFieldEntries] = Try {
+        val objectAndFieldEntriesInitial = fromInitialDataDictionary(physicalNameObject).get
+        val rawFEOInitial = objectAndFieldEntriesInitial.rawFieldEntriesObject
+        val workDocumentEntriesObject = workDocument.entriesObject(physicalNameObject).get
+        if(workDocumentEntriesObject.isEmpty) throw WorkDocumentEntriesForObjectDoNotExist(physicalNameObject.asLcString)
+        val rawFEOInitialWorkDocument = workDocumentEntriesObject.map(x => rawFEOInitial.merge(x.toRawFieldEntriesObject(false), Seq(PhysicalNameField))).getOrElse(rawFEOInitial)
+        val objectAndFieldEntriesInitialWorkDocument = objectAndFieldEntriesInitial.updateFieldEntriesIfFromTextExtraction(rawFEOInitialWorkDocument)
+        if(objectAndFieldEntriesInitialWorkDocument.containsDuplicateFieldNames) throw ObjectContainsDuplicateFieldNames(physicalNameObject.asLcString)
+        objectAndFieldEntriesInitialWorkDocument
+      }
+
+
+      val objectAndFieldEntries = loadForFinal(physicalNameObject).get
+      saveWithRegistrationDates(objectAndFieldEntries, lcSourceSystemToDataDictionary.getOrElse(physicalNameObject.lcSourceSystem, throw FinalDataDictionaryNotFound(physicalNameObject.lcSourceSystem))).get
+
     }
 
 
