@@ -36,7 +36,7 @@ object Display {
 
 
   def withSemicolonSpaces(values: Seq[String]): String = {
-    val separator = ", "
+    val separator = "; "
     values.mkString(separator)
   }
 
