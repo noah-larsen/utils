@@ -23,6 +23,12 @@ object Display {
   }
 
 
+  def withColonSpace(value: String): String = {
+    val suffix = ": "
+    value + suffix
+  }
+
+
   def withCommaSpaces(values: Seq[String]): String = {
     val separator = ", "
     values.mkString(separator)
