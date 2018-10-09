@@ -5,10 +5,10 @@ import utils.enumerated.SelfNamed.NameFormats.ObjectNameWithSpacesBetweenWords
 import utils.io.Display
 
 abstract class SelfDescribed(
-                     parameters: Seq[Seq[String]] = Seq(Seq()),
-                     cause: Option[Throwable] = None,
-                     includeCauseMessage: Boolean = true
-                   ) extends Exception(cause.orNull) with SelfNameable {
+                              parameters: Seq[Seq[String]] = Seq(Seq()),
+                              cause: Option[Throwable] = None,
+                              includeCauseMessage: Boolean = true
+                            ) extends Exception(cause.orNull) with SelfNameable {
 
   def this(parameters: Seq[String]){
     this(Seq(parameters))
