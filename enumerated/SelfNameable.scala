@@ -5,7 +5,7 @@ import utils.enumerated.SelfNamed.NameFormats._
 
 trait SelfNameable {
 
-  def name(nameFormat: NameFormat): String = {
+  protected def name(nameFormat: NameFormat): String = {
 
     def withCaseFormat(name: String, caseFormat: CaseFormat): String = {
       caseFormat match {
