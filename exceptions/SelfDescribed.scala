@@ -4,7 +4,7 @@ import utils.enumerated.SelfNameable
 import utils.enumerated.SelfNamed.NameFormats.ObjectNameWithSpacesBetweenWords
 import utils.io.Display
 
-class SelfDescribed(
+abstract class SelfDescribed(
                      parameters: Seq[Seq[String]] = Seq(Seq()),
                      cause: Option[Throwable] = None,
                      includeCauseMessage: Boolean = true
