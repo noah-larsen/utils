@@ -22,11 +22,10 @@ trait SelfNameable {
     }
 
 
-    val multipleClassNameAddedDisambiguationSymbol = "$"
     val classNameSeparatorRE = "[.$]"
     val space = " "
     val underscore = "_"
-    val objectName = getClass.getName.split(classNameSeparatorRE).filter(_.nonEmpty).last
+    val objectName = getClass.getName.split(classNameSeparatorRE).filter(_.headOption.exists(!_.isDigit)).last
     nameFormat match {
       case Custom(x) => x
       case ObjectName(x) => withCaseFormat(objectName, x)
