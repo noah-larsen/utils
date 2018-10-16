@@ -35,9 +35,9 @@ object Display {
   }
 
 
-  def withCommaSpaces(values: Seq[String]): String = {
+  def withCommaSpaces: Seq[String] => String = {
     val separator = ", "
-    values.mkString(separator)
+    _.mkString(separator)
   }
 
 
@@ -46,9 +46,9 @@ object Display {
   }
 
 
-  def withNewlines(values: Seq[String]): String = {
+  def withNewlines: Seq[String] => String = {
     val separator = System.lineSeparator()
-    values.mkString(separator)
+    _.mkString(separator)
   }
 
 
@@ -57,9 +57,9 @@ object Display {
   }
 
 
-  def withSemicolonSpaces(values: Seq[String]): String = {
+  def withSemicolonSpaces: Seq[String] => String = {
     val separator = "; "
-    values.mkString(separator)
+    _.mkString(separator)
   }
 
 
@@ -68,9 +68,9 @@ object Display {
   }
 
 
-  def withSpacedArrows(values: Seq[String]): String = {
+  def withSpacedArrows: Seq[String] => String = {
     val separator = " -> "
-    values.mkString(separator)
+    _.mkString(separator)
   }
 
 
@@ -79,9 +79,9 @@ object Display {
   }
 
 
-  def withSpacedDashes(values: Seq[String]): String = {
+  def withSpacedDashes: Seq[String] => String = {
     val separator = " - "
-    values.mkString(separator)
+    _.mkString(separator)
   }
 
 
@@ -90,9 +90,9 @@ object Display {
   }
 
 
-  def withSpacedGreaterThans(values: Seq[String]): String = {
+  def withSpacedGreaterThans: Seq[String] => String = {
     val separator = " > "
-    values.mkString(separator)
+    _.mkString(separator)
   }
 
 
@@ -101,9 +101,9 @@ object Display {
   }
 
 
-  def withSpaces(values: Seq[String]): String = {
+  def withSpaces: Seq[String] => String = {
     val separator = " "
-    values.mkString(separator)
+    _.mkString(separator)
   }
 
 
@@ -112,9 +112,9 @@ object Display {
   }
 
 
-  def withTabs(values: Seq[String]): String = {
+  def withTabs: Seq[String] => String = {
     val separator = "\t"
-    values.mkString(separator)
+    _.mkString(separator)
   }
 
 
