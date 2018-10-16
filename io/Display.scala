@@ -2,6 +2,12 @@ package utils.io
 
 object Display {
 
+  def indent(value: String, nTabs: Int = 1): String = {
+    val indentString = "\t"
+    indentString * nTabs + value
+  }
+
+
   def table(rows: Seq[Seq[String]], header: Seq[String] = Seq(), reverse: Boolean = false): String = {
     val verticalDividerFillCharacter = "-"
     val verticalDividerColumnSeparator = "+"
