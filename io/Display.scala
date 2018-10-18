@@ -8,6 +8,11 @@ object Display {
   }
 
 
+  def indentLines(input: String, nTabs: Int = 1): String = {
+    input.split(System.lineSeparator()).map(indent(_, nTabs)).mkString(System.lineSeparator())
+  }
+
+
   def table(rows: Seq[Seq[String]], header: Seq[String] = Seq(), reverse: Boolean = false): String = {
     val verticalDividerFillCharacter = "-"
     val verticalDividerColumnSeparator = "+"
@@ -120,6 +125,38 @@ object Display {
 
   def withTabs(values: String*): String = {
     withTabs(values.toSeq)
+  }
+
+
+  def withTabsToSpaces(input: String, tabWidth: Int = defaultTabWidth): String = {
+    val tab = "\t"
+    val space = " "
+    input.replace(tab, space * tabWidth)
+  }
+
+
+  def wordWrap(input: String, maxNCharactersPerLine: Int, tabWidth: Int = defaultTabWidth): String = {
+    val wordLineBreakCharacter = "-"
+    val normalized = withTabsToSpaces(input, tabWidth)
+    val (line, remainder) = normalized match {
+      case x if x.length <= maxNCharactersPerLine => (x, new String)
+      case _ =>
+        val lineToTruncate = normalized.substring(0, Math.min(maxNCharactersPerLine + 1, normalized.length))
+        lineToTruncate.indexWhere(_.toString == System.lineSeparator()) match {
+          case x if x != -1 => (normalized.substring(0, x + 1), normalized.substring(x + 1))
+          case _ =>
+            lineToTruncate.lastIndexWhere(_.isSpaceChar) match {
+              case x if x != -1 => (normalized.substring(0, x + 1), normalized.substring(x + 1))
+              case _ => (normalized.substring(0, maxNCharactersPerLine - 1) + wordLineBreakCharacter, normalized.substring(maxNCharactersPerLine - 1))
+            }
+        }
+    }
+    if(remainder.isEmpty) line else line + System.lineSeparator() + wordWrap(remainder, maxNCharactersPerLine, tabWidth)
+  }
+
+
+  private def defaultTabWidth: Int = {
+    4
   }
 
 }
