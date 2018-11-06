@@ -6,10 +6,10 @@ import scala.util.Try
 /**
   * An enumeration trait that combines the more straightforward typing and access to sealed types of the typed-objects within objects
   * approach with the access to self-referentially named strings and collections of the enumerated values of the Enumeration class. The
-  * enumerated values are instances of the type member, and must be objects declared directly inside an Enumerated object. The order of the
-  * object declarations determines the order within the output of the values method. The trait does require a small amount of boilerplate.
-  * After defining the type member, set enumeratedTypes equal to EnumeratedTypes(u.typeOf[ENUMERATED_OBJECT.type], classOf[TYPE_MEMBER])
-  * with the corresponding values for ENUMERATED_OBJECT and TYPE_MEMBER.
+  * enumerated values are instances of the type member, and must be objects declared directly inside the Enumerated object. The order of
+  * the object declarations determines the order within the output of the values method. The trait does require a small amount of
+  * boilerplate. After defining the type member, set enumeratedTypes equal to EnumeratedTypes(u.typeOf[ENUMERATED_OBJECT.type],
+  * classOf[TYPE_MEMBER]) with the corresponding values for ENUMERATED_OBJECT and TYPE_MEMBER.
   */
 trait Enumerated {
 
